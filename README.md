@@ -29,13 +29,19 @@ The app ships a versioned `content-catalog.json` resource in the application bun
 
 The committed discovery entry is intentionally development-only. Production/prototype discoveries are populated in the dedicated content effort rather than copied from third-party databases.
 
+### #4 Content loader
+
+Features consume content through `ContentLoader` and `ContentSnapshot`, not through JSON or bundle APIs. The loader caches the first successful load, supports explicit reload/reset for future update behavior, and accepts any `ContentCatalogSource`.
+
+The immutable snapshot builds ID indexes and provides queries for lands, attraction/areas, categories, and discoveries. Removed and temporarily unavailable discoveries are excluded from hunt-facing queries by default but remain available to administrative/history flows when explicitly requested.
+
 ## Architecture
 
 ```text
 ParkHunt/
 ├── App/          App entry point, environment, root composition
 ├── Core/
-│   ├── Content/  Bundled catalog, decoding, validation
+│   ├── Content/  Source → loader/cache → immutable query snapshot
 │   └── Domain/   Discovery/place/progress value types
 ├── Features/     Feature modules (Home, Hunt, Collection, etc.)
 └── Resources/    Offline content catalog and app assets
@@ -45,7 +51,7 @@ Config/           Build configuration
 .github/          CI and pull-request conventions
 ```
 
-The prototype starts with no network/backend dependency. Content/domain logic, user/game state, and presentation should remain separate as later efforts are added.
+The prototype starts with no network/backend dependency. Content/domain logic, user/game state, and presentation remain separate so later efforts can evolve independently.
 
 ## Open the project on a Mac
 
@@ -86,4 +92,4 @@ xcodebuild \
 
 ## Next effort
 
-**#4 Content loader:** add the application-facing content service that loads the bundled catalog, exposes discoveries/lands/areas to features, and owns future refresh/update behavior without coupling UI to the storage format.
+**#5 Home screen:** create the first real feature UI using the content loader rather than reaching into storage directly.
