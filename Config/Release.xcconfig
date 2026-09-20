@@ -1,0 +1,5 @@
+#include "Base.xcconfig"
+
+PARKHUNT_ENVIRONMENT = production
+SWIFT_ACTIVE_COMPILATION_CONDITIONS = $(inherited) PARKHUNT_PRODUCTION
+SWIFT_COMPILATION_MODE = wholemodule

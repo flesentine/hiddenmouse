@@ -1,0 +1,28 @@
+# Xcode
+DerivedData/
+build/
+*.xcuserstate
+xcuserdata/
+*.xccheckout
+*.xcscmblueprint
+
+# Swift Package Manager
+.build/
+.swiftpm/
+Package.resolved
+
+# XcodeGen
+ParkHunt.xcodeproj/
+
+# macOS
+.DS_Store
+
+# Local configuration / secrets
+.env
+.env.*
+!*.example
+*.local.xcconfig
+
+# Misc
+*.swp
+*.orig
