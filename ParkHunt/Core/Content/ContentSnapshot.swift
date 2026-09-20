@@ -9,15 +9,9 @@ struct ContentSnapshot: Sendable {
 
     init(catalog: ContentCatalog) {
         self.catalog = catalog
-        self.landByID = Dictionary(
-            uniqueKeysWithValues: catalog.lands.map { ($0.id, $0) }
-        )
-        self.areaByID = Dictionary(
-            uniqueKeysWithValues: catalog.areas.map { ($0.id, $0) }
-        )
-        self.discoveryByID = Dictionary(
-            uniqueKeysWithValues: catalog.discoveries.map { ($0.id, $0) }
-        )
+        self.landByID = Self.index(catalog.lands, by: \.id)
+        self.areaByID = Self.index(catalog.areas, by: \.id)
+        self.discoveryByID = Self.index(catalog.discoveries, by: \.id)
     }
 
     var lands: [Land] {
@@ -108,6 +102,17 @@ struct ContentSnapshot: Sendable {
         includeUnavailable: Bool
     ) -> [Discovery] {
         includeUnavailable ? discoveries : available(discoveries)
+    }
+
+    private static func index<T>(
+        _ values: [T],
+        by identifier: (T) -> String
+    ) -> [String: T] {
+        var result: [String: T] = [:]
+        for value in values where result[identifier(value)] == nil {
+            result[identifier(value)] = value
+        }
+        return result
     }
 }
 
