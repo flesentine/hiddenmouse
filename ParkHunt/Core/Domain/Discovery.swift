@@ -33,7 +33,7 @@ struct Hint: Codable, Equatable, Hashable, Identifiable, Sendable {
     let text: String
 }
 
-enum Difficulty: String, Codable, CaseIterable, Sendable {
+enum Difficulty: String, Codable, CaseIterable, Hashable, Sendable {
     case easy
     case medium
     case hard
@@ -49,7 +49,7 @@ enum Difficulty: String, Codable, CaseIterable, Sendable {
     }
 }
 
-enum DiscoveryCategory: String, Codable, CaseIterable, Sendable {
+enum DiscoveryCategory: String, Codable, CaseIterable, Hashable, Sendable {
     case hiddenMickey
     case hiddenCharacter
     case imagineeringDetail
@@ -59,7 +59,7 @@ enum DiscoveryCategory: String, Codable, CaseIterable, Sendable {
     case secretFeature
 }
 
-enum VerificationStatus: String, Codable, CaseIterable, Sendable {
+enum VerificationStatus: String, Codable, CaseIterable, Hashable, Sendable {
     case verified
     case needsRecheck
     case unverified

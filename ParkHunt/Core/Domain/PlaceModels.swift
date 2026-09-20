@@ -15,7 +15,7 @@ struct AttractionArea: Codable, Equatable, Hashable, Identifiable, Sendable {
     let sortOrder: Int
 }
 
-enum AttractionAreaKind: String, Codable, CaseIterable, Sendable {
+enum AttractionAreaKind: String, Codable, CaseIterable, Hashable, Sendable {
     case attraction
     case area
 }
