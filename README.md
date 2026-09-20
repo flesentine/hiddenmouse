@@ -35,6 +35,12 @@ Features consume content through `ContentLoader` and `ContentSnapshot`, not thro
 
 The immutable snapshot builds ID indexes and provides queries for lands, attraction/areas, categories, and discoveries. Removed and temporarily unavailable discoveries are excluded from hunt-facing queries by default but remain available to administrative/history flows when explicitly requested.
 
+### #5 Home screen
+
+The app now opens into a data-driven SwiftUI Home screen backed by `ContentLoader`. Home shows the first available prototype area, the real number of huntable discoveries, a featured discovery, and a large one-handed Start Hunt CTA.
+
+Loading, empty, and failure states are handled explicitly. Start Hunt navigates through a lightweight discovery handoff that proves navigation/content wiring without pre-building the later full hunt experience. No fake GPS or user progress is shown before those systems exist.
+
 ## Architecture
 
 ```text
@@ -43,7 +49,8 @@ ParkHunt/
 ├── Core/
 │   ├── Content/  Source → loader/cache → immutable query snapshot
 │   └── Domain/   Discovery/place/progress value types
-├── Features/     Feature modules (Home, Hunt, Collection, etc.)
+├── Features/
+│   └── Home/     Home presentation, screen, discovery handoff
 └── Resources/    Offline content catalog and app assets
 
 ParkHuntTests/    Unit tests
@@ -92,4 +99,4 @@ xcodebuild \
 
 ## Next effort
 
-**#5 Home screen:** create the first real feature UI using the content loader rather than reaching into storage directly.
+**#6 Location permission flow:** request foreground location contextually when the user asks for Nearby, preserve a manual path for users who decline, and avoid prompting at first launch.
