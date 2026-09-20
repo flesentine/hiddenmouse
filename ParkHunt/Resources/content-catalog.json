@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "lands": [
+    {
+      "id": "new-orleans-square",
+      "parkID": "disneyland",
+      "name": "New Orleans Square",
+      "sortOrder": 1
+    }
+  ],
+  "areas": [
+    {
+      "id": "pirates-of-the-caribbean",
+      "landID": "new-orleans-square",
+      "name": "Pirates of the Caribbean",
+      "kind": "attraction",
+      "sortOrder": 1
+    }
+  ],
+  "discoveries": [
+    {
+      "id": "prototype-secret-001",
+      "title": "Prototype Discovery",
+      "parkID": "disneyland",
+      "landID": "new-orleans-square",
+      "areaID": "pirates-of-the-caribbean",
+      "category": "secretFeature",
+      "difficulty": "easy",
+      "location": {
+        "latitude": 33.8119,
+        "longitude": -117.9190,
+        "radiusMeters": 100
+      },
+      "hints": [
+        {
+          "id": "prototype-secret-001-h1",
+          "order": 1,
+          "text": "This is development-only content used to verify the offline catalog."
+        },
+        {
+          "id": "prototype-secret-001-h2",
+          "order": 2,
+          "text": "Real park clues will replace this record during prototype content population."
+        }
+      ],
+      "revealDescription": "Prototype content only. Replace this entry before field testing.",
+      "verificationStatus": "unverified",
+      "isIndoor": false,
+      "tags": [
+        "prototype"
+      ]
+    }
+  ]
+}

@@ -2,7 +2,9 @@
 
 Park Hunt is an iPhone-first scavenger-hunt companion for discovering hidden details in theme parks. The prototype is intentionally small: prove the hunt loop before adding maps, accounts, ads, community features, or a backend.
 
-## Effort #1 — project setup
+## Completed efforts
+
+### #1 Project setup
 
 - SwiftUI application
 - iPhone-first target
@@ -15,23 +17,35 @@ Park Hunt is an iPhone-first scavenger-hunt companion for discovering hidden det
 - Analytics disabled by default
 - XcodeGen project definition committed as source of truth
 - GitHub Actions build check
-- Unit-test target ready for later efforts
+- Unit-test target
+
+### #2 Core data model
+
+The domain layer defines discoveries, progressive hints, place/area references, verification status, and per-discovery user progress. Models are Codable and Sendable so they can support offline JSON now and asynchronous services later.
+
+### #3 Local content storage
+
+The app ships a versioned `content-catalog.json` resource in the application bundle. `BundledContentStore` reads the catalog locally, `ContentCatalogCodec` decodes ISO-8601 dates, and catalog validation rejects unsupported schema versions, duplicate IDs, broken land/area references, and invalid domain records.
+
+The committed discovery entry is intentionally development-only. Production/prototype discoveries are populated in the dedicated content effort rather than copied from third-party databases.
 
 ## Architecture
 
 ```text
 ParkHunt/
 ├── App/          App entry point, environment, root composition
-├── Core/         Shared domain/services/infrastructure
+├── Core/
+│   ├── Content/  Bundled catalog, decoding, validation
+│   └── Domain/   Discovery/place/progress value types
 ├── Features/     Feature modules (Home, Hunt, Collection, etc.)
-└── Resources/    Local discovery data and app assets
+└── Resources/    Offline content catalog and app assets
 
 ParkHuntTests/    Unit tests
 Config/           Build configuration
 .github/          CI and pull-request conventions
 ```
 
-The app starts with no network/backend dependency so the prototype can remain offline-first. Later efforts should keep content/domain logic separate from game-state logic and presentation.
+The prototype starts with no network/backend dependency. Content/domain logic, user/game state, and presentation should remain separate as later efforts are added.
 
 ## Open the project on a Mac
 
@@ -72,4 +86,4 @@ xcodebuild \
 
 ## Next effort
 
-**#2 Core data model:** `Discovery`, `Land`, `Attraction/Area`, `Category`, `Hint`, `Difficulty`, `Location`, `VerificationStatus`, and `UserProgress`.
+**#4 Content loader:** add the application-facing content service that loads the bundled catalog, exposes discoveries/lands/areas to features, and owns future refresh/update behavior without coupling UI to the storage format.
