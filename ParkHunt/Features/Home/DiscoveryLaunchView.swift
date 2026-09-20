@@ -34,7 +34,7 @@ struct DiscoveryLaunchView: View {
                         Text("Your hunt starts here.")
                             .font(.title3.bold())
 
-                        Text("The full progressive clue experience will build on this handoff screen.")
+                        Text("Take the first clue, look around, and come back when you need more help.")
                             .font(.body)
                             .foregroundStyle(.secondary)
 
