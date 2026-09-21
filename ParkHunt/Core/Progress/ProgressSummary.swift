@@ -61,7 +61,7 @@ struct ProgressSummary: Equatable, Sendable {
             progress: progress
         )
 
-        let lands = snapshot.lands.compactMap { land in
+        let lands: [LandProgressSummary] = snapshot.lands.compactMap { land -> LandProgressSummary? in
             let landDiscoveries = discoveries.filter {
                 $0.landID == land.id
             }
@@ -80,7 +80,7 @@ struct ProgressSummary: Equatable, Sendable {
             )
         }
 
-        let categories = DiscoveryCategory.allCases.compactMap { category in
+        let categories: [CategoryProgressSummary] = DiscoveryCategory.allCases.compactMap { category -> CategoryProgressSummary? in
             let categoryDiscoveries = discoveries.filter {
                 $0.category == category
             }
