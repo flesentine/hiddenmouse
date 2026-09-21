@@ -8,7 +8,7 @@ struct RootView: View {
         NavigationStack {
             HomeView(contentLoader: contentLoader)
                 .navigationDestination(for: String.self) { discoveryID in
-                    DiscoveryLaunchView(
+                    HuntView(
                         discoveryID: discoveryID,
                         contentLoader: contentLoader
                     )

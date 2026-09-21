@@ -19,43 +19,15 @@ Park Hunt is an iPhone-first scavenger-hunt companion for discovering hidden det
 - GitHub Actions build check
 - Unit-test target
 
-### #2 Core data model
+### #2–#10 Foundation
 
-The domain layer defines discoveries, progressive hints, place/area references, verification status, and per-discovery user progress. Models are Codable and Sendable so they can support offline JSON now and asynchronous services later.
+The app has an offline Codable content model and validated bundled catalog, a cached content loader/query snapshot, Home, contextual When-In-Use location permission, one-shot GPS context, manual park/land browsing, a shared nearby ranking/filter engine, and smart discovery selection that avoids completed/current hunts by default.
 
-### #3 Local content storage
+### #11 Hunt screen
 
-The app ships a versioned `content-catalog.json` resource in the application bundle. `BundledContentStore` reads the catalog locally, `ContentCatalogCodec` decodes ISO-8601 dates, and catalog validation rejects unsupported schema versions, duplicate IDs, broken land/area references, and invalid domain records.
+The temporary discovery handoff has been replaced by a dedicated SwiftUI gameplay screen. It loads the selected discovery through the content layer, shows category/difficulty plus land/area context, gives the first ordered clue prominent visual priority, and reinforces the product rule to look at the park instead of the phone.
 
-### #4 Content loader
-
-Features consume content through `ContentLoader` and `ContentSnapshot`, not through JSON or bundle APIs. The immutable snapshot builds ID indexes and provides queries while keeping storage details out of features.
-
-### #5 Home screen
-
-The app opens into a data-driven SwiftUI Home screen backed by `ContentLoader`.
-
-### #6 Location permission flow
-
-Nearby never asks for location on launch. The user explicitly chooses **Use My Location**, and only **When In Use** access is requested.
-
-### #7 Location service
-
-Nearby gets a single foreground location fix, rejects stale/poor readings, and infers approximate park/land/area context from offline discovery coordinates.
-
-### #8 Manual area selection
-
-Users can browse park → land → discoveries and start hunts without granting location.
-
-### #9 Nearby discovery engine
-
-`NearbyDiscoveryEngine` is the single ranking/filtering source for GPS and manual browsing. It accepts context plus filters for scope, difficulty, found state, and maximum distance.
-
-### #10 Discovery selection
-
-`DiscoverySelector` turns ranked results into one recommended next hunt. By default it selects only unfinished discoveries, skips the current discovery, and honors an explicit exclusion set. If every eligible hunt is completed, it returns no recommendation rather than silently repeating one.
-
-Completed discoveries can only be used as a fallback when the caller explicitly chooses `.includeIfNeeded`. GPS Nearby and manual land browsing now surface a prominent **Start Suggested Hunt** action while keeping the full ranked list available underneath.
+The hunt screen has explicit loading, unavailable, and catalog-failure states and keeps its active control at the bottom for easy one-handed use. It intentionally does **not** reveal later clues or persist found state yet; those behaviors belong to the following gameplay efforts.
 
 ## Architecture
 
@@ -66,9 +38,10 @@ ParkHunt/
 │   ├── Content/
 │   ├── Domain/
 │   ├── Location/
-│   └── Nearby/   Ranking + smart discovery selection
+│   └── Nearby/
 ├── Features/
 │   ├── Home/
+│   ├── Hunt/     Gameplay presentation + hunt screen
 │   └── Nearby/
 └── Resources/
 
@@ -108,4 +81,4 @@ xcodebuild \
 
 ## Next effort
 
-**#11 Hunt screen:** replace the lightweight discovery handoff with the actual gameplay view: discovery context, first clue, minimal instructions, and one-handed hunt controls.
+**#12 Progressive hint system:** reveal Clue 2 → detailed hint → full reveal in controlled steps and persist the highest hint stage viewed.
