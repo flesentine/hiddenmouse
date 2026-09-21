@@ -16,7 +16,7 @@ struct HuntPresentation: Equatable, Sendable {
 
         let landName = snapshot.land(id: discovery.landID)?.name
         let areaName = discovery.areaID
-            .flatMap(snapshot.area(id:))?
+            .flatMap { snapshot.area(id: $0) }?
             .name
 
         return HuntPresentation(
