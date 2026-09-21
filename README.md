@@ -4,25 +4,28 @@ Park Hunt is an iPhone-first scavenger-hunt companion for discovering hidden det
 
 ## Completed efforts
 
-### #1–#15 Core hunt loop
+### #1–#16 Core hunt loop
 
-Park Hunt now has offline validated content, Home, GPS/manual area discovery, ranked hunt selection, progressive hints, spoiler-control preferences, a dedicated Reveal screen, and persistent **I Found It** completion with haptic feedback.
+Park Hunt now supports offline content, GPS/manual discovery browsing, ranked hunt selection, progressive clues, spoiler controls, full reveal, persistent completion, and the **Find Another** loop.
 
-### #16 Next-hunt loop
+### #17 Progress tracking
 
-Completing a discovery now keeps the player in the hunt loop instead of forcing a trip back through Home.
+Saved hunt state now feeds a reusable `ProgressSummary` layer rather than living only inside individual screens.
 
-The **Found It!** success card immediately evaluates the same ranked discovery system used by Nearby and offers:
+The summary reports:
 
-- the best unfinished discovery in the same area when possible,
-- then the same land,
-- then another sensible hunt in the same park,
-- approximate distance when both discoveries have coordinates,
-- a prominent **Find Another** action.
+- total currently huntable discoveries,
+- started, found, and remaining counts,
+- overall completion fraction,
+- completion by land,
+- completion by discovery category,
+- most recent activity and its timestamp,
+- most recently found discovery and its original `foundAt` timestamp,
+- the persisted progress `lastUpdatedAt` timestamp.
 
-The just-completed discovery is explicitly excluded, and completed discoveries are never selected as the automatic next hunt. When coordinates exist, recommendations are capped at 1.5 km so the app does not suggest a technically same-park record that is not reasonably nearby. If the current discovery has no coordinates, selection falls back to area/land/park context.
+Removed and temporarily unavailable discoveries do not inflate current completion totals. Historical progress can remain stored, but percentages are calculated against the current huntable catalog.
 
-When no unfinished recommendation remains, the success card shows **Nearby set complete** instead of replaying an old hunt.
+Home now includes a compact **Progress** card that refreshes whenever Home reappears. A dedicated Progress screen shows overall completion, land/category breakdowns, recent activity, and last-found details. This summary is intentionally reusable so the Collection screen can build on the same source in #18.
 
 ## Architecture
 
@@ -34,13 +37,14 @@ ParkHunt/
 │   ├── Domain/
 │   ├── Feedback/
 │   ├── Location/
-│   ├── Nearby/   Ranking, selection, next-hunt recommendation
-│   ├── Progress/
+│   ├── Nearby/
+│   ├── Progress/ Summary + local persistence
 │   └── Settings/
 ├── Features/
-│   ├── Home/
-│   ├── Hunt/     Completion → Find Another loop
+│   ├── Home/     Compact progress entry
+│   ├── Hunt/
 │   ├── Nearby/
+│   ├── Progress/ Detailed progress overview
 │   ├── Reveal/
 │   └── Settings/
 └── Resources/
@@ -81,4 +85,4 @@ xcodebuild \
 
 ## Next effort
 
-**#17 Progress tracking:** expose saved completion totals, per-land/category progress, last discovery, timestamps, and overall counts as reusable progress summaries.
+**#18 Collection screen:** browse found/unfound discoveries, filter the collection, and revisit completed finds using the same persisted progress and content snapshot.

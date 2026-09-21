@@ -6,6 +6,7 @@ struct HomeView: View {
     let spoilerPreferenceStore: any SpoilerPreferenceStoring
 
     @State private var presentation: HomePresentation?
+    @State private var progressSummary: ProgressSummary?
     @State private var loadError: String?
     @State private var hasAttemptedLoad = false
 
@@ -15,6 +16,10 @@ struct HomeView: View {
                 header
 
                 nearbyCard
+
+                if let progressSummary {
+                    progressCard(progressSummary)
+                }
 
                 if let presentation {
                     loadedContent(presentation)
@@ -48,6 +53,9 @@ struct HomeView: View {
             guard !hasAttemptedLoad else { return }
             hasAttemptedLoad = true
             loadContent()
+        }
+        .onAppear {
+            refreshProgressSummary()
         }
     }
 
@@ -101,6 +109,46 @@ struct HomeView: View {
         }
         .buttonStyle(.plain)
         .accessibilityHint("Choose whether to use your location for Nearby")
+    }
+
+    private func progressCard(
+        _ summary: ProgressSummary
+    ) -> some View {
+        NavigationLink {
+            ProgressOverviewView(
+                contentLoader: contentLoader,
+                progressStore: progressStore
+            )
+        } label: {
+            VStack(alignment: .leading, spacing: 10) {
+                HStack {
+                    Label("Progress", systemImage: "chart.bar.fill")
+                        .font(.headline)
+
+                    Spacer()
+
+                    Text(
+                        "\(summary.overall.found) / \(summary.overall.total)"
+                    )
+                    .font(.headline.monospacedDigit())
+                }
+
+                ProgressView(
+                    value: summary.overall.completionFraction
+                )
+
+                Text(
+                    progressSubtitle(summary)
+                )
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(18)
+            .background(.background, in: RoundedRectangle(cornerRadius: 20))
+        }
+        .buttonStyle(.plain)
+        .accessibilityHint("Shows detailed hunt progress")
     }
 
     @ViewBuilder
@@ -222,11 +270,45 @@ struct HomeView: View {
                 ? contentLoader.reload()
                 : contentLoader.load()
             presentation = HomePresentation.make(from: snapshot)
+            progressSummary = ProgressSummary.make(
+                snapshot: snapshot,
+                progress: progressStore.load()
+            )
             loadError = nil
         } catch {
             presentation = nil
+            progressSummary = nil
             loadError = "Your offline discovery catalog couldn’t be opened."
         }
+    }
+
+    private func refreshProgressSummary() {
+        guard let snapshot = try? contentLoader.load() else {
+            return
+        }
+
+        progressSummary = ProgressSummary.make(
+            snapshot: snapshot,
+            progress: progressStore.load()
+        )
+    }
+
+    private func progressSubtitle(
+        _ summary: ProgressSummary
+    ) -> String {
+        if summary.overall.total == 0 {
+            return "No hunts available yet"
+        }
+
+        if summary.overall.remaining == 0 {
+            return "All available hunts found"
+        }
+
+        if let recentFound = summary.recentFound {
+            return "Last found: \(recentFound.title)"
+        }
+
+        return "\(summary.overall.remaining) hunts remaining"
     }
 }
 
