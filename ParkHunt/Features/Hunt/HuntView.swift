@@ -74,7 +74,7 @@ struct HuntView: View {
 
                 if progression.isRevealVisible {
                     revealViewedCard
-                } else {
+                } else if !isFound(presentation) {
                     instructionCard
                 }
 
