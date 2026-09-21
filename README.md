@@ -4,22 +4,25 @@ Park Hunt is an iPhone-first scavenger-hunt companion for discovering hidden det
 
 ## Completed efforts
 
-### #1–#14 Foundation + reveal flow
+### #1–#15 Core hunt loop
 
-Park Hunt now has offline validated content, Home, contextual foreground location, manual park/land browsing, Nearby ranking/selection, progressive Hunt gameplay, persistent help styles, saved hint/reveal state, and a dedicated full Reveal screen.
+Park Hunt now has offline validated content, Home, GPS/manual area discovery, ranked hunt selection, progressive hints, spoiler-control preferences, a dedicated Reveal screen, and persistent **I Found It** completion with haptic feedback.
 
-### #15 Found flow
+### #16 Next-hunt loop
 
-Hunts now have a persistent **I Found It** completion action.
+Completing a discovery now keeps the player in the hunt loop instead of forcing a trip back through Home.
 
-- Tapping **I Found It** stores the discovery's first completion time in `UserProgress.foundAt`.
-- Completion is idempotent: reopening or revisiting a hunt cannot overwrite its original found timestamp.
-- The Hunt screen immediately changes to a **Found It!** success state.
-- A subtle success haptic fires once when the discovery is first completed.
-- Reopening a completed hunt restores the success state and does not show the completion button again.
-- GPS Nearby and manual land browsing now load the same persisted progress, show completed discoveries as **Found**, and avoid them when choosing **Start Suggested Hunt**.
+The **Found It!** success card immediately evaluates the same ranked discovery system used by Nearby and offers:
 
-The full ranked list still keeps completed discoveries available for deliberate replay. The next-hunt handoff after success remains the dedicated #16 effort.
+- the best unfinished discovery in the same area when possible,
+- then the same land,
+- then another sensible hunt in the same park,
+- approximate distance when both discoveries have coordinates,
+- a prominent **Find Another** action.
+
+The just-completed discovery is explicitly excluded, and completed discoveries are never selected as the automatic next hunt. When coordinates exist, recommendations are capped at 1.5 km so the app does not suggest a technically same-park record that is not reasonably nearby. If the current discovery has no coordinates, selection falls back to area/land/park context.
+
+When no unfinished recommendation remains, the success card shows **Nearby set complete** instead of replaying an old hunt.
 
 ## Architecture
 
@@ -29,15 +32,15 @@ ParkHunt/
 ├── Core/
 │   ├── Content/
 │   ├── Domain/
-│   ├── Feedback/ Success haptic
+│   ├── Feedback/
 │   ├── Location/
-│   ├── Nearby/
+│   ├── Nearby/   Ranking, selection, next-hunt recommendation
 │   ├── Progress/
 │   └── Settings/
 ├── Features/
 │   ├── Home/
-│   ├── Hunt/     Clues, reveal state, completion
-│   ├── Nearby/   Progress-aware ranking/browsing
+│   ├── Hunt/     Completion → Find Another loop
+│   ├── Nearby/
 │   ├── Reveal/
 │   └── Settings/
 └── Resources/
@@ -78,4 +81,4 @@ xcodebuild \
 
 ## Next effort
 
-**#16 Next-hunt loop:** after a successful find, immediately offer the best sensible nearby unfinished discovery instead of forcing the user back through Home.
+**#17 Progress tracking:** expose saved completion totals, per-land/category progress, last discovery, timestamps, and overall counts as reusable progress summaries.

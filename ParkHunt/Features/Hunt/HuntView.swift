@@ -9,6 +9,7 @@ struct HuntView: View {
     @Environment(\.dismiss) private var dismiss
 
     @State private var presentation: HuntPresentation?
+    @State private var snapshot: ContentSnapshot?
     @State private var userProgress = UserProgress()
     @State private var spoilerPreference: SpoilerPreference = .normal
     @State private var loadState: LoadState = .loading
@@ -58,7 +59,7 @@ struct HuntView: View {
                 huntHeader(presentation)
 
                 if isFound(presentation) {
-                    foundSuccessCard
+                    foundSuccessCard(presentation)
                 }
 
                 ForEach(
@@ -193,8 +194,14 @@ struct HuntView: View {
         .background(.background, in: RoundedRectangle(cornerRadius: 22))
     }
 
-    private var foundSuccessCard: some View {
-        VStack(alignment: .leading, spacing: 12) {
+    private func foundSuccessCard(
+        _ presentation: HuntPresentation
+    ) -> some View {
+        let recommendation = nextHuntRecommendation(
+            for: presentation
+        )
+
+        return VStack(alignment: .leading, spacing: 14) {
             Label("Found It!", systemImage: "checkmark.seal.fill")
                 .font(.title3.bold())
 
@@ -203,11 +210,49 @@ struct HuntView: View {
             )
             .font(.subheadline)
             .foregroundStyle(.secondary)
+
+            if let recommendation {
+                Divider()
+
+                Text("Up next")
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(.secondary)
+
+                Text(recommendation.discovery.title)
+                    .font(.headline)
+
+                nextHuntContext(recommendation)
+
+                NavigationLink(value: recommendation.discovery.id) {
+                    Label(
+                        "Find Another",
+                        systemImage: "arrow.right.circle.fill"
+                    )
+                    .frame(maxWidth: .infinity, minHeight: 48)
+                }
+                .buttonStyle(.borderedProminent)
+                .accessibilityHint(
+                    "Starts the best unfinished hunt near this discovery"
+                )
+            } else {
+                Divider()
+
+                Label(
+                    "Nearby set complete",
+                    systemImage: "checkmark.circle"
+                )
+                .font(.subheadline.weight(.semibold))
+
+                Text(
+                    "There aren’t any unfinished hunts nearby in the current catalog."
+                )
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+            }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(20)
         .background(.background, in: RoundedRectangle(cornerRadius: 22))
-        .accessibilityElement(children: .combine)
     }
 
     private var instructionCard: some View {
@@ -384,6 +429,46 @@ struct HuntView: View {
         }.count ?? 0
     }
 
+    @ViewBuilder
+    private func nextHuntContext(
+        _ result: NearbyDiscoveryResult
+    ) -> some View {
+        HStack(spacing: 12) {
+            Label(
+                result.discovery.difficulty.displayName,
+                systemImage: "sparkles"
+            )
+
+            if let areaID = result.discovery.areaID,
+               let areaName = snapshot?.area(id: areaID)?.name {
+                Label(areaName, systemImage: "mappin")
+            }
+
+            if let distanceMeters = result.distanceMeters {
+                Label(
+                    NextHuntRecommender.distanceText(distanceMeters),
+                    systemImage: "location"
+                )
+            }
+        }
+        .font(.caption)
+        .foregroundStyle(.secondary)
+    }
+
+    private func nextHuntRecommendation(
+        for presentation: HuntPresentation
+    ) -> NearbyDiscoveryResult? {
+        guard let snapshot else {
+            return nil
+        }
+
+        return NextHuntRecommender.select(
+            currentDiscovery: presentation.discovery,
+            snapshot: snapshot,
+            progress: userProgress
+        )
+    }
+
     private func isFound(
         _ presentation: HuntPresentation
     ) -> Bool {
@@ -488,11 +573,12 @@ struct HuntView: View {
         spoilerPreference = spoilerPreferenceStore.load()
 
         do {
-            let snapshot = try contentLoader.load()
+            let loadedSnapshot = try contentLoader.load()
             guard let loadedPresentation = HuntPresentation.make(
                 discoveryID: discoveryID,
-                snapshot: snapshot
+                snapshot: loadedSnapshot
             ) else {
+                snapshot = nil
                 presentation = nil
                 loadState = .loaded
                 return
@@ -509,9 +595,11 @@ struct HuntView: View {
             }
 
             userProgress = loadedProgress
+            snapshot = loadedSnapshot
             presentation = loadedPresentation
             loadState = .loaded
         } catch {
+            snapshot = nil
             presentation = nil
             loadState = .failed
         }
