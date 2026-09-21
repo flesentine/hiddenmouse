@@ -2,6 +2,7 @@ import SwiftUI
 
 struct HomeView: View {
     let contentLoader: ContentLoader
+    let spoilerPreferenceStore: any SpoilerPreferenceStoring
 
     @State private var presentation: HomePresentation?
     @State private var loadError: String?
@@ -30,6 +31,18 @@ struct HomeView: View {
         .background(Color(.systemGroupedBackground))
         .navigationTitle("Park Hunt")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                NavigationLink {
+                    SpoilerSettingsView(
+                        store: spoilerPreferenceStore
+                    )
+                } label: {
+                    Image(systemName: "slider.horizontal.3")
+                }
+                .accessibilityLabel("Help Style")
+            }
+        }
         .task {
             guard !hasAttemptedLoad else { return }
             hasAttemptedLoad = true
@@ -215,6 +228,9 @@ struct HomeView: View {
 
 #Preview {
     NavigationStack {
-        HomeView(contentLoader: ContentLoader())
+        HomeView(
+            contentLoader: ContentLoader(),
+            spoilerPreferenceStore: MemorySpoilerPreferenceStore()
+        )
     }
 }

@@ -4,11 +4,13 @@ struct HuntView: View {
     let discoveryID: String
     let contentLoader: ContentLoader
     let progressStore: any UserProgressStoring
+    let spoilerPreferenceStore: any SpoilerPreferenceStoring
 
     @Environment(\.dismiss) private var dismiss
 
     @State private var presentation: HuntPresentation?
     @State private var userProgress = UserProgress()
+    @State private var spoilerPreference: SpoilerPreference = .normal
     @State private var loadState: LoadState = .loading
 
     var body: some View {
@@ -38,6 +40,11 @@ struct HuntView: View {
         _ presentation: HuntPresentation
     ) -> some View {
         let progression = progressionState(for: presentation)
+        let assistOptions = HuntAssistOptions.make(
+            discovery: presentation.discovery,
+            progression: progression,
+            preference: spoilerPreference
+        )
 
         return ScrollView {
             VStack(alignment: .leading, spacing: 22) {
@@ -60,7 +67,7 @@ struct HuntView: View {
                     instructionCard
                 }
 
-                Spacer(minLength: 120)
+                Spacer(minLength: 140)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.horizontal, 20)
@@ -68,7 +75,8 @@ struct HuntView: View {
         }
         .safeAreaInset(edge: .bottom) {
             huntControls(
-                progression: progression
+                progression: progression,
+                assistOptions: assistOptions
             )
         }
     }
@@ -100,6 +108,13 @@ struct HuntView: View {
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
             }
+
+            Label(
+                "\(spoilerPreference.displayName) help style",
+                systemImage: spoilerPreference.systemImageName
+            )
+            .font(.caption.weight(.semibold))
+            .foregroundStyle(.secondary)
         }
         .accessibilityElement(children: .combine)
     }
@@ -122,9 +137,11 @@ struct HuntView: View {
                 Spacer()
 
                 if hint.resolvedKind == .clue {
-                    Text("Clue \(visibleIndex + 1) of \(max(totalHintCount - detailedHintCount, 1))")
-                        .font(.caption.weight(.semibold))
-                        .foregroundStyle(.secondary)
+                    Text(
+                        "Clue \(visibleIndex + 1) of \(max(totalHintCount - detailedHintCount, 1))"
+                    )
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(.secondary)
                 }
             }
 
@@ -173,7 +190,7 @@ struct HuntView: View {
                     .font(.subheadline.weight(.semibold))
 
                 Text(
-                    "Try each clue in the park before asking for more help. The app will remember how far you got."
+                    "Try the clue in the park first. Your Help Style controls how prominently Park Hunt offers the next level of assistance."
                 )
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
@@ -185,27 +202,33 @@ struct HuntView: View {
     }
 
     private func huntControls(
-        progression: HuntProgressionState
+        progression: HuntProgressionState,
+        assistOptions: HuntAssistOptions
     ) -> some View {
         VStack(spacing: 10) {
-            if let action = progression.nextAction {
-                Button {
-                    reveal(action)
-                } label: {
-                    Label(
-                        action.buttonTitle,
-                        systemImage: action.systemImageName
-                    )
-                    .frame(maxWidth: .infinity, minHeight: 48)
-                }
-                .buttonStyle(.borderedProminent)
-                .accessibilityHint(
-                    accessibilityHint(for: action)
+            if let primaryAction = assistOptions.primaryAction {
+                actionButton(
+                    primaryAction,
+                    prominent: true
                 )
-            } else {
-                Text("You’ve revealed all available help for this hunt.")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
+            }
+
+            if let secondaryAction = assistOptions.secondaryAction {
+                actionButton(
+                    secondaryAction,
+                    prominent: false
+                )
+            }
+
+            if assistOptions.primaryAction == nil,
+               assistOptions.secondaryAction == nil {
+                Text(
+                    progression.isRevealVisible
+                        ? "You’ve revealed all available help for this hunt."
+                        : "Keep exploring. Help is intentionally subtle in Explorer mode."
+                )
+                .font(.caption)
+                .foregroundStyle(.secondary)
             }
 
             Button {
@@ -223,6 +246,30 @@ struct HuntView: View {
         .padding(.top, 10)
         .padding(.bottom, 8)
         .background(.bar)
+    }
+
+    @ViewBuilder
+    private func actionButton(
+        _ action: HuntProgressionAction,
+        prominent: Bool
+    ) -> some View {
+        Button {
+            reveal(action)
+        } label: {
+            Label(
+                actionTitle(action),
+                systemImage: action.systemImageName
+            )
+            .frame(maxWidth: .infinity, minHeight: prominent ? 48 : 44)
+        }
+        .buttonStyle(
+            prominent
+                ? AnyPrimitiveButtonStyle(.borderedProminent)
+                : AnyPrimitiveButtonStyle(.bordered)
+        )
+        .accessibilityHint(
+            accessibilityHint(for: action)
+        )
     }
 
     private var loadingView: some View {
@@ -291,6 +338,16 @@ struct HuntView: View {
         }
     }
 
+    private func actionTitle(
+        _ action: HuntProgressionAction
+    ) -> String {
+        if spoilerPreference == .explorer {
+            return "Need Help"
+        }
+
+        return action.buttonTitle
+    }
+
     private func accessibilityHint(
         for action: HuntProgressionAction
     ) -> String {
@@ -330,6 +387,7 @@ struct HuntView: View {
 
     private func load() {
         loadState = .loading
+        spoilerPreference = spoilerPreferenceStore.load()
 
         do {
             let snapshot = try contentLoader.load()
@@ -373,7 +431,8 @@ struct HuntView: View {
         HuntView(
             discoveryID: "prototype-secret-001",
             contentLoader: ContentLoader(),
-            progressStore: MemoryUserProgressStore()
+            progressStore: MemoryUserProgressStore(),
+            spoilerPreferenceStore: MemorySpoilerPreferenceStore()
         )
     }
 }

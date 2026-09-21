@@ -4,23 +4,22 @@ Park Hunt is an iPhone-first scavenger-hunt companion for discovering hidden det
 
 ## Completed efforts
 
-### #1–#11 Foundation + first gameplay screen
+### #1–#12 Foundation + progressive gameplay
 
-The app now has an offline validated content catalog, cached content/query layer, Home, contextual foreground location, manual park/land browsing, shared Nearby ranking, smart hunt selection, and a dedicated first-clue Hunt screen.
+Park Hunt now has offline validated content, Home, contextual foreground location, manual park/land browsing, Nearby ranking and selection, a real Hunt screen, progressive hints, text reveal, and locally persisted hunt-stage progress.
 
-### #12 Progressive hint system
+### #13 Spoiler settings
 
-Hunts now reveal help in controlled stages. Ordered clue hints appear one at a time, an explicitly typed `detailed` hint can provide stronger help, and only after all hints are viewed does **Show Me** expose the text reveal. The dedicated image/exact-reference presentation remains reserved for the later reveal-screen effort.
+A persistent **Help Style** preference now controls how aggressively the Hunt screen offers assistance without automatically revealing anything.
 
-Hint progress is local and offline. `UserProgress` records the highest hint order viewed plus whether the reveal has been opened, and `UserDefaultsUserProgressStore` persists that state. Reopening a hunt restores all previously viewed help instead of starting over. Hint progress is monotonic, so an older/lower stage can never overwrite a newer one.
+- **Explorer** keeps the next help action visually secondary.
+- **Normal** offers the standard next clue in the primary action.
+- **Help Me** promotes the stronger detailed hint when one remains, while preserving the normal next clue as a secondary option.
+- **Show Me** promotes the full reveal immediately, while preserving the normal next step as a secondary option.
 
-The first bundled prototype record now exercises the full development ladder:
+Preferences are stored locally in UserDefaults and default to **Normal**. Home exposes a focused Help Style screen from the toolbar. This is intentionally narrower than the future full Settings screen, which can later absorb the same preference/store.
 
-```text
-Clue 1 → Clue 2 → Detailed Hint → Show Me
-```
-
-Existing content remains compatible: a hint without an explicit kind is treated as a normal clue.
+The underlying clue progression remains unchanged. A mode never reveals content just because it is selected; the user must still tap the corresponding action.
 
 ## Architecture
 
@@ -32,11 +31,13 @@ ParkHunt/
 │   ├── Domain/
 │   ├── Location/
 │   ├── Nearby/
-│   └── Progress/ Local user-progress persistence
+│   ├── Progress/
+│   └── Settings/ Persistent help-style preference
 ├── Features/
 │   ├── Home/
-│   ├── Hunt/     Presentation + progression state machine + UI
-│   └── Nearby/
+│   ├── Hunt/     Progression + help-style policy
+│   ├── Nearby/
+│   └── Settings/ Focused Help Style UI
 └── Resources/
 
 ParkHuntTests/
@@ -75,4 +76,4 @@ xcodebuild \
 
 ## Next effort
 
-**#13 Spoiler settings:** add Explorer / Normal / Help Me / Show Me preferences that control how aggressively the hunt screen offers assistance without changing the underlying clue progression.
+**#14 Reveal screen:** turn Show Me into the dedicated exact-location/original-reference-photo experience, while keeping it behind an explicit user action.
