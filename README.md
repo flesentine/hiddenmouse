@@ -49,9 +49,15 @@ Denied and restricted states have clear fallback UI. Users can continue without 
 
 ### #7 Location service
 
-Nearby now requests a **single foreground location fix** only after permission is granted. The service rejects stale or invalid readings, identifies weak accuracy, and does not continuously track the user.
+Nearby requests a **single foreground location fix** only after permission is granted. The service rejects stale or invalid readings, identifies weak accuracy, and does not continuously track the user.
 
-A pure resolver compares the fix with offline discovery coordinates to infer the nearest known park/land and, only at closer range, attraction/area context. A 1.5 km ceiling prevents the app from labeling a distant user as being in the park simply because a park record is the nearest content. GPS failure and poor indoor accuracy have explicit retry/fallback states.
+A pure resolver compares the fix with offline discovery coordinates to infer the nearest known park/land and, only at closer range, attraction/area context. A 1.5 km ceiling prevents the app from labeling a distant user as being in the park simply because a park record is the nearest content.
+
+### #8 Manual area selection
+
+Nearby now has a complete no-location path. Users can choose **Browse by Area**, select a park, select a land, see the available offline discoveries there, and start a hunt without granting location access.
+
+The park and land lists are derived from the content catalog rather than hard-coded, so future lands appear automatically. Manual browsing is available before permission is requested, after denial/restriction, when GPS is weak/unavailable, and as an alternate area choice after a successful location fix.
 
 ## Architecture
 
@@ -64,7 +70,7 @@ ParkHunt/
 │   └── Location/ Permission, one-shot GPS, context resolver
 ├── Features/
 │   ├── Home/     Home presentation, screen, discovery handoff
-│   └── Nearby/   Permission + current-area discovery context
+│   └── Nearby/   GPS Nearby + manual park/land browsing
 └── Resources/    Offline content catalog and app assets
 
 ParkHuntTests/    Unit tests
@@ -72,7 +78,7 @@ Config/           Build configuration
 .github/          CI and pull-request conventions
 ```
 
-The prototype starts with no network/backend dependency. Content/domain logic, user/game state, location permission/location service, and presentation remain separate so later efforts can evolve independently.
+The prototype starts with no network/backend dependency. Content/domain logic, user/game state, location, and presentation remain separate so later efforts can evolve independently.
 
 ## Open the project on a Mac
 
@@ -105,4 +111,4 @@ xcodebuild \
 
 ## Next effort
 
-**#8 Manual area selection:** let users browse Disneyland → land without location, and use that same selector when permission is denied or GPS is unavailable.
+**#9 Nearby discovery engine:** rank/filter discoveries using manual or location-derived context, approximate distance, difficulty, and found/unfound state.

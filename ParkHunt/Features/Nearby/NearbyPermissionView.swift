@@ -7,7 +7,6 @@ struct NearbyPermissionView: View {
     @StateObject private var permission = LocationPermissionController()
     @StateObject private var locationService = LocationService()
 
-    @Environment(\.dismiss) private var dismiss
     @Environment(\.openURL) private var openURL
 
     @State private var snapshot: ContentSnapshot?
@@ -64,7 +63,7 @@ struct NearbyPermissionView: View {
                 .font(.title2.bold())
 
             Text(
-                "Nearby can use your location while Park Hunt is open to help surface discoveries in the area you’re exploring."
+                "Use your location for a quick nearby check, or browse the park manually."
             )
             .font(.body)
             .foregroundStyle(.secondary)
@@ -78,7 +77,7 @@ struct NearbyPermissionView: View {
                 .font(.headline)
 
             Text(
-                "Location is optional. You can keep using Park Hunt without sharing it."
+                "Location is optional. You can browse by park and land instead."
             )
             .font(.subheadline)
             .foregroundStyle(.secondary)
@@ -91,11 +90,7 @@ struct NearbyPermissionView: View {
             }
             .buttonStyle(.borderedProminent)
 
-            Button("Continue Without Location") {
-                dismiss()
-            }
-            .frame(maxWidth: .infinity, minHeight: 44)
-            .buttonStyle(.bordered)
+            browseByAreaButton
         }
     }
 
@@ -126,6 +121,8 @@ struct NearbyPermissionView: View {
             )
             .font(.subheadline)
             .foregroundStyle(.secondary)
+
+            browseByAreaButton
         }
     }
 
@@ -165,6 +162,14 @@ struct NearbyPermissionView: View {
             }
             .frame(maxWidth: .infinity, minHeight: 44)
             .buttonStyle(.bordered)
+
+            NavigationLink {
+                ManualAreaSelectionView(contentLoader: contentLoader)
+            } label: {
+                Text(context == nil ? "Browse by Area" : "Browse Different Area")
+                    .frame(maxWidth: .infinity, minHeight: 44)
+            }
+            .buttonStyle(.bordered)
         }
     }
 
@@ -187,11 +192,7 @@ struct NearbyPermissionView: View {
             .frame(maxWidth: .infinity, minHeight: 44)
             .buttonStyle(.borderedProminent)
 
-            Button("Continue Without Location") {
-                dismiss()
-            }
-            .frame(maxWidth: .infinity, minHeight: 44)
-            .buttonStyle(.bordered)
+            browseByAreaButton
         }
     }
 
@@ -201,7 +202,7 @@ struct NearbyPermissionView: View {
                 .font(.headline)
 
             Text(
-                "GPS can be unreliable indoors or between large buildings. You can try again or keep using Park Hunt without it."
+                "GPS can be unreliable indoors or between large buildings. You can try again or browse manually."
             )
             .font(.subheadline)
             .foregroundStyle(.secondary)
@@ -212,11 +213,7 @@ struct NearbyPermissionView: View {
             .frame(maxWidth: .infinity, minHeight: 44)
             .buttonStyle(.borderedProminent)
 
-            Button("Continue Without Location") {
-                dismiss()
-            }
-            .frame(maxWidth: .infinity, minHeight: 44)
-            .buttonStyle(.bordered)
+            browseByAreaButton
         }
     }
 
@@ -226,10 +223,12 @@ struct NearbyPermissionView: View {
                 .font(.headline)
 
             Text(
-                "You can keep browsing without location, or enable it later in Settings."
+                "Browse by park and land without location, or enable access later in Settings."
             )
             .font(.subheadline)
             .foregroundStyle(.secondary)
+
+            browseByAreaButton
 
             Button("Open Settings") {
                 guard let url = URL(
@@ -239,12 +238,6 @@ struct NearbyPermissionView: View {
                 }
 
                 openURL(url)
-            }
-            .frame(maxWidth: .infinity, minHeight: 44)
-            .buttonStyle(.borderedProminent)
-
-            Button("Continue Without Location") {
-                dismiss()
             }
             .frame(maxWidth: .infinity, minHeight: 44)
             .buttonStyle(.bordered)
@@ -257,17 +250,23 @@ struct NearbyPermissionView: View {
                 .font(.headline)
 
             Text(
-                "Location access is restricted on this device. You can still use Park Hunt without it."
+                "Location access is restricted on this device, but manual browsing still works."
             )
             .font(.subheadline)
             .foregroundStyle(.secondary)
 
-            Button("Continue Without Location") {
-                dismiss()
-            }
-            .frame(maxWidth: .infinity, minHeight: 44)
-            .buttonStyle(.borderedProminent)
+            browseByAreaButton
         }
+    }
+
+    private var browseByAreaButton: some View {
+        NavigationLink {
+            ManualAreaSelectionView(contentLoader: contentLoader)
+        } label: {
+            Label("Browse by Area", systemImage: "map")
+                .frame(maxWidth: .infinity, minHeight: 44)
+        }
+        .buttonStyle(.bordered)
     }
 
     private var privacyNote: some View {

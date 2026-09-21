@@ -1,0 +1,72 @@
+import SwiftUI
+
+struct ManualLandSelectionView: View {
+    let parkID: String
+    let parkName: String
+    let contentLoader: ContentLoader
+
+    @State private var landOptions: [ManualLandOption] = []
+    @State private var loadFailed = false
+
+    var body: some View {
+        Group {
+            if loadFailed {
+                ContentUnavailableView(
+                    "Couldn’t Load Lands",
+                    systemImage: "exclamationmark.triangle",
+                    description: Text("Your offline park catalog couldn’t be opened.")
+                )
+            } else if landOptions.isEmpty {
+                ContentUnavailableView(
+                    "No Lands Available",
+                    systemImage: "map",
+                    description: Text("There are no browsable lands in this park yet.")
+                )
+            } else {
+                List(landOptions) { land in
+                    NavigationLink {
+                        ManualLandBrowseView(
+                            landID: land.id,
+                            landName: land.name,
+                            contentLoader: contentLoader
+                        )
+                    } label: {
+                        VStack(alignment: .leading, spacing: 5) {
+                            Text(land.name)
+                                .font(.headline)
+
+                            Text(
+                                ManualAreaPresentation.discoveryCountText(
+                                    land.discoveryCount
+                                )
+                            )
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
+                        }
+                        .padding(.vertical, 4)
+                    }
+                }
+                .listStyle(.insetGrouped)
+            }
+        }
+        .navigationTitle(parkName)
+        .navigationBarTitleDisplayMode(.inline)
+        .task {
+            load()
+        }
+    }
+
+    private func load() {
+        do {
+            let snapshot = try contentLoader.load()
+            landOptions = ManualAreaPresentation.lands(
+                inPark: parkID,
+                snapshot: snapshot
+            )
+            loadFailed = false
+        } catch {
+            landOptions = []
+            loadFailed = true
+        }
+    }
+}
