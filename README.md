@@ -43,9 +43,15 @@ Loading, empty, and failure states are handled explicitly. Start Hunt navigates 
 
 ### #6 Location permission flow
 
-Home now has a Nearby entry point, but the app does **not** request location on launch. Tapping Nearby first shows a contextual explanation. Only tapping **Use My Location** requests Apple's **When In Use** permission.
+Home has a Nearby entry point, but the app does **not** request location on launch. Tapping Nearby first shows a contextual explanation. Only tapping **Use My Location** requests Apple's **When In Use** permission.
 
-Denied and restricted states have clear fallback UI. Users can continue without location, and denied users can jump to Settings if they later change their mind. The app requests no Always authorization and the prototype stores no location history.
+Denied and restricted states have clear fallback UI. Users can continue without location, and denied users can jump to Settings if they later change their mind.
+
+### #7 Location service
+
+Nearby now requests a **single foreground location fix** only after permission is granted. The service rejects stale or invalid readings, identifies weak accuracy, and does not continuously track the user.
+
+A pure resolver compares the fix with offline discovery coordinates to infer the nearest known park/land and, only at closer range, attraction/area context. A 1.5 km ceiling prevents the app from labeling a distant user as being in the park simply because a park record is the nearest content. GPS failure and poor indoor accuracy have explicit retry/fallback states.
 
 ## Architecture
 
@@ -55,10 +61,10 @@ ParkHunt/
 ├── Core/
 │   ├── Content/  Source → loader/cache → immutable query snapshot
 │   ├── Domain/   Discovery/place/progress value types
-│   └── Location/ Permission state only; GPS service comes next
+│   └── Location/ Permission, one-shot GPS, context resolver
 ├── Features/
 │   ├── Home/     Home presentation, screen, discovery handoff
-│   └── Nearby/   Contextual foreground-location permission UI
+│   └── Nearby/   Permission + current-area discovery context
 └── Resources/    Offline content catalog and app assets
 
 ParkHuntTests/    Unit tests
@@ -66,7 +72,7 @@ Config/           Build configuration
 .github/          CI and pull-request conventions
 ```
 
-The prototype starts with no network/backend dependency. Content/domain logic, user/game state, location permission, and presentation remain separate so later efforts can evolve independently.
+The prototype starts with no network/backend dependency. Content/domain logic, user/game state, location permission/location service, and presentation remain separate so later efforts can evolve independently.
 
 ## Open the project on a Mac
 
@@ -97,14 +103,6 @@ xcodebuild \
   build
 ```
 
-## Configuration
-
-`Config/Debug.xcconfig` defines `PARKHUNT_DEVELOPMENT`.
-
-`Config/Release.xcconfig` defines `PARKHUNT_PRODUCTION`.
-
-`AppEnvironment.current` converts those build-time conditions into the runtime environment. Secrets must never be committed; future local-only values belong in ignored `*.local.xcconfig` files or Xcode/CI secret storage.
-
 ## Next effort
 
-**#7 Location service:** read foreground location only when Nearby needs it, identify approximate park/land/area context, handle weak/unavailable GPS, and stop updates when they are no longer needed.
+**#8 Manual area selection:** let users browse Disneyland → land without location, and use that same selector when permission is denied or GPS is unavailable.

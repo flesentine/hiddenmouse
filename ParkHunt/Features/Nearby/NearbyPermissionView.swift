@@ -2,10 +2,16 @@ import SwiftUI
 import UIKit
 
 struct NearbyPermissionView: View {
+    let contentLoader: ContentLoader
+
     @StateObject private var permission = LocationPermissionController()
+    @StateObject private var locationService = LocationService()
 
     @Environment(\.dismiss) private var dismiss
     @Environment(\.openURL) private var openURL
+
+    @State private var snapshot: ContentSnapshot?
+    @State private var nearbyContext: NearbyContext?
 
     var body: some View {
         ScrollView {
@@ -16,7 +22,7 @@ struct NearbyPermissionView: View {
                 case .notDetermined:
                     requestCard
                 case .authorized:
-                    authorizedCard
+                    authorizedContent
                 case .denied:
                     deniedCard
                 case .restricted:
@@ -31,6 +37,22 @@ struct NearbyPermissionView: View {
         .background(Color(.systemGroupedBackground))
         .navigationTitle("Nearby")
         .navigationBarTitleDisplayMode(.inline)
+        .task {
+            snapshot = try? contentLoader.load()
+
+            if permission.state.isAuthorized,
+               locationService.state == .idle {
+                locate()
+            }
+        }
+        .onChange(of: permission.state) { _, newState in
+            if newState.isAuthorized {
+                locate()
+            }
+        }
+        .onDisappear {
+            locationService.stop()
+        }
     }
 
     private var hero: some View {
@@ -78,22 +100,124 @@ struct NearbyPermissionView: View {
         }
     }
 
-    private var authorizedCard: some View {
+    @ViewBuilder
+    private var authorizedContent: some View {
+        switch locationService.state {
+        case .idle:
+            locatingCard
+        case .locating:
+            locatingCard
+        case let .located(fix):
+            locatedCard(fix: fix)
+        case let .weakSignal(accuracyMeters):
+            weakSignalCard(accuracyMeters: accuracyMeters)
+        case .unavailable:
+            unavailableCard
+        }
+    }
+
+    private var locatingCard: some View {
         permissionCard {
-            Label("Location Access On", systemImage: "checkmark.circle.fill")
+            HStack(spacing: 12) {
+                ProgressView()
+                Text("Finding your area…")
+                    .font(.headline)
+            }
+
+            Text(
+                "Park Hunt is getting one foreground location fix, then it stops."
+            )
+            .font(.subheadline)
+            .foregroundStyle(.secondary)
+        }
+    }
+
+    private func locatedCard(fix: LocationFix) -> some View {
+        permissionCard {
+            Label("Location Found", systemImage: "location.fill")
+                .font(.headline)
+
+            if let nearbyContext {
+                Text(contextTitle(nearbyContext))
+                    .font(.title3.bold())
+
+                Text(contextDetail(nearbyContext))
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+            } else {
+                Text("No known park area nearby")
+                    .font(.title3.bold())
+
+                Text(
+                    "Your location was found, but it isn’t close enough to an area in the current offline catalog."
+                )
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+            }
+
+            Text(
+                "Accuracy about \(Int(fix.horizontalAccuracyMeters.rounded())) m"
+            )
+            .font(.caption)
+            .foregroundStyle(.secondary)
+
+            Button("Check Again") {
+                locate()
+            }
+            .frame(maxWidth: .infinity, minHeight: 44)
+            .buttonStyle(.bordered)
+        }
+    }
+
+    private func weakSignalCard(
+        accuracyMeters: Double
+    ) -> some View {
+        permissionCard {
+            Label("Location Is Too Approximate", systemImage: "location.slash")
                 .font(.headline)
 
             Text(
-                "Park Hunt can use your location when you choose Nearby."
+                "The current fix is only accurate to about \(Int(accuracyMeters.rounded())) m. Move into a more open area and try again."
             )
             .font(.subheadline)
             .foregroundStyle(.secondary)
 
-            Button("Continue") {
-                dismiss()
+            Button("Try Again") {
+                locate()
             }
             .frame(maxWidth: .infinity, minHeight: 44)
             .buttonStyle(.borderedProminent)
+
+            Button("Continue Without Location") {
+                dismiss()
+            }
+            .frame(maxWidth: .infinity, minHeight: 44)
+            .buttonStyle(.bordered)
+        }
+    }
+
+    private var unavailableCard: some View {
+        permissionCard {
+            Label("Couldn’t Find Your Location", systemImage: "location.slash")
+                .font(.headline)
+
+            Text(
+                "GPS can be unreliable indoors or between large buildings. You can try again or keep using Park Hunt without it."
+            )
+            .font(.subheadline)
+            .foregroundStyle(.secondary)
+
+            Button("Try Again") {
+                locate()
+            }
+            .frame(maxWidth: .infinity, minHeight: 44)
+            .buttonStyle(.borderedProminent)
+
+            Button("Continue Without Location") {
+                dismiss()
+            }
+            .frame(maxWidth: .infinity, minHeight: 44)
+            .buttonStyle(.bordered)
         }
     }
 
@@ -150,7 +274,7 @@ struct NearbyPermissionView: View {
     private var privacyNote: some View {
         Label {
             Text(
-                "Park Hunt requests only When In Use access. The prototype does not store location history."
+                "Park Hunt requests only When In Use access, takes a one-time fix for Nearby, and does not store location history."
             )
             .font(.footnote)
             .foregroundStyle(.secondary)
@@ -171,10 +295,39 @@ struct NearbyPermissionView: View {
         .padding(18)
         .background(.background, in: RoundedRectangle(cornerRadius: 20))
     }
+
+    private func locate() {
+        nearbyContext = nil
+        locationService.requestCurrentLocation()
+    }
+
+    private func contextTitle(_ context: NearbyContext) -> String {
+        context.areaName ?? context.landName
+    }
+
+    private func contextDetail(_ context: NearbyContext) -> String {
+        if context.areaName != nil {
+            return context.landName
+        }
+
+        return "Closest known land"
+    }
+
+    private func updateNearbyContext(for fix: LocationFix) {
+        guard let snapshot else {
+            nearbyContext = nil
+            return
+        }
+
+        nearbyContext = NearbyContextResolver.resolve(
+            fix: fix,
+            snapshot: snapshot
+        )
+    }
 }
 
 #Preview {
     NavigationStack {
-        NearbyPermissionView()
+        NearbyPermissionView(contentLoader: ContentLoader())
     }
 }

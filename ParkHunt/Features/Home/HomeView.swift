@@ -55,7 +55,7 @@ struct HomeView: View {
 
     private var nearbyCard: some View {
         NavigationLink {
-            NearbyPermissionView()
+            NearbyPermissionView(contentLoader: contentLoader)
         } label: {
             HStack(spacing: 14) {
                 Image(systemName: "location.circle.fill")
