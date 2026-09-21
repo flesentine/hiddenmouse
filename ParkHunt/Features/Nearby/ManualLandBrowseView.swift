@@ -27,14 +27,33 @@ struct ManualLandBrowseView: View {
                     description: Text("There are no available discoveries in this land yet.")
                 )
             } else {
-                List(results) { result in
-                    NavigationLink(value: result.discovery.id) {
-                        NearbyDiscoveryRow(
-                            result: result,
-                            areaName: areaName(for: result.discovery)
-                        )
+                List {
+                    if let suggested = suggestedResult {
+                        Section {
+                            NavigationLink(value: suggested.discovery.id) {
+                                Label(
+                                    "Start Suggested Hunt",
+                                    systemImage: "arrow.right.circle.fill"
+                                )
+                                .font(.headline)
+                            }
+                            .accessibilityHint(
+                                "Starts the highest-ranked unfinished hunt"
+                            )
+                        }
                     }
-                    .accessibilityHint("Starts this hunt")
+
+                    Section("All Hunts") {
+                        ForEach(results) { result in
+                            NavigationLink(value: result.discovery.id) {
+                                NearbyDiscoveryRow(
+                                    result: result,
+                                    areaName: areaName(for: result.discovery)
+                                )
+                            }
+                            .accessibilityHint("Starts this hunt")
+                        }
+                    }
                 }
                 .listStyle(.insetGrouped)
             }
@@ -44,6 +63,10 @@ struct ManualLandBrowseView: View {
         .task {
             load()
         }
+    }
+
+    private var suggestedResult: NearbyDiscoveryResult? {
+        DiscoverySelector.select(from: results)
     }
 
     private func load() {

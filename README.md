@@ -27,59 +27,55 @@ The domain layer defines discoveries, progressive hints, place/area references, 
 
 The app ships a versioned `content-catalog.json` resource in the application bundle. `BundledContentStore` reads the catalog locally, `ContentCatalogCodec` decodes ISO-8601 dates, and catalog validation rejects unsupported schema versions, duplicate IDs, broken land/area references, and invalid domain records.
 
-The committed discovery entry is intentionally development-only. Production/prototype discoveries are populated in the dedicated content effort rather than copied from third-party databases.
-
 ### #4 Content loader
 
-Features consume content through `ContentLoader` and `ContentSnapshot`, not through JSON or bundle APIs. The loader caches the first successful load, supports explicit reload/reset for future update behavior, and accepts any `ContentCatalogSource`.
-
-The immutable snapshot builds ID indexes and provides queries for lands, attraction/areas, categories, and discoveries. Removed and temporarily unavailable discoveries are excluded from hunt-facing queries by default but remain available to administrative/history flows when explicitly requested.
+Features consume content through `ContentLoader` and `ContentSnapshot`, not through JSON or bundle APIs. The immutable snapshot builds ID indexes and provides queries while keeping storage details out of features.
 
 ### #5 Home screen
 
-The app opens into a data-driven SwiftUI Home screen backed by `ContentLoader`. Home shows the first available prototype area, the real number of huntable discoveries, a featured discovery, and a large one-handed Start Hunt CTA.
+The app opens into a data-driven SwiftUI Home screen backed by `ContentLoader`.
 
 ### #6 Location permission flow
 
-Home has a Nearby entry point, but the app does **not** request location on launch. Tapping Nearby first shows a contextual explanation. Only tapping **Use My Location** requests Apple's **When In Use** permission.
+Nearby never asks for location on launch. The user explicitly chooses **Use My Location**, and only **When In Use** access is requested.
 
 ### #7 Location service
 
-Nearby requests a **single foreground location fix** only after permission is granted. The service rejects stale or invalid readings, identifies weak accuracy, and does not continuously track the user. A pure resolver compares the fix with offline discovery coordinates to infer the nearest known park/land and closer attraction/area context.
+Nearby gets a single foreground location fix, rejects stale/poor readings, and infers approximate park/land/area context from offline discovery coordinates.
 
 ### #8 Manual area selection
 
-Nearby has a complete no-location path: choose **Browse by Area**, select a park and land, see the available offline discoveries there, and start a hunt without granting location access.
+Users can browse park → land → discoveries and start hunts without granting location.
 
 ### #9 Nearby discovery engine
 
-A shared `NearbyDiscoveryEngine` now powers GPS and manual browsing. It accepts optional park/land/area/location context plus independent filters for scope, difficulty, found state, and maximum distance.
+`NearbyDiscoveryEngine` is the single ranking/filtering source for GPS and manual browsing. It accepts context plus filters for scope, difficulty, found state, and maximum distance.
 
-Ranking is deterministic: matching area → matching land → matching park → unfound → known/closer distance → easier difficulty → title/ID. Removed and temporarily unavailable content never enters the engine. Manual land browsing and GPS Nearby both render the same ranked result type, so later next-hunt selection can build on a single source of ordering truth.
+### #10 Discovery selection
 
-The engine already accepts `UserProgress`; until progress persistence is implemented, current screens use the default empty progress state.
+`DiscoverySelector` turns ranked results into one recommended next hunt. By default it selects only unfinished discoveries, skips the current discovery, and honors an explicit exclusion set. If every eligible hunt is completed, it returns no recommendation rather than silently repeating one.
+
+Completed discoveries can only be used as a fallback when the caller explicitly chooses `.includeIfNeeded`. GPS Nearby and manual land browsing now surface a prominent **Start Suggested Hunt** action while keeping the full ranked list available underneath.
 
 ## Architecture
 
 ```text
 ParkHunt/
-├── App/          App entry point, environment, root composition
+├── App/
 ├── Core/
-│   ├── Content/  Source → loader/cache → immutable query snapshot
-│   ├── Domain/   Discovery/place/progress value types
-│   ├── Location/ Permission, one-shot GPS, context resolver
-│   └── Nearby/   Shared discovery filtering/ranking engine
+│   ├── Content/
+│   ├── Domain/
+│   ├── Location/
+│   └── Nearby/   Ranking + smart discovery selection
 ├── Features/
-│   ├── Home/     Home presentation, screen, discovery handoff
-│   └── Nearby/   GPS + manual browsing using shared ranked results
-└── Resources/    Offline content catalog and app assets
+│   ├── Home/
+│   └── Nearby/
+└── Resources/
 
-ParkHuntTests/    Unit tests
-Config/           Build configuration
-.github/          CI and pull-request conventions
+ParkHuntTests/
+Config/
+.github/
 ```
-
-The prototype starts with no network/backend dependency.
 
 ## Open the project on a Mac
 
@@ -112,4 +108,4 @@ xcodebuild \
 
 ## Next effort
 
-**#10 Discovery selection:** choose the best next hunt from ranked results while avoiding completed discoveries unless the user explicitly requests them.
+**#11 Hunt screen:** replace the lightweight discovery handoff with the actual gameplay view: discovery context, first clue, minimal instructions, and one-handed hunt controls.

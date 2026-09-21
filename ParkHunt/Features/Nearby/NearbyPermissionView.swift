@@ -129,6 +129,7 @@ struct NearbyPermissionView: View {
     private func locatedCard(fix: LocationFix) -> some View {
         let context = nearbyContext(for: fix)
         let results = nearbyResults(fix: fix, context: context)
+        let suggested = DiscoverySelector.select(from: results)
 
         return VStack(alignment: .leading, spacing: 16) {
             permissionCard {
@@ -158,6 +159,20 @@ struct NearbyPermissionView: View {
                 )
                 .font(.caption)
                 .foregroundStyle(.secondary)
+
+                if let suggested {
+                    NavigationLink(value: suggested.discovery.id) {
+                        Label(
+                            "Start Suggested Hunt",
+                            systemImage: "arrow.right.circle.fill"
+                        )
+                        .frame(maxWidth: .infinity, minHeight: 44)
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .accessibilityHint(
+                        "Starts the highest-ranked unfinished nearby hunt"
+                    )
+                }
 
                 Button("Check Again") {
                     locate()
