@@ -253,23 +253,35 @@ struct HuntView: View {
         _ action: HuntProgressionAction,
         prominent: Bool
     ) -> some View {
-        Button {
-            reveal(action)
-        } label: {
-            Label(
-                actionTitle(action),
-                systemImage: action.systemImageName
+        if prominent {
+            Button {
+                reveal(action)
+            } label: {
+                Label(
+                    actionTitle(action),
+                    systemImage: action.systemImageName
+                )
+                .frame(maxWidth: .infinity, minHeight: 48)
+            }
+            .buttonStyle(.borderedProminent)
+            .accessibilityHint(
+                accessibilityHint(for: action)
             )
-            .frame(maxWidth: .infinity, minHeight: prominent ? 48 : 44)
+        } else {
+            Button {
+                reveal(action)
+            } label: {
+                Label(
+                    actionTitle(action),
+                    systemImage: action.systemImageName
+                )
+                .frame(maxWidth: .infinity, minHeight: 44)
+            }
+            .buttonStyle(.bordered)
+            .accessibilityHint(
+                accessibilityHint(for: action)
+            )
         }
-        .buttonStyle(
-            prominent
-                ? AnyPrimitiveButtonStyle(.borderedProminent)
-                : AnyPrimitiveButtonStyle(.bordered)
-        )
-        .accessibilityHint(
-            accessibilityHint(for: action)
-        )
     }
 
     private var loadingView: some View {
