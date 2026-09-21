@@ -188,9 +188,9 @@ struct NearbyPermissionView: View {
 
                 NavigationLink {
                     ManualAreaSelectionView(
-                    contentLoader: contentLoader,
-                    progressStore: progressStore
-                )
+                        contentLoader: contentLoader,
+                        progressStore: progressStore
+                    )
                 } label: {
                     Text(context == nil ? "Browse by Area" : "Browse Different Area")
                         .frame(maxWidth: .infinity, minHeight: 44)
@@ -314,9 +314,9 @@ struct NearbyPermissionView: View {
     private var browseByAreaButton: some View {
         NavigationLink {
             ManualAreaSelectionView(
-                    contentLoader: contentLoader,
-                    progressStore: progressStore
-                )
+                contentLoader: contentLoader,
+                progressStore: progressStore
+            )
         } label: {
             Label("Browse by Area", systemImage: "map")
                 .frame(maxWidth: .infinity, minHeight: 44)
