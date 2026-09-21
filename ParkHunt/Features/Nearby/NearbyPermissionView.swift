@@ -11,7 +11,6 @@ struct NearbyPermissionView: View {
     @Environment(\.openURL) private var openURL
 
     @State private var snapshot: ContentSnapshot?
-    @State private var nearbyContext: NearbyContext?
 
     var body: some View {
         ScrollView {
@@ -103,9 +102,7 @@ struct NearbyPermissionView: View {
     @ViewBuilder
     private var authorizedContent: some View {
         switch locationService.state {
-        case .idle:
-            locatingCard
-        case .locating:
+        case .idle, .locating:
             locatingCard
         case let .located(fix):
             locatedCard(fix: fix)
@@ -133,15 +130,17 @@ struct NearbyPermissionView: View {
     }
 
     private func locatedCard(fix: LocationFix) -> some View {
-        permissionCard {
+        let context = nearbyContext(for: fix)
+
+        return permissionCard {
             Label("Location Found", systemImage: "location.fill")
                 .font(.headline)
 
-            if let nearbyContext {
-                Text(contextTitle(nearbyContext))
+            if let context {
+                Text(contextTitle(context))
                     .font(.title3.bold())
 
-                Text(contextDetail(nearbyContext))
+                Text(contextDetail(context))
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
             } else {
@@ -297,8 +296,18 @@ struct NearbyPermissionView: View {
     }
 
     private func locate() {
-        nearbyContext = nil
         locationService.requestCurrentLocation()
+    }
+
+    private func nearbyContext(for fix: LocationFix) -> NearbyContext? {
+        guard let snapshot else {
+            return nil
+        }
+
+        return NearbyContextResolver.resolve(
+            fix: fix,
+            snapshot: snapshot
+        )
     }
 
     private func contextTitle(_ context: NearbyContext) -> String {
@@ -311,18 +320,6 @@ struct NearbyPermissionView: View {
         }
 
         return "Closest known land"
-    }
-
-    private func updateNearbyContext(for fix: LocationFix) {
-        guard let snapshot else {
-            nearbyContext = nil
-            return
-        }
-
-        nearbyContext = NearbyContextResolver.resolve(
-            fix: fix,
-            snapshot: snapshot
-        )
     }
 }
 

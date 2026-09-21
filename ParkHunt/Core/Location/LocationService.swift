@@ -26,8 +26,8 @@ enum LocationServiceState: Equatable, Sendable {
 
 @MainActor
 final class LocationService: NSObject, ObservableObject {
-    static let maximumUsefulAccuracyMeters = 250.0
-    static let maximumUsefulAgeSeconds = 60.0
+    nonisolated static let maximumUsefulAccuracyMeters = 250.0
+    nonisolated static let maximumUsefulAgeSeconds = 60.0
 
     @Published private(set) var state: LocationServiceState = .idle
 
@@ -94,6 +94,7 @@ extension LocationService: CLLocationManagerDelegate {
         didUpdateLocations locations: [CLLocation]
     ) {
         guard let location = locations.last else {
+            manager.stopUpdatingLocation()
             Task { @MainActor [weak self] in
                 self?.state = .unavailable
             }
@@ -108,10 +109,10 @@ extension LocationService: CLLocationManagerDelegate {
         )
         let quality = Self.quality(of: fix)
 
+        manager.stopUpdatingLocation()
+
         Task { @MainActor [weak self] in
             guard let self else { return }
-
-            manager.stopUpdatingLocation()
 
             switch quality {
             case .usable:
@@ -130,15 +131,9 @@ extension LocationService: CLLocationManagerDelegate {
         _ manager: CLLocationManager,
         didFailWithError error: Error
     ) {
+        manager.stopUpdatingLocation()
+
         Task { @MainActor [weak self] in
-            manager.stopUpdatingLocation()
-
-            if let coreLocationError = error as? CLError,
-               coreLocationError.code == .locationUnknown {
-                self?.state = .unavailable
-                return
-            }
-
             self?.state = .unavailable
         }
     }
