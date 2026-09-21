@@ -31,10 +31,37 @@ struct Hint: Codable, Equatable, Hashable, Identifiable, Sendable {
     let id: String
     let order: Int
     let text: String
-    let kind: HintKind? = nil
+    let kind: HintKind?
+
+    init(
+        id: String,
+        order: Int,
+        text: String,
+        kind: HintKind? = nil
+    ) {
+        self.id = id
+        self.order = order
+        self.text = text
+        self.kind = kind
+    }
 
     var resolvedKind: HintKind {
         kind ?? .clue
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case id
+        case order
+        case text
+        case kind
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decode(String.self, forKey: .id)
+        order = try container.decode(Int.self, forKey: .order)
+        text = try container.decode(String.self, forKey: .text)
+        kind = try container.decodeIfPresent(HintKind.self, forKey: .kind)
     }
 }
 

@@ -109,6 +109,28 @@ final class HuntProgressionTests: XCTestCase {
         XCTAssertEqual(state.nextAction, .revealLocation)
     }
 
+    func testDetailedHintKindDecodesFromJSON() throws {
+        let data = Data(
+            #"{"id":"detail","order":3,"text":"More help","kind":"detailed"}"#
+                .utf8
+        )
+
+        let hint = try JSONDecoder().decode(Hint.self, from: data)
+
+        XCTAssertEqual(hint.resolvedKind, .detailed)
+    }
+
+    func testMissingHintKindDefaultsToClue() throws {
+        let data = Data(
+            #"{"id":"clue","order":1,"text":"Look up"}"#
+                .utf8
+        )
+
+        let hint = try JSONDecoder().decode(Hint.self, from: data)
+
+        XCTAssertEqual(hint.resolvedKind, .clue)
+    }
+
     private func makeDiscovery(
         hints: [Hint]? = nil
     ) -> Discovery {
