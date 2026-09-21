@@ -4,6 +4,7 @@ struct ManualLandBrowseView: View {
     let landID: String
     let landName: String
     let contentLoader: ContentLoader
+    let progressStore: any UserProgressStoring
 
     @State private var results: [NearbyDiscoveryResult] = []
     @State private var snapshot: ContentSnapshot?
@@ -60,7 +61,7 @@ struct ManualLandBrowseView: View {
         }
         .navigationTitle(landName)
         .navigationBarTitleDisplayMode(.inline)
-        .task {
+        .onAppear {
             load()
         }
     }
@@ -84,7 +85,8 @@ struct ManualLandBrowseView: View {
                 filters: NearbyDiscoveryFilters(
                     scope: .land(landID),
                     found: .any
-                )
+                ),
+                progress: progressStore.load()
             )
             loadFailed = false
         } catch {

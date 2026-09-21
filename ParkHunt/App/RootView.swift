@@ -10,6 +10,7 @@ struct RootView: View {
         NavigationStack {
             HomeView(
                 contentLoader: contentLoader,
+                progressStore: progressStore,
                 spoilerPreferenceStore: spoilerPreferenceStore
             )
             .navigationDestination(for: String.self) { discoveryID in

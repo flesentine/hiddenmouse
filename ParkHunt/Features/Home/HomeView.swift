@@ -2,6 +2,7 @@ import SwiftUI
 
 struct HomeView: View {
     let contentLoader: ContentLoader
+    let progressStore: any UserProgressStoring
     let spoilerPreferenceStore: any SpoilerPreferenceStoring
 
     @State private var presentation: HomePresentation?
@@ -68,7 +69,10 @@ struct HomeView: View {
 
     private var nearbyCard: some View {
         NavigationLink {
-            NearbyPermissionView(contentLoader: contentLoader)
+            NearbyPermissionView(
+                contentLoader: contentLoader,
+                progressStore: progressStore
+            )
         } label: {
             HStack(spacing: 14) {
                 Image(systemName: "location.circle.fill")
@@ -230,6 +234,7 @@ struct HomeView: View {
     NavigationStack {
         HomeView(
             contentLoader: ContentLoader(),
+            progressStore: MemoryUserProgressStore(),
             spoilerPreferenceStore: MemorySpoilerPreferenceStore()
         )
     }

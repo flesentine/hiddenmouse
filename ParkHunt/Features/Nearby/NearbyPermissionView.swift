@@ -3,6 +3,7 @@ import UIKit
 
 struct NearbyPermissionView: View {
     let contentLoader: ContentLoader
+    let progressStore: any UserProgressStoring
 
     @StateObject private var permission = LocationPermissionController()
     @StateObject private var locationService = LocationService()
@@ -10,6 +11,7 @@ struct NearbyPermissionView: View {
     @Environment(\.openURL) private var openURL
 
     @State private var snapshot: ContentSnapshot?
+    @State private var userProgress = UserProgress()
 
     var body: some View {
         ScrollView {
@@ -37,11 +39,15 @@ struct NearbyPermissionView: View {
         .navigationBarTitleDisplayMode(.inline)
         .task {
             snapshot = try? contentLoader.load()
+            userProgress = progressStore.load()
 
             if permission.state.isAuthorized,
                locationService.state == .idle {
                 locate()
             }
+        }
+        .onAppear {
+            userProgress = progressStore.load()
         }
         .onChange(of: permission.state) { _, newState in
             if newState.isAuthorized {
@@ -181,7 +187,10 @@ struct NearbyPermissionView: View {
                 .buttonStyle(.bordered)
 
                 NavigationLink {
-                    ManualAreaSelectionView(contentLoader: contentLoader)
+                    ManualAreaSelectionView(
+                    contentLoader: contentLoader,
+                    progressStore: progressStore
+                )
                 } label: {
                     Text(context == nil ? "Browse by Area" : "Browse Different Area")
                         .frame(maxWidth: .infinity, minHeight: 44)
@@ -304,7 +313,10 @@ struct NearbyPermissionView: View {
 
     private var browseByAreaButton: some View {
         NavigationLink {
-            ManualAreaSelectionView(contentLoader: contentLoader)
+            ManualAreaSelectionView(
+                    contentLoader: contentLoader,
+                    progressStore: progressStore
+                )
         } label: {
             Label("Browse by Area", systemImage: "map")
                 .frame(maxWidth: .infinity, minHeight: 44)
@@ -373,7 +385,8 @@ struct NearbyPermissionView: View {
                 scope: .park(context.parkID),
                 found: .any,
                 maximumDistanceMeters: NearbyContextResolver.maximumLandDistanceMeters
-            )
+            ),
+            progress: userProgress
         )
     }
 
@@ -400,6 +413,9 @@ struct NearbyPermissionView: View {
 
 #Preview {
     NavigationStack {
-        NearbyPermissionView(contentLoader: ContentLoader())
+        NearbyPermissionView(
+            contentLoader: ContentLoader(),
+            progressStore: MemoryUserProgressStore()
+        )
     }
 }

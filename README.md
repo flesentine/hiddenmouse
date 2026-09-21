@@ -4,24 +4,22 @@ Park Hunt is an iPhone-first scavenger-hunt companion for discovering hidden det
 
 ## Completed efforts
 
-### #1–#13 Foundation + spoiler-controlled gameplay
+### #1–#14 Foundation + reveal flow
 
-Park Hunt now has offline validated content, Home, contextual foreground location, manual park/land browsing, Nearby ranking and selection, progressive Hunt gameplay, persisted hint/reveal progress, and persistent Explorer / Normal / Help Me / Show Me help styles.
+Park Hunt now has offline validated content, Home, contextual foreground location, manual park/land browsing, Nearby ranking/selection, progressive Hunt gameplay, persistent help styles, saved hint/reveal state, and a dedicated full Reveal screen.
 
-### #14 Reveal screen
+### #15 Found flow
 
-**Show Me** now opens a dedicated Reveal screen instead of placing spoiler text inside the Hunt clue stack.
+Hunts now have a persistent **I Found It** completion action.
 
-The Reveal screen shows:
+- Tapping **I Found It** stores the discovery's first completion time in `UserProgress.foundAt`.
+- Completion is idempotent: reopening or revisiting a hunt cannot overwrite its original found timestamp.
+- The Hunt screen immediately changes to a **Found It!** success state.
+- A subtle success haptic fires once when the discovery is first completed.
+- Reopening a completed hunt restores the success state and does not show the completion button again.
+- GPS Nearby and manual land browsing now load the same persisted progress, show completed discoveries as **Found**, and avoid them when choosing **Start Suggested Hunt**.
 
-- the discovery and park/land/area context,
-- a dedicated **Exact Location** text reveal,
-- an original packaged reference photo when `revealImageName` points to an available app asset,
-- a clear no-photo state when verified content does not yet have an image.
-
-Opening Show Me records `didRevealLocation` before navigation, so closing and reopening the hunt preserves that the reveal was viewed. The Hunt screen then shows **View Reveal Again** without duplicating the spoiler content inline.
-
-Photo loading is intentionally minimal here. Compression, thumbnail strategy, and larger image-pipeline work remain in the dedicated image-handling effort.
+The full ranked list still keeps completed discoveries available for deliberate replay. The next-hunt handoff after success remains the dedicated #16 effort.
 
 ## Architecture
 
@@ -31,15 +29,16 @@ ParkHunt/
 ├── Core/
 │   ├── Content/
 │   ├── Domain/
+│   ├── Feedback/ Success haptic
 │   ├── Location/
 │   ├── Nearby/
 │   ├── Progress/
 │   └── Settings/
 ├── Features/
 │   ├── Home/
-│   ├── Hunt/
-│   ├── Nearby/
-│   ├── Reveal/   Exact-location + packaged reference-photo UI
+│   ├── Hunt/     Clues, reveal state, completion
+│   ├── Nearby/   Progress-aware ranking/browsing
+│   ├── Reveal/
 │   └── Settings/
 └── Resources/
 
@@ -79,4 +78,4 @@ xcodebuild \
 
 ## Next effort
 
-**#15 Found flow:** add **I Found It**, persist completion, update progress, provide a success state, and trigger a subtle success haptic.
+**#16 Next-hunt loop:** after a successful find, immediately offer the best sensible nearby unfinished discovery instead of forcing the user back through Home.

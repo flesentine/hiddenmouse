@@ -57,6 +57,10 @@ struct HuntView: View {
             VStack(alignment: .leading, spacing: 22) {
                 huntHeader(presentation)
 
+                if isFound(presentation) {
+                    foundSuccessCard
+                }
+
                 ForEach(
                     Array(progression.visibleHints.enumerated()),
                     id: \.element.id
@@ -189,6 +193,23 @@ struct HuntView: View {
         .background(.background, in: RoundedRectangle(cornerRadius: 22))
     }
 
+    private var foundSuccessCard: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Label("Found It!", systemImage: "checkmark.seal.fill")
+                .font(.title3.bold())
+
+            Text(
+                "Nice find. This discovery is saved to your progress."
+            )
+            .font(.subheadline)
+            .foregroundStyle(.secondary)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(20)
+        .background(.background, in: RoundedRectangle(cornerRadius: 22))
+        .accessibilityElement(children: .combine)
+    }
+
     private var instructionCard: some View {
         HStack(alignment: .top, spacing: 12) {
             Image(systemName: "eye")
@@ -217,21 +238,38 @@ struct HuntView: View {
         assistOptions: HuntAssistOptions
     ) -> some View {
         VStack(spacing: 10) {
-            if let primaryAction = assistOptions.primaryAction {
+            if let presentation,
+               !isFound(presentation) {
+                Button {
+                    markFound(presentation)
+                } label: {
+                    Label("I Found It", systemImage: "checkmark.circle.fill")
+                        .frame(maxWidth: .infinity, minHeight: 50)
+                }
+                .buttonStyle(.borderedProminent)
+                .accessibilityHint(
+                    "Marks this discovery as found and saves it to your progress"
+                )
+            }
+
+            if let primaryAction = assistOptions.primaryAction,
+               !isCurrentDiscoveryFound {
                 actionButton(
                     primaryAction,
                     prominent: true
                 )
             }
 
-            if let secondaryAction = assistOptions.secondaryAction {
+            if let secondaryAction = assistOptions.secondaryAction,
+               !isCurrentDiscoveryFound {
                 actionButton(
                     secondaryAction,
                     prominent: false
                 )
             }
 
-            if assistOptions.primaryAction == nil,
+            if !isCurrentDiscoveryFound,
+               assistOptions.primaryAction == nil,
                assistOptions.secondaryAction == nil {
                 Text(
                     progression.isRevealVisible
@@ -332,10 +370,43 @@ struct HuntView: View {
         }
     }
 
+    private var isCurrentDiscoveryFound: Bool {
+        guard let presentation else {
+            return false
+        }
+
+        return isFound(presentation)
+    }
+
     private var detailedHintCount: Int {
         presentation?.discovery.hints.filter {
             $0.resolvedKind == .detailed
         }.count ?? 0
+    }
+
+    private func isFound(
+        _ presentation: HuntPresentation
+    ) -> Bool {
+        userProgress.progress(
+            for: presentation.discovery.id
+        ).isFound
+    }
+
+    private func markFound(
+        _ presentation: HuntPresentation
+    ) {
+        guard !isFound(presentation) else {
+            return
+        }
+
+        withAnimation {
+            userProgress.recordFound(
+                discoveryID: presentation.discovery.id
+            )
+            progressStore.save(userProgress)
+        }
+
+        SuccessHaptic.play()
     }
 
     private func progressionState(

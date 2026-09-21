@@ -42,6 +42,22 @@ struct UserProgress: Codable, Equatable, Sendable {
         lastUpdatedAt = date
     }
 
+    mutating func recordFound(
+        discoveryID: String,
+        at date: Date = Date()
+    ) {
+        var current = progress(for: discoveryID)
+
+        guard current.foundAt == nil else {
+            return
+        }
+
+        current.foundAt = date
+        current.lastViewedAt = date
+        discoveries[discoveryID] = current
+        lastUpdatedAt = date
+    }
+
     var foundDiscoveryIDs: Set<String> {
         Set(
             discoveries.values
