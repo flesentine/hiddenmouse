@@ -98,7 +98,7 @@ struct ProgressSummary: Equatable, Sendable {
             )
         }
 
-        let recentActivity = discoveries.compactMap { discovery in
+        let recentActivity = discoveries.map { discovery in
             recentItem(
                 discovery: discovery,
                 snapshot: snapshot,
@@ -115,7 +115,7 @@ struct ProgressSummary: Equatable, Sendable {
             )
         }
 
-        let recentFound = discoveries.compactMap { discovery in
+        let recentFound = discoveries.map { discovery in
             recentItem(
                 discovery: discovery,
                 snapshot: snapshot,
