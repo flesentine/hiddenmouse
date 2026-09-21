@@ -12,6 +12,8 @@ struct HomeView: View {
             VStack(alignment: .leading, spacing: 24) {
                 header
 
+                nearbyCard
+
                 if let presentation {
                     loadedContent(presentation)
                 } else if let loadError {
@@ -44,11 +46,44 @@ struct HomeView: View {
             Text("Discover what everyone else walks past.")
                 .font(.title2.bold())
 
-            Text("Pick a nearby-style hunt, follow the clues, and keep your eyes on the park.")
+            Text("Pick a hunt, follow the clues, and keep your eyes on the park.")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
         }
         .accessibilityElement(children: .combine)
+    }
+
+    private var nearbyCard: some View {
+        NavigationLink {
+            NearbyPermissionView()
+        } label: {
+            HStack(spacing: 14) {
+                Image(systemName: "location.circle.fill")
+                    .font(.title2)
+                    .accessibilityHidden(true)
+
+                VStack(alignment: .leading, spacing: 3) {
+                    Text("Nearby")
+                        .font(.headline)
+
+                    Text("Find discoveries around where you are")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                }
+
+                Spacer()
+
+                Image(systemName: "chevron.right")
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(.secondary)
+                    .accessibilityHidden(true)
+            }
+            .frame(minHeight: 52)
+            .padding(18)
+            .background(.background, in: RoundedRectangle(cornerRadius: 20))
+        }
+        .buttonStyle(.plain)
+        .accessibilityHint("Choose whether to use your location for Nearby")
     }
 
     @ViewBuilder

@@ -37,9 +37,15 @@ The immutable snapshot builds ID indexes and provides queries for lands, attract
 
 ### #5 Home screen
 
-The app now opens into a data-driven SwiftUI Home screen backed by `ContentLoader`. Home shows the first available prototype area, the real number of huntable discoveries, a featured discovery, and a large one-handed Start Hunt CTA.
+The app opens into a data-driven SwiftUI Home screen backed by `ContentLoader`. Home shows the first available prototype area, the real number of huntable discoveries, a featured discovery, and a large one-handed Start Hunt CTA.
 
-Loading, empty, and failure states are handled explicitly. Start Hunt navigates through a lightweight discovery handoff that proves navigation/content wiring without pre-building the later full hunt experience. No fake GPS or user progress is shown before those systems exist.
+Loading, empty, and failure states are handled explicitly. Start Hunt navigates through a lightweight discovery handoff that proves navigation/content wiring without pre-building the later full hunt experience.
+
+### #6 Location permission flow
+
+Home now has a Nearby entry point, but the app does **not** request location on launch. Tapping Nearby first shows a contextual explanation. Only tapping **Use My Location** requests Apple's **When In Use** permission.
+
+Denied and restricted states have clear fallback UI. Users can continue without location, and denied users can jump to Settings if they later change their mind. The app requests no Always authorization and the prototype stores no location history.
 
 ## Architecture
 
@@ -48,9 +54,11 @@ ParkHunt/
 ├── App/          App entry point, environment, root composition
 ├── Core/
 │   ├── Content/  Source → loader/cache → immutable query snapshot
-│   └── Domain/   Discovery/place/progress value types
+│   ├── Domain/   Discovery/place/progress value types
+│   └── Location/ Permission state only; GPS service comes next
 ├── Features/
-│   └── Home/     Home presentation, screen, discovery handoff
+│   ├── Home/     Home presentation, screen, discovery handoff
+│   └── Nearby/   Contextual foreground-location permission UI
 └── Resources/    Offline content catalog and app assets
 
 ParkHuntTests/    Unit tests
@@ -58,7 +66,7 @@ Config/           Build configuration
 .github/          CI and pull-request conventions
 ```
 
-The prototype starts with no network/backend dependency. Content/domain logic, user/game state, and presentation remain separate so later efforts can evolve independently.
+The prototype starts with no network/backend dependency. Content/domain logic, user/game state, location permission, and presentation remain separate so later efforts can evolve independently.
 
 ## Open the project on a Mac
 
@@ -99,4 +107,4 @@ xcodebuild \
 
 ## Next effort
 
-**#6 Location permission flow:** request foreground location contextually when the user asks for Nearby, preserve a manual path for users who decline, and avoid prompting at first launch.
+**#7 Location service:** read foreground location only when Nearby needs it, identify approximate park/land/area context, handle weak/unavailable GPS, and stop updates when they are no longer needed.
