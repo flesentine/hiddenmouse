@@ -4,30 +4,23 @@ Park Hunt is an iPhone-first scavenger-hunt companion for discovering hidden det
 
 ## Completed efforts
 
-### #1 Project setup
+### #1–#11 Foundation + first gameplay screen
 
-- SwiftUI application
-- iPhone-first target
-- iOS 17.0 minimum deployment target
-- Swift 6 language mode
-- Bundle identifier: `com.flesentine.parkhunt`
-- Feature-first source layout
-- Debug and Release environment configuration
-- No backend required for the prototype
-- Analytics disabled by default
-- XcodeGen project definition committed as source of truth
-- GitHub Actions build check
-- Unit-test target
+The app now has an offline validated content catalog, cached content/query layer, Home, contextual foreground location, manual park/land browsing, shared Nearby ranking, smart hunt selection, and a dedicated first-clue Hunt screen.
 
-### #2–#10 Foundation
+### #12 Progressive hint system
 
-The app has an offline Codable content model and validated bundled catalog, a cached content loader/query snapshot, Home, contextual When-In-Use location permission, one-shot GPS context, manual park/land browsing, a shared nearby ranking/filter engine, and smart discovery selection that avoids completed/current hunts by default.
+Hunts now reveal help in controlled stages. Ordered clue hints appear one at a time, an explicitly typed `detailed` hint can provide stronger help, and only after all hints are viewed does **Show Me** expose the text reveal. The dedicated image/exact-reference presentation remains reserved for the later reveal-screen effort.
 
-### #11 Hunt screen
+Hint progress is local and offline. `UserProgress` records the highest hint order viewed plus whether the reveal has been opened, and `UserDefaultsUserProgressStore` persists that state. Reopening a hunt restores all previously viewed help instead of starting over. Hint progress is monotonic, so an older/lower stage can never overwrite a newer one.
 
-The temporary discovery handoff has been replaced by a dedicated SwiftUI gameplay screen. It loads the selected discovery through the content layer, shows category/difficulty plus land/area context, gives the first ordered clue prominent visual priority, and reinforces the product rule to look at the park instead of the phone.
+The first bundled prototype record now exercises the full development ladder:
 
-The hunt screen has explicit loading, unavailable, and catalog-failure states and keeps its active control at the bottom for easy one-handed use. It intentionally does **not** reveal later clues or persist found state yet; those behaviors belong to the following gameplay efforts.
+```text
+Clue 1 → Clue 2 → Detailed Hint → Show Me
+```
+
+Existing content remains compatible: a hint without an explicit kind is treated as a normal clue.
 
 ## Architecture
 
@@ -38,10 +31,11 @@ ParkHunt/
 │   ├── Content/
 │   ├── Domain/
 │   ├── Location/
-│   └── Nearby/
+│   ├── Nearby/
+│   └── Progress/ Local user-progress persistence
 ├── Features/
 │   ├── Home/
-│   ├── Hunt/     Gameplay presentation + hunt screen
+│   ├── Hunt/     Presentation + progression state machine + UI
 │   └── Nearby/
 └── Resources/
 
@@ -81,4 +75,4 @@ xcodebuild \
 
 ## Next effort
 
-**#12 Progressive hint system:** reveal Clue 2 → detailed hint → full reveal in controlled steps and persist the highest hint stage viewed.
+**#13 Spoiler settings:** add Explorer / Normal / Help Me / Show Me preferences that control how aggressively the hunt screen offers assistance without changing the underlying clue progression.

@@ -31,6 +31,16 @@ struct Hint: Codable, Equatable, Hashable, Identifiable, Sendable {
     let id: String
     let order: Int
     let text: String
+    let kind: HintKind? = nil
+
+    var resolvedKind: HintKind {
+        kind ?? .clue
+    }
+}
+
+enum HintKind: String, Codable, CaseIterable, Hashable, Sendable {
+    case clue
+    case detailed
 }
 
 enum Difficulty: String, Codable, CaseIterable, Hashable, Sendable {

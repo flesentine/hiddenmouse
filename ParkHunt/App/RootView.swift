@@ -3,6 +3,7 @@ import SwiftUI
 struct RootView: View {
     let environment: AppEnvironment
     let contentLoader: ContentLoader
+    let progressStore: any UserProgressStoring
 
     var body: some View {
         NavigationStack {
@@ -10,7 +11,8 @@ struct RootView: View {
                 .navigationDestination(for: String.self) { discoveryID in
                     HuntView(
                         discoveryID: discoveryID,
-                        contentLoader: contentLoader
+                        contentLoader: contentLoader,
+                        progressStore: progressStore
                     )
                 }
         }
@@ -20,6 +22,7 @@ struct RootView: View {
 #Preview {
     RootView(
         environment: .development,
-        contentLoader: ContentLoader()
+        contentLoader: ContentLoader(),
+        progressStore: MemoryUserProgressStore()
     )
 }

@@ -3,10 +3,12 @@ import SwiftUI
 struct HuntView: View {
     let discoveryID: String
     let contentLoader: ContentLoader
+    let progressStore: any UserProgressStoring
 
     @Environment(\.dismiss) private var dismiss
 
     @State private var presentation: HuntPresentation?
+    @State private var userProgress = UserProgress()
     @State private var loadState: LoadState = .loading
 
     var body: some View {
@@ -35,22 +37,39 @@ struct HuntView: View {
     private func huntContent(
         _ presentation: HuntPresentation
     ) -> some View {
-        ScrollView {
+        let progression = progressionState(for: presentation)
+
+        return ScrollView {
             VStack(alignment: .leading, spacing: 22) {
                 huntHeader(presentation)
 
-                clueCard(presentation)
+                ForEach(
+                    Array(progression.visibleHints.enumerated()),
+                    id: \.element.id
+                ) { index, hint in
+                    hintCard(
+                        hint,
+                        visibleIndex: index,
+                        totalHintCount: presentation.discovery.hints.count
+                    )
+                }
 
-                instructionCard
+                if progression.isRevealVisible {
+                    revealCard(presentation)
+                } else {
+                    instructionCard
+                }
 
-                Spacer(minLength: 100)
+                Spacer(minLength: 120)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.horizontal, 20)
             .padding(.top, 12)
         }
         .safeAreaInset(edge: .bottom) {
-            huntControls
+            huntControls(
+                progression: progression
+            )
         }
     }
 
@@ -85,37 +104,63 @@ struct HuntView: View {
         .accessibilityElement(children: .combine)
     }
 
-    private func clueCard(
-        _ presentation: HuntPresentation
+    private func hintCard(
+        _ hint: Hint,
+        visibleIndex: Int,
+        totalHintCount: Int
     ) -> some View {
         VStack(alignment: .leading, spacing: 14) {
             HStack {
-                Label("First Clue", systemImage: "lightbulb.fill")
-                    .font(.headline)
+                Label(
+                    hintTitle(hint, visibleIndex: visibleIndex),
+                    systemImage: hint.resolvedKind == .detailed
+                        ? "lifepreserver.fill"
+                        : "lightbulb.fill"
+                )
+                .font(.headline)
 
                 Spacer()
 
-                if let cluePositionText = presentation.cluePositionText {
-                    Text(cluePositionText)
+                if hint.resolvedKind == .clue {
+                    Text("Clue \(visibleIndex + 1) of \(max(totalHintCount - detailedHintCount, 1))")
                         .font(.caption.weight(.semibold))
                         .foregroundStyle(.secondary)
                 }
             }
 
-            if let firstHint = presentation.firstHint {
-                Text(firstHint.text)
-                    .font(.title3.weight(.medium))
-                    .fixedSize(horizontal: false, vertical: true)
-                    .accessibilityLabel("First clue: \(firstHint.text)")
-            } else {
-                Text("This hunt does not have a clue available yet.")
-                    .font(.body)
-                    .foregroundStyle(.secondary)
-            }
+            Text(hint.text)
+                .font(.title3.weight(.medium))
+                .fixedSize(horizontal: false, vertical: true)
+                .accessibilityLabel(
+                    "\(hintTitle(hint, visibleIndex: visibleIndex)): \(hint.text)"
+                )
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(20)
         .background(.background, in: RoundedRectangle(cornerRadius: 22))
+    }
+
+    private func revealCard(
+        _ presentation: HuntPresentation
+    ) -> some View {
+        VStack(alignment: .leading, spacing: 14) {
+            Label("Full Reveal", systemImage: "eye.fill")
+                .font(.headline)
+
+            Text(presentation.discovery.revealDescription)
+                .font(.title3.weight(.medium))
+                .fixedSize(horizontal: false, vertical: true)
+
+            Text(
+                "The reveal photo and exact visual reference are added in the dedicated reveal-screen effort."
+            )
+            .font(.caption)
+            .foregroundStyle(.secondary)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(20)
+        .background(.background, in: RoundedRectangle(cornerRadius: 22))
+        .accessibilityElement(children: .combine)
     }
 
     private var instructionCard: some View {
@@ -130,7 +175,7 @@ struct HuntView: View {
                     .font(.subheadline.weight(.semibold))
 
                 Text(
-                    "Use the clue as a nudge, then explore the area around you. More help should only be needed if you get stuck."
+                    "Try each clue in the park before asking for more help. The app will remember how far you got."
                 )
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
@@ -141,20 +186,40 @@ struct HuntView: View {
         .accessibilityElement(children: .combine)
     }
 
-    private var huntControls: some View {
-        VStack(spacing: 8) {
-            Text("Keep exploring the area with the first clue.")
-                .font(.caption)
-                .foregroundStyle(.secondary)
+    private func huntControls(
+        progression: HuntProgressionState
+    ) -> some View {
+        VStack(spacing: 10) {
+            if let action = progression.nextAction {
+                Button {
+                    reveal(action)
+                } label: {
+                    Label(
+                        action.buttonTitle,
+                        systemImage: action.systemImageName
+                    )
+                    .frame(maxWidth: .infinity, minHeight: 48)
+                }
+                .buttonStyle(.borderedProminent)
+                .accessibilityHint(
+                    accessibilityHint(for: action)
+                )
+            } else {
+                Text("You’ve revealed all available help for this hunt.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
 
             Button {
                 dismiss()
             } label: {
                 Label("Back to Hunts", systemImage: "chevron.left")
-                    .frame(maxWidth: .infinity, minHeight: 48)
+                    .frame(maxWidth: .infinity, minHeight: 44)
             }
             .buttonStyle(.bordered)
-            .accessibilityHint("Leaves this hunt and returns to the hunt list")
+            .accessibilityHint(
+                "Leaves this hunt. Your clue progress is saved."
+            )
         }
         .padding(.horizontal, 20)
         .padding(.top, 10)
@@ -199,15 +264,98 @@ struct HuntView: View {
         }
     }
 
+    private var detailedHintCount: Int {
+        presentation?.discovery.hints.filter {
+            $0.resolvedKind == .detailed
+        }.count ?? 0
+    }
+
+    private func progressionState(
+        for presentation: HuntPresentation
+    ) -> HuntProgressionState {
+        HuntProgressionState.make(
+            discovery: presentation.discovery,
+            progress: userProgress.progress(
+                for: presentation.discovery.id
+            )
+        )
+    }
+
+    private func hintTitle(
+        _ hint: Hint,
+        visibleIndex: Int
+    ) -> String {
+        switch hint.resolvedKind {
+        case .clue:
+            visibleIndex == 0 ? "First Clue" : "Clue \(visibleIndex + 1)"
+        case .detailed:
+            "Detailed Hint"
+        }
+    }
+
+    private func accessibilityHint(
+        for action: HuntProgressionAction
+    ) -> String {
+        switch action {
+        case let .revealHint(hint):
+            hint.resolvedKind == .detailed
+                ? "Reveals a more specific hint"
+                : "Reveals the next clue"
+        case .revealLocation:
+            "Reveals the answer for this hunt"
+        }
+    }
+
+    private func reveal(
+        _ action: HuntProgressionAction
+    ) {
+        guard let presentation else {
+            return
+        }
+
+        withAnimation {
+            switch action {
+            case let .revealHint(hint):
+                userProgress.recordHintViewed(
+                    discoveryID: presentation.discovery.id,
+                    order: hint.order
+                )
+            case .revealLocation:
+                userProgress.recordRevealViewed(
+                    discoveryID: presentation.discovery.id
+                )
+            }
+
+            progressStore.save(userProgress)
+        }
+    }
+
     private func load() {
         loadState = .loading
 
         do {
             let snapshot = try contentLoader.load()
-            presentation = HuntPresentation.make(
+            guard let loadedPresentation = HuntPresentation.make(
                 discoveryID: discoveryID,
                 snapshot: snapshot
-            )
+            ) else {
+                presentation = nil
+                loadState = .loaded
+                return
+            }
+
+            var loadedProgress = progressStore.load()
+
+            if let firstHint = loadedPresentation.discovery.sortedHints.first {
+                loadedProgress.recordHintViewed(
+                    discoveryID: loadedPresentation.discovery.id,
+                    order: firstHint.order
+                )
+                progressStore.save(loadedProgress)
+            }
+
+            userProgress = loadedProgress
+            presentation = loadedPresentation
             loadState = .loaded
         } catch {
             presentation = nil
@@ -226,7 +374,8 @@ struct HuntView: View {
     NavigationStack {
         HuntView(
             discoveryID: "prototype-secret-001",
-            contentLoader: ContentLoader()
+            contentLoader: ContentLoader(),
+            progressStore: MemoryUserProgressStore()
         )
     }
 }

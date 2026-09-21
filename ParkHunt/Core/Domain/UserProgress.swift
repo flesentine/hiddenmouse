@@ -16,6 +16,32 @@ struct UserProgress: Codable, Equatable, Sendable {
         discoveries[discoveryID] ?? DiscoveryProgress(discoveryID: discoveryID)
     }
 
+    mutating func recordHintViewed(
+        discoveryID: String,
+        order: Int,
+        at date: Date = Date()
+    ) {
+        var current = progress(for: discoveryID)
+        current.highestHintOrderViewed = max(
+            current.highestHintOrderViewed ?? order,
+            order
+        )
+        current.lastViewedAt = date
+        discoveries[discoveryID] = current
+        lastUpdatedAt = date
+    }
+
+    mutating func recordRevealViewed(
+        discoveryID: String,
+        at date: Date = Date()
+    ) {
+        var current = progress(for: discoveryID)
+        current.didRevealLocation = true
+        current.lastViewedAt = date
+        discoveries[discoveryID] = current
+        lastUpdatedAt = date
+    }
+
     var foundDiscoveryIDs: Set<String> {
         Set(
             discoveries.values

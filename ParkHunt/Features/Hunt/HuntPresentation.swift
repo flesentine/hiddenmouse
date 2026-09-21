@@ -4,7 +4,6 @@ struct HuntPresentation: Equatable, Sendable {
     let discovery: Discovery
     let landName: String?
     let areaName: String?
-    let firstHint: Hint?
 
     static func make(
         discoveryID: String,
@@ -22,8 +21,7 @@ struct HuntPresentation: Equatable, Sendable {
         return HuntPresentation(
             discovery: discovery,
             landName: landName,
-            areaName: areaName,
-            firstHint: discovery.sortedHints.first
+            areaName: areaName
         )
     }
 
@@ -38,14 +36,6 @@ struct HuntPresentation: Equatable, Sendable {
         case (nil, nil):
             nil
         }
-    }
-
-    var cluePositionText: String? {
-        guard firstHint != nil else {
-            return nil
-        }
-
-        return "Clue 1 of \(max(discovery.hints.count, 1))"
     }
 }
 
