@@ -109,7 +109,7 @@ struct RevealView: View {
                             .font(.subheadline.weight(.semibold))
 
                         Text(
-                            "The exact text reveal is still available. Original reference photos will be added with verified prototype content."
+                            "The exact location is still shown above. A reference photo isn’t available for this hunt yet."
                         )
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
