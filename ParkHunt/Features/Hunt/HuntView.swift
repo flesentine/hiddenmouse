@@ -151,11 +151,9 @@ struct HuntView: View {
                 .font(.title3.weight(.medium))
                 .fixedSize(horizontal: false, vertical: true)
 
-            Text(
-                "The reveal photo and exact visual reference are added in the dedicated reveal-screen effort."
-            )
-            .font(.caption)
-            .foregroundStyle(.secondary)
+            Text("Answer revealed")
+                .font(.caption.weight(.semibold))
+                .foregroundStyle(.secondary)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(20)
