@@ -4,22 +4,24 @@ Park Hunt is an iPhone-first scavenger-hunt companion for discovering hidden det
 
 ## Completed efforts
 
-### #1–#12 Foundation + progressive gameplay
+### #1–#13 Foundation + spoiler-controlled gameplay
 
-Park Hunt now has offline validated content, Home, contextual foreground location, manual park/land browsing, Nearby ranking and selection, a real Hunt screen, progressive hints, text reveal, and locally persisted hunt-stage progress.
+Park Hunt now has offline validated content, Home, contextual foreground location, manual park/land browsing, Nearby ranking and selection, progressive Hunt gameplay, persisted hint/reveal progress, and persistent Explorer / Normal / Help Me / Show Me help styles.
 
-### #13 Spoiler settings
+### #14 Reveal screen
 
-A persistent **Help Style** preference now controls how aggressively the Hunt screen offers assistance without automatically revealing anything.
+**Show Me** now opens a dedicated Reveal screen instead of placing spoiler text inside the Hunt clue stack.
 
-- **Explorer** keeps the next help action visually secondary.
-- **Normal** offers the standard next clue in the primary action.
-- **Help Me** promotes the stronger detailed hint when one remains, while preserving the normal next clue as a secondary option.
-- **Show Me** promotes the full reveal immediately, while preserving the normal next step as a secondary option.
+The Reveal screen shows:
 
-Preferences are stored locally in UserDefaults and default to **Normal**. Home exposes a focused Help Style screen from the toolbar. This is intentionally narrower than the future full Settings screen, which can later absorb the same preference/store.
+- the discovery and park/land/area context,
+- a dedicated **Exact Location** text reveal,
+- an original packaged reference photo when `revealImageName` points to an available app asset,
+- a clear no-photo state when verified content does not yet have an image.
 
-The underlying clue progression remains unchanged. A mode never reveals content just because it is selected; the user must still tap the corresponding action.
+Opening Show Me records `didRevealLocation` before navigation, so closing and reopening the hunt preserves that the reveal was viewed. The Hunt screen then shows **View Reveal Again** without duplicating the spoiler content inline.
+
+Photo loading is intentionally minimal here. Compression, thumbnail strategy, and larger image-pipeline work remain in the dedicated image-handling effort.
 
 ## Architecture
 
@@ -32,12 +34,13 @@ ParkHunt/
 │   ├── Location/
 │   ├── Nearby/
 │   ├── Progress/
-│   └── Settings/ Persistent help-style preference
+│   └── Settings/
 ├── Features/
 │   ├── Home/
-│   ├── Hunt/     Progression + help-style policy
+│   ├── Hunt/
 │   ├── Nearby/
-│   └── Settings/ Focused Help Style UI
+│   ├── Reveal/   Exact-location + packaged reference-photo UI
+│   └── Settings/
 └── Resources/
 
 ParkHuntTests/
@@ -76,4 +79,4 @@ xcodebuild \
 
 ## Next effort
 
-**#14 Reveal screen:** turn Show Me into the dedicated exact-location/original-reference-photo experience, while keeping it behind an explicit user action.
+**#15 Found flow:** add **I Found It**, persist completion, update progress, provide a success state, and trigger a subtle success haptic.

@@ -12,6 +12,7 @@ struct HuntView: View {
     @State private var userProgress = UserProgress()
     @State private var spoilerPreference: SpoilerPreference = .normal
     @State private var loadState: LoadState = .loading
+    @State private var isRevealPresented = false
 
     var body: some View {
         Group {
@@ -31,6 +32,12 @@ struct HuntView: View {
         .background(Color(.systemGroupedBackground))
         .navigationTitle("Hunt")
         .navigationBarTitleDisplayMode(.inline)
+        .navigationDestination(isPresented: $isRevealPresented) {
+            RevealView(
+                discoveryID: discoveryID,
+                contentLoader: contentLoader
+            )
+        }
         .task {
             load()
         }
@@ -62,7 +69,7 @@ struct HuntView: View {
                 }
 
                 if progression.isRevealVisible {
-                    revealCard(presentation)
+                    revealViewedCard
                 } else {
                     instructionCard
                 }
@@ -157,25 +164,29 @@ struct HuntView: View {
         .background(.background, in: RoundedRectangle(cornerRadius: 22))
     }
 
-    private func revealCard(
-        _ presentation: HuntPresentation
-    ) -> some View {
+    private var revealViewedCard: some View {
         VStack(alignment: .leading, spacing: 14) {
-            Label("Full Reveal", systemImage: "eye.fill")
+            Label("Reveal Viewed", systemImage: "eye.fill")
                 .font(.headline)
 
-            Text(presentation.discovery.revealDescription)
-                .font(.title3.weight(.medium))
-                .fixedSize(horizontal: false, vertical: true)
+            Text(
+                "You’ve opened the full answer for this hunt. The spoiler stays on its own screen."
+            )
+            .font(.subheadline)
+            .foregroundStyle(.secondary)
 
-            Text("Answer revealed")
-                .font(.caption.weight(.semibold))
-                .foregroundStyle(.secondary)
+            Button {
+                isRevealPresented = true
+            } label: {
+                Label("View Reveal Again", systemImage: "eye")
+                    .frame(maxWidth: .infinity, minHeight: 44)
+            }
+            .buttonStyle(.bordered)
+            .accessibilityHint("Opens the full reveal screen")
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(20)
         .background(.background, in: RoundedRectangle(cornerRadius: 22))
-        .accessibilityElement(children: .combine)
     }
 
     private var instructionCard: some View {
@@ -255,7 +266,7 @@ struct HuntView: View {
     ) -> some View {
         if prominent {
             Button {
-                reveal(action)
+                perform(action)
             } label: {
                 Label(
                     actionTitle(action),
@@ -269,7 +280,7 @@ struct HuntView: View {
             )
         } else {
             Button {
-                reveal(action)
+                perform(action)
             } label: {
                 Label(
                     actionTitle(action),
@@ -369,11 +380,11 @@ struct HuntView: View {
                 ? "Reveals a more specific hint"
                 : "Reveals the next clue"
         case .revealLocation:
-            "Reveals the answer for this hunt"
+            "Opens the full reveal screen for this hunt"
         }
     }
 
-    private func reveal(
+    private func perform(
         _ action: HuntProgressionAction
     ) {
         guard let presentation else {
@@ -394,6 +405,10 @@ struct HuntView: View {
             }
 
             progressStore.save(userProgress)
+        }
+
+        if action == .revealLocation {
+            isRevealPresented = true
         }
     }
 
