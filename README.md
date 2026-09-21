@@ -4,28 +4,29 @@ Park Hunt is an iPhone-first scavenger-hunt companion for discovering hidden det
 
 ## Completed efforts
 
-### #1–#16 Core hunt loop
+### #1–#17 Core loop + progress
 
-Park Hunt now supports offline content, GPS/manual discovery browsing, ranked hunt selection, progressive clues, spoiler controls, full reveal, persistent completion, and the **Find Another** loop.
+Park Hunt now supports offline content, GPS/manual browsing, ranked hunt selection, progressive clues, spoiler controls, Reveal, persistent completion, Find Another, and reusable progress summaries.
 
-### #17 Progress tracking
+### #18 Collection screen
 
-Saved hunt state now feeds a reusable `ProgressSummary` layer rather than living only inside individual screens.
+Home now links to a dedicated **Collection** browser backed by the same offline content snapshot and persisted progress.
 
-The summary reports:
+Every currently huntable discovery is represented as one of:
 
-- total currently huntable discoveries,
-- started, found, and remaining counts,
-- overall completion fraction,
-- completion by land,
-- completion by discovery category,
-- most recent activity and its timestamp,
-- most recently found discovery and its original `foundAt` timestamp,
-- the persisted progress `lastUpdatedAt` timestamp.
+- **Found** — completed with its original found date,
+- **Started** — opened or given help but not yet completed,
+- **Unfound** — untouched.
 
-Removed and temporarily unavailable discoveries do not inflate current completion totals. Historical progress can remain stored, but percentages are calculated against the current huntable catalog.
+Collection filters can be combined across:
 
-Home now includes a compact **Progress** card that refreshes whenever Home reappears. A dedicated Progress screen shows overall completion, land/category breakdowns, recent activity, and last-found details. This summary is intentionally reusable so the Collection screen can build on the same source in #18.
+- status: All / Found / Unfound / Started,
+- land,
+- discovery category.
+
+The full collection stays in stable catalog order by land, area, and title. Removed and temporarily unavailable discoveries are excluded from the current collection.
+
+Each row shows title, difficulty, land, attraction/area when available, status, and the relevant found/last-opened date. Rows remain navigable, so completed discoveries can be deliberately reopened to revisit their saved hunt and reveal state.
 
 ## Architecture
 
@@ -33,18 +34,20 @@ Home now includes a compact **Progress** card that refreshes whenever Home reapp
 ParkHunt/
 ├── App/
 ├── Core/
+│   ├── Collection/ Filtered collection snapshot
 │   ├── Content/
 │   ├── Domain/
 │   ├── Feedback/
 │   ├── Location/
 │   ├── Nearby/
-│   ├── Progress/ Summary + local persistence
+│   ├── Progress/
 │   └── Settings/
 ├── Features/
-│   ├── Home/     Compact progress entry
+│   ├── Collection/ Browse + filter + revisit
+│   ├── Home/
 │   ├── Hunt/
 │   ├── Nearby/
-│   ├── Progress/ Detailed progress overview
+│   ├── Progress/
 │   ├── Reveal/
 │   └── Settings/
 └── Resources/
@@ -85,4 +88,4 @@ xcodebuild \
 
 ## Next effort
 
-**#18 Collection screen:** browse found/unfound discoveries, filter the collection, and revisit completed finds using the same persisted progress and content snapshot.
+**#19 Settings screen:** consolidate location, Help Style, haptics, reset controls, and app/legal information into the full Settings experience.

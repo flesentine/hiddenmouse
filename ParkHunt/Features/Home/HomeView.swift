@@ -17,6 +17,8 @@ struct HomeView: View {
 
                 nearbyCard
 
+                collectionCard
+
                 if let progressSummary {
                     progressCard(progressSummary)
                 }
@@ -109,6 +111,44 @@ struct HomeView: View {
         }
         .buttonStyle(.plain)
         .accessibilityHint("Choose whether to use your location for Nearby")
+    }
+
+    private var collectionCard: some View {
+        NavigationLink {
+            CollectionView(
+                contentLoader: contentLoader,
+                progressStore: progressStore
+            )
+        } label: {
+            HStack(spacing: 14) {
+                Image(systemName: "square.grid.2x2.fill")
+                    .font(.title2)
+                    .accessibilityHidden(true)
+
+                VStack(alignment: .leading, spacing: 3) {
+                    Text("Collection")
+                        .font(.headline)
+
+                    Text("Browse found, started, and unfound hunts")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                }
+
+                Spacer()
+
+                Image(systemName: "chevron.right")
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(.secondary)
+                    .accessibilityHidden(true)
+            }
+            .frame(minHeight: 52)
+            .padding(18)
+            .background(.background, in: RoundedRectangle(cornerRadius: 20))
+        }
+        .buttonStyle(.plain)
+        .accessibilityHint(
+            "Opens your discovery collection"
+        )
     }
 
     private func progressCard(
