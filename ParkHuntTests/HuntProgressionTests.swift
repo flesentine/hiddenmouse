@@ -66,6 +66,23 @@ final class HuntProgressionTests: XCTestCase {
         XCTAssertNil(state.nextAction)
     }
 
+    func testRevealRestoresAllHintsEvenWithOlderSavedHintOrder() {
+        let discovery = makeDiscovery()
+
+        let state = HuntProgressionState.make(
+            discovery: discovery,
+            progress: DiscoveryProgress(
+                discoveryID: discovery.id,
+                highestHintOrderViewed: 1,
+                didRevealLocation: true
+            )
+        )
+
+        XCTAssertEqual(state.visibleHints.map(\.id), ["h1", "h2", "h3"])
+        XCTAssertTrue(state.isRevealVisible)
+        XCTAssertNil(state.nextAction)
+    }
+
     func testHigherSavedOrderRestoresAllEarlierHints() {
         let discovery = makeDiscovery()
 

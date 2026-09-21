@@ -43,12 +43,18 @@ struct HuntProgressionState: Equatable, Sendable {
         progress: DiscoveryProgress
     ) -> HuntProgressionState {
         let hints = discovery.sortedHints
-        let firstOrder = hints.first?.order
+        let firstOrder = hints.first?.order ?? 0
+        let lastOrder = hints.last?.order ?? 0
 
-        let highestVisibleOrder = max(
-            progress.highestHintOrderViewed ?? firstOrder ?? 0,
-            firstOrder ?? 0
-        )
+        let highestVisibleOrder: Int
+        if progress.didRevealLocation {
+            highestVisibleOrder = lastOrder
+        } else {
+            highestVisibleOrder = max(
+                progress.highestHintOrderViewed ?? firstOrder,
+                firstOrder
+            )
+        }
 
         let visibleHints = hints.filter {
             $0.order <= highestVisibleOrder
@@ -59,12 +65,12 @@ struct HuntProgressionState: Equatable, Sendable {
         }
 
         let nextAction: HuntProgressionAction?
-        if let nextHint {
-            nextAction = .revealHint(nextHint)
-        } else if !progress.didRevealLocation {
-            nextAction = .revealLocation
-        } else {
+        if progress.didRevealLocation {
             nextAction = nil
+        } else if let nextHint {
+            nextAction = .revealHint(nextHint)
+        } else {
+            nextAction = .revealLocation
         }
 
         return HuntProgressionState(
