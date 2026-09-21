@@ -5,7 +5,8 @@ struct ManualLandBrowseView: View {
     let landName: String
     let contentLoader: ContentLoader
 
-    @State private var discoveries: [Discovery] = []
+    @State private var results: [NearbyDiscoveryResult] = []
+    @State private var snapshot: ContentSnapshot?
     @State private var loadFailed = false
     @State private var hasLoaded = false
 
@@ -19,33 +20,19 @@ struct ManualLandBrowseView: View {
                 )
             } else if !hasLoaded {
                 ProgressView("Loading hunts…")
-            } else if discoveries.isEmpty {
+            } else if results.isEmpty {
                 ContentUnavailableView(
                     "No Hunts Ready",
                     systemImage: "binoculars",
                     description: Text("There are no available discoveries in this land yet.")
                 )
             } else {
-                List(discoveries) { discovery in
-                    NavigationLink(value: discovery.id) {
-                        VStack(alignment: .leading, spacing: 6) {
-                            Text(discovery.title)
-                                .font(.headline)
-
-                            HStack(spacing: 12) {
-                                Label(
-                                    discovery.difficulty.displayName,
-                                    systemImage: "sparkles"
-                                )
-
-                                if let areaName = areaName(for: discovery) {
-                                    Label(areaName, systemImage: "mappin")
-                                }
-                            }
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                        }
-                        .padding(.vertical, 5)
+                List(results) { result in
+                    NavigationLink(value: result.discovery.id) {
+                        NearbyDiscoveryRow(
+                            result: result,
+                            areaName: areaName(for: result.discovery)
+                        )
                     }
                     .accessibilityHint("Starts this hunt")
                 }
@@ -65,21 +52,30 @@ struct ManualLandBrowseView: View {
         }
 
         do {
-            let snapshot = try contentLoader.load()
-            discoveries = snapshot.discoveries(inLand: landID)
+            let loadedSnapshot = try contentLoader.load()
+            snapshot = loadedSnapshot
+
+            results = NearbyDiscoveryEngine.results(
+                snapshot: loadedSnapshot,
+                context: NearbyDiscoveryContext(landID: landID),
+                filters: NearbyDiscoveryFilters(
+                    scope: .land(landID),
+                    found: .any
+                )
+            )
             loadFailed = false
         } catch {
-            discoveries = []
+            snapshot = nil
+            results = []
             loadFailed = true
         }
     }
 
     private func areaName(for discovery: Discovery) -> String? {
-        guard let areaID = discovery.areaID,
-              let snapshot = try? contentLoader.load() else {
+        guard let areaID = discovery.areaID else {
             return nil
         }
 
-        return snapshot.area(id: areaID)?.name
+        return snapshot?.area(id: areaID)?.name
     }
 }

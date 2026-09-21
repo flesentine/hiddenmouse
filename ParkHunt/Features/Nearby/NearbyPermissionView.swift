@@ -128,48 +128,76 @@ struct NearbyPermissionView: View {
 
     private func locatedCard(fix: LocationFix) -> some View {
         let context = nearbyContext(for: fix)
+        let results = nearbyResults(fix: fix, context: context)
 
-        return permissionCard {
-            Label("Location Found", systemImage: "location.fill")
-                .font(.headline)
+        return VStack(alignment: .leading, spacing: 16) {
+            permissionCard {
+                Label("Location Found", systemImage: "location.fill")
+                    .font(.headline)
 
-            if let context {
-                Text(contextTitle(context))
-                    .font(.title3.bold())
+                if let context {
+                    Text(contextTitle(context))
+                        .font(.title3.bold())
 
-                Text(contextDetail(context))
+                    Text(contextDetail(context))
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                } else {
+                    Text("No known park area nearby")
+                        .font(.title3.bold())
+
+                    Text(
+                        "Your location was found, but it isn’t close enough to an area in the current offline catalog."
+                    )
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
-            } else {
-                Text("No known park area nearby")
-                    .font(.title3.bold())
+                }
 
                 Text(
-                    "Your location was found, but it isn’t close enough to an area in the current offline catalog."
+                    "Accuracy about \(Int(fix.horizontalAccuracyMeters.rounded())) m"
                 )
-                .font(.subheadline)
+                .font(.caption)
                 .foregroundStyle(.secondary)
+
+                Button("Check Again") {
+                    locate()
+                }
+                .frame(maxWidth: .infinity, minHeight: 44)
+                .buttonStyle(.bordered)
+
+                NavigationLink {
+                    ManualAreaSelectionView(contentLoader: contentLoader)
+                } label: {
+                    Text(context == nil ? "Browse by Area" : "Browse Different Area")
+                        .frame(maxWidth: .infinity, minHeight: 44)
+                }
+                .buttonStyle(.bordered)
             }
 
-            Text(
-                "Accuracy about \(Int(fix.horizontalAccuracyMeters.rounded())) m"
-            )
-            .font(.caption)
-            .foregroundStyle(.secondary)
+            if !results.isEmpty {
+                VStack(alignment: .leading, spacing: 10) {
+                    Text("Nearby hunts")
+                        .font(.headline)
 
-            Button("Check Again") {
-                locate()
+                    ForEach(results.prefix(5)) { result in
+                        NavigationLink(value: result.discovery.id) {
+                            NearbyDiscoveryRow(
+                                result: result,
+                                areaName: areaName(for: result.discovery)
+                            )
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 6)
+                            .background(
+                                .background,
+                                in: RoundedRectangle(cornerRadius: 16)
+                            )
+                        }
+                        .buttonStyle(.plain)
+                        .accessibilityHint("Starts this nearby hunt")
+                    }
+                }
             }
-            .frame(maxWidth: .infinity, minHeight: 44)
-            .buttonStyle(.bordered)
-
-            NavigationLink {
-                ManualAreaSelectionView(contentLoader: contentLoader)
-            } label: {
-                Text(context == nil ? "Browse by Area" : "Browse Different Area")
-                    .frame(maxWidth: .infinity, minHeight: 44)
-            }
-            .buttonStyle(.bordered)
         }
     }
 
@@ -307,6 +335,39 @@ struct NearbyPermissionView: View {
             fix: fix,
             snapshot: snapshot
         )
+    }
+
+    private func nearbyResults(
+        fix: LocationFix,
+        context: NearbyContext?
+    ) -> [NearbyDiscoveryResult] {
+        guard let snapshot,
+              let context else {
+            return []
+        }
+
+        return NearbyDiscoveryEngine.results(
+            snapshot: snapshot,
+            context: NearbyDiscoveryContext(
+                parkID: context.parkID,
+                landID: context.landID,
+                areaID: context.areaID,
+                locationFix: fix
+            ),
+            filters: NearbyDiscoveryFilters(
+                scope: .park(context.parkID),
+                found: .any,
+                maximumDistanceMeters: NearbyContextResolver.maximumLandDistanceMeters
+            )
+        )
+    }
+
+    private func areaName(for discovery: Discovery) -> String? {
+        guard let areaID = discovery.areaID else {
+            return nil
+        }
+
+        return snapshot?.area(id: areaID)?.name
     }
 
     private func contextTitle(_ context: NearbyContext) -> String {

@@ -39,25 +39,25 @@ The immutable snapshot builds ID indexes and provides queries for lands, attract
 
 The app opens into a data-driven SwiftUI Home screen backed by `ContentLoader`. Home shows the first available prototype area, the real number of huntable discoveries, a featured discovery, and a large one-handed Start Hunt CTA.
 
-Loading, empty, and failure states are handled explicitly. Start Hunt navigates through a lightweight discovery handoff that proves navigation/content wiring without pre-building the later full hunt experience.
-
 ### #6 Location permission flow
 
 Home has a Nearby entry point, but the app does **not** request location on launch. Tapping Nearby first shows a contextual explanation. Only tapping **Use My Location** requests Apple's **When In Use** permission.
 
-Denied and restricted states have clear fallback UI. Users can continue without location, and denied users can jump to Settings if they later change their mind.
-
 ### #7 Location service
 
-Nearby requests a **single foreground location fix** only after permission is granted. The service rejects stale or invalid readings, identifies weak accuracy, and does not continuously track the user.
-
-A pure resolver compares the fix with offline discovery coordinates to infer the nearest known park/land and, only at closer range, attraction/area context. A 1.5 km ceiling prevents the app from labeling a distant user as being in the park simply because a park record is the nearest content.
+Nearby requests a **single foreground location fix** only after permission is granted. The service rejects stale or invalid readings, identifies weak accuracy, and does not continuously track the user. A pure resolver compares the fix with offline discovery coordinates to infer the nearest known park/land and closer attraction/area context.
 
 ### #8 Manual area selection
 
-Nearby now has a complete no-location path. Users can choose **Browse by Area**, select a park, select a land, see the available offline discoveries there, and start a hunt without granting location access.
+Nearby has a complete no-location path: choose **Browse by Area**, select a park and land, see the available offline discoveries there, and start a hunt without granting location access.
 
-The park and land lists are derived from the content catalog rather than hard-coded, so future lands appear automatically. Manual browsing is available before permission is requested, after denial/restriction, when GPS is weak/unavailable, and as an alternate area choice after a successful location fix.
+### #9 Nearby discovery engine
+
+A shared `NearbyDiscoveryEngine` now powers GPS and manual browsing. It accepts optional park/land/area/location context plus independent filters for scope, difficulty, found state, and maximum distance.
+
+Ranking is deterministic: matching area → matching land → matching park → unfound → known/closer distance → easier difficulty → title/ID. Removed and temporarily unavailable content never enters the engine. Manual land browsing and GPS Nearby both render the same ranked result type, so later next-hunt selection can build on a single source of ordering truth.
+
+The engine already accepts `UserProgress`; until progress persistence is implemented, current screens use the default empty progress state.
 
 ## Architecture
 
@@ -67,10 +67,11 @@ ParkHunt/
 ├── Core/
 │   ├── Content/  Source → loader/cache → immutable query snapshot
 │   ├── Domain/   Discovery/place/progress value types
-│   └── Location/ Permission, one-shot GPS, context resolver
+│   ├── Location/ Permission, one-shot GPS, context resolver
+│   └── Nearby/   Shared discovery filtering/ranking engine
 ├── Features/
 │   ├── Home/     Home presentation, screen, discovery handoff
-│   └── Nearby/   GPS Nearby + manual park/land browsing
+│   └── Nearby/   GPS + manual browsing using shared ranked results
 └── Resources/    Offline content catalog and app assets
 
 ParkHuntTests/    Unit tests
@@ -78,7 +79,7 @@ Config/           Build configuration
 .github/          CI and pull-request conventions
 ```
 
-The prototype starts with no network/backend dependency. Content/domain logic, user/game state, location, and presentation remain separate so later efforts can evolve independently.
+The prototype starts with no network/backend dependency.
 
 ## Open the project on a Mac
 
@@ -111,4 +112,4 @@ xcodebuild \
 
 ## Next effort
 
-**#9 Nearby discovery engine:** rank/filter discoveries using manual or location-derived context, approximate distance, difficulty, and found/unfound state.
+**#10 Discovery selection:** choose the best next hunt from ranked results while avoiding completed discoveries unless the user explicitly requests them.
