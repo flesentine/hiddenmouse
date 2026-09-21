@@ -7,6 +7,7 @@ struct ManualLandSelectionView: View {
 
     @State private var landOptions: [ManualLandOption] = []
     @State private var loadFailed = false
+    @State private var hasLoaded = false
 
     var body: some View {
         Group {
@@ -16,6 +17,8 @@ struct ManualLandSelectionView: View {
                     systemImage: "exclamationmark.triangle",
                     description: Text("Your offline park catalog couldn’t be opened.")
                 )
+            } else if !hasLoaded {
+                ProgressView("Loading lands…")
             } else if landOptions.isEmpty {
                 ContentUnavailableView(
                     "No Lands Available",
@@ -57,6 +60,10 @@ struct ManualLandSelectionView: View {
     }
 
     private func load() {
+        defer {
+            hasLoaded = true
+        }
+
         do {
             let snapshot = try contentLoader.load()
             landOptions = ManualAreaPresentation.lands(

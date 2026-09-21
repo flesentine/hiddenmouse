@@ -5,6 +5,7 @@ struct ManualAreaSelectionView: View {
 
     @State private var parkOptions: [ManualParkOption] = []
     @State private var loadFailed = false
+    @State private var hasLoaded = false
 
     var body: some View {
         Group {
@@ -14,8 +15,14 @@ struct ManualAreaSelectionView: View {
                     systemImage: "exclamationmark.triangle",
                     description: Text("Your offline park catalog couldn’t be opened.")
                 )
-            } else if parkOptions.isEmpty {
+            } else if !hasLoaded {
                 ProgressView("Loading parks…")
+            } else if parkOptions.isEmpty {
+                ContentUnavailableView(
+                    "No Parks Available",
+                    systemImage: "map",
+                    description: Text("There are no browsable parks in the current catalog yet.")
+                )
             } else {
                 List(parkOptions) { park in
                     NavigationLink {
@@ -52,6 +59,10 @@ struct ManualAreaSelectionView: View {
     }
 
     private func load() {
+        defer {
+            hasLoaded = true
+        }
+
         do {
             let snapshot = try contentLoader.load()
             parkOptions = ManualAreaPresentation.parks(from: snapshot)
