@@ -3,6 +3,7 @@ import Foundation
 protocol UserProgressStoring: AnyObject {
     func load() -> UserProgress
     func save(_ progress: UserProgress)
+    func reset()
 }
 
 final class UserDefaultsUserProgressStore: UserProgressStoring {
@@ -38,6 +39,10 @@ final class UserDefaultsUserProgressStore: UserProgressStoring {
 
         defaults.set(data, forKey: storageKey)
     }
+
+    func reset() {
+        defaults.removeObject(forKey: storageKey)
+    }
 }
 
 final class MemoryUserProgressStore: UserProgressStoring {
@@ -53,5 +58,9 @@ final class MemoryUserProgressStore: UserProgressStoring {
 
     func save(_ progress: UserProgress) {
         self.progress = progress
+    }
+
+    func reset() {
+        progress = UserProgress()
     }
 }

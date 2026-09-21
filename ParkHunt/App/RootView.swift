@@ -5,20 +5,23 @@ struct RootView: View {
     let contentLoader: ContentLoader
     let progressStore: any UserProgressStoring
     let spoilerPreferenceStore: any SpoilerPreferenceStoring
+    let hapticPreferenceStore: any HapticPreferenceStoring
 
     var body: some View {
         NavigationStack {
             HomeView(
                 contentLoader: contentLoader,
                 progressStore: progressStore,
-                spoilerPreferenceStore: spoilerPreferenceStore
+                spoilerPreferenceStore: spoilerPreferenceStore,
+                hapticPreferenceStore: hapticPreferenceStore
             )
             .navigationDestination(for: String.self) { discoveryID in
                 HuntView(
                     discoveryID: discoveryID,
                     contentLoader: contentLoader,
                     progressStore: progressStore,
-                    spoilerPreferenceStore: spoilerPreferenceStore
+                    spoilerPreferenceStore: spoilerPreferenceStore,
+                    hapticPreferenceStore: hapticPreferenceStore
                 )
             }
         }
@@ -30,6 +33,7 @@ struct RootView: View {
         environment: .development,
         contentLoader: ContentLoader(),
         progressStore: MemoryUserProgressStore(),
-        spoilerPreferenceStore: MemorySpoilerPreferenceStore()
+        spoilerPreferenceStore: MemorySpoilerPreferenceStore(),
+        hapticPreferenceStore: MemoryHapticPreferenceStore()
     )
 }

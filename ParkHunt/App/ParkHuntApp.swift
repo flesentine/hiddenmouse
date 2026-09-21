@@ -6,6 +6,7 @@ struct ParkHuntApp: App {
     private let contentLoader = ContentLoader()
     private let progressStore = UserDefaultsUserProgressStore()
     private let spoilerPreferenceStore = UserDefaultsSpoilerPreferenceStore()
+    private let hapticPreferenceStore = UserDefaultsHapticPreferenceStore()
 
     var body: some Scene {
         WindowGroup {
@@ -13,7 +14,8 @@ struct ParkHuntApp: App {
                 environment: environment,
                 contentLoader: contentLoader,
                 progressStore: progressStore,
-                spoilerPreferenceStore: spoilerPreferenceStore
+                spoilerPreferenceStore: spoilerPreferenceStore,
+                hapticPreferenceStore: hapticPreferenceStore
             )
         }
     }

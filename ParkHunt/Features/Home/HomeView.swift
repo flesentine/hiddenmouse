@@ -4,6 +4,7 @@ struct HomeView: View {
     let contentLoader: ContentLoader
     let progressStore: any UserProgressStoring
     let spoilerPreferenceStore: any SpoilerPreferenceStoring
+    let hapticPreferenceStore: any HapticPreferenceStoring
 
     @State private var presentation: HomePresentation?
     @State private var progressSummary: ProgressSummary?
@@ -42,13 +43,16 @@ struct HomeView: View {
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 NavigationLink {
-                    SpoilerSettingsView(
-                        store: spoilerPreferenceStore
+                    SettingsView(
+                        contentLoader: contentLoader,
+                        progressStore: progressStore,
+                        spoilerPreferenceStore: spoilerPreferenceStore,
+                        hapticPreferenceStore: hapticPreferenceStore
                     )
                 } label: {
-                    Image(systemName: "slider.horizontal.3")
+                    Image(systemName: "gearshape")
                 }
-                .accessibilityLabel("Help Style")
+                .accessibilityLabel("Settings")
             }
         }
         .task {
@@ -357,7 +361,8 @@ struct HomeView: View {
         HomeView(
             contentLoader: ContentLoader(),
             progressStore: MemoryUserProgressStore(),
-            spoilerPreferenceStore: MemorySpoilerPreferenceStore()
+            spoilerPreferenceStore: MemorySpoilerPreferenceStore(),
+            hapticPreferenceStore: MemoryHapticPreferenceStore()
         )
     }
 }

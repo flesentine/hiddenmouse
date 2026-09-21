@@ -5,6 +5,7 @@ struct HuntView: View {
     let contentLoader: ContentLoader
     let progressStore: any UserProgressStoring
     let spoilerPreferenceStore: any SpoilerPreferenceStoring
+    let hapticPreferenceStore: any HapticPreferenceStoring
 
     @Environment(\.dismiss) private var dismiss
 
@@ -491,7 +492,9 @@ struct HuntView: View {
             progressStore.save(userProgress)
         }
 
-        SuccessHaptic.play()
+        if hapticPreferenceStore.load() {
+            SuccessHaptic.play()
+        }
     }
 
     private func progressionState(
@@ -618,7 +621,8 @@ struct HuntView: View {
             discoveryID: "prototype-secret-001",
             contentLoader: ContentLoader(),
             progressStore: MemoryUserProgressStore(),
-            spoilerPreferenceStore: MemorySpoilerPreferenceStore()
+            spoilerPreferenceStore: MemorySpoilerPreferenceStore(),
+            hapticPreferenceStore: MemoryHapticPreferenceStore()
         )
     }
 }
