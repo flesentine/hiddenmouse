@@ -5,6 +5,7 @@ struct HomeView: View {
     let progressStore: any UserProgressStoring
     let spoilerPreferenceStore: any SpoilerPreferenceStoring
     let hapticPreferenceStore: any HapticPreferenceStoring
+    let activeHuntStore: any ActiveHuntStoring
 
     @State private var presentation: HomePresentation?
     @State private var progressSummary: ProgressSummary?
@@ -47,7 +48,8 @@ struct HomeView: View {
                         contentLoader: contentLoader,
                         progressStore: progressStore,
                         spoilerPreferenceStore: spoilerPreferenceStore,
-                        hapticPreferenceStore: hapticPreferenceStore
+                        hapticPreferenceStore: hapticPreferenceStore,
+                        activeHuntStore: activeHuntStore
                     )
                 } label: {
                     Image(systemName: "gearshape")
@@ -366,7 +368,8 @@ struct HomeView: View {
             contentLoader: ContentLoader(),
             progressStore: MemoryUserProgressStore(),
             spoilerPreferenceStore: MemorySpoilerPreferenceStore(),
-            hapticPreferenceStore: MemoryHapticPreferenceStore()
+            hapticPreferenceStore: MemoryHapticPreferenceStore(),
+            activeHuntStore: MemoryActiveHuntStore()
         )
     }
 }

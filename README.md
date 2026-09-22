@@ -4,24 +4,26 @@ Park Hunt is an iPhone-first scavenger-hunt companion for discovering hidden det
 
 ## Completed efforts
 
-### #1–#23 Core experience + one-handed hunt flow
+### #1–#24 Core experience + tactile hunt flow
 
-Park Hunt now supports the complete local hunt loop, offline image packaging/downsampling, progress, Collection, Settings, accessibility hardening, and a contextual bottom thumb tray for in-park use.
+Park Hunt now supports the complete local hunt loop, offline image packaging/downsampling, progress, Collection, Settings, accessibility, one-handed controls, and restrained hunt haptics.
 
-### #24 Haptics
+### #25 State restoration
 
-Hunt feedback now uses a restrained tactile hierarchy instead of limiting haptics to completion.
+Park Hunt now persists the active hunt separately from ordinary hunt progress so an interruption can return the player to the exact gameplay state.
 
-- revealing a normal clue uses a **light impact**,
-- revealing stronger/detailed help uses a **medium impact**,
-- opening the full **Show Me** reveal uses a distinct **rigid impact**,
-- **I Found It** keeps the stronger system **success notification** haptic.
+- starting an unfinished hunt records it as the active hunt,
+- reopening the app automatically returns to that unfinished discovery,
+- saved clue order is restored from the existing `UserProgress` data without advancing or rewriting the clue timestamp,
+- if **Show Me** was open when the app was interrupted, restoration returns through the Hunt and reopens the Reveal screen,
+- dismissing Reveal updates the active session back to the Hunt screen,
+- completing **I Found It** clears the active-hunt restoration target,
+- deliberately backing out of an unfinished Hunt while the app is active clears the restoration target,
+- removed/unavailable or already-completed discoveries are rejected as stale restoration targets,
+- a transient catalog-load failure does not erase the saved restoration target,
+- **Reset Hunt Progress** also clears the active-hunt session while preserving Help Style and haptics.
 
-The feedback only fires after Park Hunt has persisted the corresponding clue/reveal/found state. Reopening an already-viewed reveal does not fire a new hunt-progress haptic.
-
-The existing Settings → Haptics toggle controls all four feedback types. When haptics are disabled, Hunt state still saves normally and no tactile feedback is generated.
-
-A pure `HuntHapticPolicy` maps gameplay actions to semantic events and patterns, keeping UIKit feedback generation separate from game state and making the intensity hierarchy testable.
+The active session is stored locally in `UserDefaultsActiveHuntStore`; no account or network dependency is introduced.
 
 ## Verification
 
@@ -34,8 +36,8 @@ Verify offline core
 → Build for iOS Simulator
 ```
 
-Source tests cover normal clue, detailed help, full reveal, and found-success haptic policy. Full XCTest execution remains scheduled for #32.
+Source tests cover active-session persistence, stale/completed-session rejection, exact saved clue stage, and saved Reveal state. Full XCTest execution remains scheduled for #32.
 
 ## Next effort
 
-**#25 State restoration:** make reopening the app return cleanly to the active hunt and exact saved clue/reveal state after the app is closed or interrupted.
+**#26 Error states:** harden denied/no location, bad content, missing photo, no nearby hunts, and all-complete states with clear recovery actions.

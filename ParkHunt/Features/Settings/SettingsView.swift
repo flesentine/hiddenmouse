@@ -6,6 +6,7 @@ struct SettingsView: View {
     let progressStore: any UserProgressStoring
     let spoilerPreferenceStore: any SpoilerPreferenceStoring
     let hapticPreferenceStore: any HapticPreferenceStoring
+    let activeHuntStore: any ActiveHuntStoring
 
     @StateObject private var locationPermission = LocationPermissionController()
     @Environment(\.openURL) private var openURL
@@ -37,6 +38,7 @@ struct SettingsView: View {
             Button("Cancel", role: .cancel) {}
             Button("Reset Progress", role: .destructive) {
                 progressStore.reset()
+                activeHuntStore.clear()
                 didResetProgress = true
             }
         } message: {
@@ -213,7 +215,8 @@ struct SettingsView: View {
             contentLoader: ContentLoader(),
             progressStore: MemoryUserProgressStore(),
             spoilerPreferenceStore: MemorySpoilerPreferenceStore(),
-            hapticPreferenceStore: MemoryHapticPreferenceStore()
+            hapticPreferenceStore: MemoryHapticPreferenceStore(),
+            activeHuntStore: MemoryActiveHuntStore()
         )
     }
 }

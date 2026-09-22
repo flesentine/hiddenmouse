@@ -6,6 +6,9 @@ struct HuntView: View {
     let progressStore: any UserProgressStoring
     let spoilerPreferenceStore: any SpoilerPreferenceStoring
     let hapticPreferenceStore: any HapticPreferenceStoring
+    let activeHuntStore: any ActiveHuntStoring
+
+    @Environment(\.scenePhase) private var scenePhase
 
     @State private var presentation: HuntPresentation?
     @State private var snapshot: ContentSnapshot?
@@ -40,6 +43,14 @@ struct HuntView: View {
         }
         .task {
             load()
+        }
+        .onChange(of: isRevealPresented) { _, newValue in
+            updateActiveSession(
+                revealPresented: newValue
+            )
+        }
+        .onDisappear {
+            clearSessionForDeliberateExit()
         }
     }
 
@@ -523,6 +534,7 @@ struct HuntView: View {
             progressStore.save(userProgress)
         }
 
+        clearActiveSessionIfMatching()
         playHapticIfEnabled(.discoveryFound)
     }
 
@@ -616,6 +628,42 @@ struct HuntView: View {
         }
     }
 
+    private func updateActiveSession(
+        revealPresented: Bool
+    ) {
+        guard let presentation,
+              !isFound(presentation) else {
+            return
+        }
+
+        activeHuntStore.save(
+            ActiveHuntSession(
+                discoveryID: presentation.discovery.id,
+                isRevealPresented: revealPresented
+            )
+        )
+    }
+
+    private func clearActiveSessionIfMatching() {
+        guard activeHuntStore.load()?.discoveryID == discoveryID else {
+            return
+        }
+
+        activeHuntStore.clear()
+    }
+
+    private func clearSessionForDeliberateExit() {
+        guard scenePhase == .active,
+              !isRevealPresented,
+              activeHuntStore.load()?.discoveryID == discoveryID,
+              let presentation,
+              !isFound(presentation) else {
+            return
+        }
+
+        activeHuntStore.clear()
+    }
+
     private func playHapticIfEnabled(
         _ event: HuntHapticEvent
     ) {
@@ -643,8 +691,14 @@ struct HuntView: View {
             }
 
             var loadedProgress = progressStore.load()
+            let discoveryProgress = loadedProgress.progress(
+                for: loadedPresentation.discovery.id
+            )
 
-            if let firstHint = loadedPresentation.discovery.sortedHints.first {
+            if discoveryProgress.highestHintOrderViewed == nil,
+               !discoveryProgress.didRevealLocation,
+               !discoveryProgress.isFound,
+               let firstHint = loadedPresentation.discovery.sortedHints.first {
                 loadedProgress.recordHintViewed(
                     discoveryID: loadedPresentation.discovery.id,
                     order: firstHint.order
@@ -655,6 +709,26 @@ struct HuntView: View {
             userProgress = loadedProgress
             snapshot = loadedSnapshot
             presentation = loadedPresentation
+
+            let restoredSession = activeHuntStore.load()
+            let shouldRestoreReveal =
+                restoredSession?.discoveryID == loadedPresentation.discovery.id
+                && restoredSession?.isRevealPresented == true
+
+            if loadedProgress.progress(
+                for: loadedPresentation.discovery.id
+            ).isFound {
+                clearActiveSessionIfMatching()
+            } else {
+                activeHuntStore.save(
+                    ActiveHuntSession(
+                        discoveryID: loadedPresentation.discovery.id,
+                        isRevealPresented: shouldRestoreReveal
+                    )
+                )
+                isRevealPresented = shouldRestoreReveal
+            }
+
             loadState = .loaded
         } catch {
             snapshot = nil
@@ -677,7 +751,8 @@ struct HuntView: View {
             contentLoader: ContentLoader(),
             progressStore: MemoryUserProgressStore(),
             spoilerPreferenceStore: MemorySpoilerPreferenceStore(),
-            hapticPreferenceStore: MemoryHapticPreferenceStore()
+            hapticPreferenceStore: MemoryHapticPreferenceStore(),
+            activeHuntStore: MemoryActiveHuntStore()
         )
     }
 }
