@@ -4,25 +4,24 @@ Park Hunt is an iPhone-first scavenger-hunt companion for discovering hidden det
 
 ## Completed efforts
 
-### #1–#22 Core experience + accessibility
+### #1–#23 Core experience + one-handed hunt flow
 
-Park Hunt now supports the complete local hunt loop, offline image packaging/downsampling, progress, Collection, Settings, and an accessibility pass for Dynamic Type, VoiceOver, large tap targets, and non-color-only state.
+Park Hunt now supports the complete local hunt loop, offline image packaging/downsampling, progress, Collection, Settings, accessibility hardening, and a contextual bottom thumb tray for in-park use.
 
-### #23 One-handed UX polish
+### #24 Haptics
 
-The Hunt screen’s bottom safe-area tray is now reserved only for the actions a guest is most likely to use while walking.
+Hunt feedback now uses a restrained tactile hierarchy instead of limiting haptics to completion.
 
-- The duplicate **Back to Hunts** button was removed from the thumb tray; normal iOS navigation already provides Back.
-- Active hunts keep **I Found It** in the easiest bottom position with a 54 pt target.
-- The most relevant help action shares the thumb row with **I Found It** on normal text sizes.
-- At large Dynamic Type sizes the row stacks automatically, with **I Found It** remaining lowest/easiest to reach.
-- Explorer mode’s subtle **Need Help** action is promoted into the reachable main help slot without changing what it reveals.
-- Help Me / Show Me can keep one alternate, less-prominent help path above the main thumb row.
-- After completion, all clue/found controls disappear and the tray becomes a single prominent **Find Another** action.
-- The Found success card still previews the recommended next hunt, but no longer duplicates the button higher on the screen.
-- If there is no unfinished nearby hunt, the bottom tray disappears and the success card reports **Nearby set complete**.
+- revealing a normal clue uses a **light impact**,
+- revealing stronger/detailed help uses a **medium impact**,
+- opening the full **Show Me** reveal uses a distinct **rigid impact**,
+- **I Found It** keeps the stronger system **success notification** haptic.
 
-The behavior is represented by a pure `HuntThumbTrayState` model so active/completed action ordering can be tested independently of SwiftUI layout.
+The feedback only fires after Park Hunt has persisted the corresponding clue/reveal/found state. Reopening an already-viewed reveal does not fire a new hunt-progress haptic.
+
+The existing Settings → Haptics toggle controls all four feedback types. When haptics are disabled, Hunt state still saves normally and no tactile feedback is generated.
+
+A pure `HuntHapticPolicy` maps gameplay actions to semantic events and patterns, keeping UIKit feedback generation separate from game state and making the intensity hierarchy testable.
 
 ## Verification
 
@@ -35,8 +34,8 @@ Verify offline core
 → Build for iOS Simulator
 ```
 
-Source tests cover Normal, Explorer, Help Me, completed-next-hunt, and completed-with-no-next-action tray states. XCTest execution remains scheduled for #32.
+Source tests cover normal clue, detailed help, full reveal, and found-success haptic policy. Full XCTest execution remains scheduled for #32.
 
 ## Next effort
 
-**#24 Haptics:** keep the existing success haptic and add restrained clue/help feedback where it improves in-park interaction without becoming noisy.
+**#25 State restoration:** make reopening the app return cleanly to the active hunt and exact saved clue/reveal state after the app is closed or interrupted.

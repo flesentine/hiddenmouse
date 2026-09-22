@@ -127,6 +127,9 @@ struct SettingsView: View {
                     systemImage: "waveform"
                 )
             }
+            .accessibilityHint(
+                "Controls tactile feedback for clues, stronger help, full reveal, and found success"
+            )
         }
     }
 

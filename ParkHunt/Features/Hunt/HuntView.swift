@@ -523,9 +523,7 @@ struct HuntView: View {
             progressStore.save(userProgress)
         }
 
-        if hapticPreferenceStore.load() {
-            SuccessHaptic.play()
-        }
+        playHapticIfEnabled(.discoveryFound)
     }
 
     private func progressionState(
@@ -609,9 +607,23 @@ struct HuntView: View {
             progressStore.save(userProgress)
         }
 
+        playHapticIfEnabled(
+            HuntHapticPolicy.event(for: action)
+        )
+
         if action == .revealLocation {
             isRevealPresented = true
         }
+    }
+
+    private func playHapticIfEnabled(
+        _ event: HuntHapticEvent
+    ) {
+        guard hapticPreferenceStore.load() else {
+            return
+        }
+
+        HuntHaptics.play(event)
     }
 
     private func load() {
