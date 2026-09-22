@@ -12,23 +12,27 @@ struct NearbyDiscoveryRow: View {
             )
 
             VStack(alignment: .leading, spacing: 7) {
-                HStack(alignment: .firstTextBaseline) {
-                    Text(result.discovery.title)
-                        .font(.headline)
+                ViewThatFits(in: .horizontal) {
+                    HStack(alignment: .firstTextBaseline) {
+                        Text(result.discovery.title)
+                            .font(.headline)
 
-                    Spacer()
+                        Spacer()
 
-                    if result.isFound {
-                        Label("Found", systemImage: "checkmark.circle.fill")
-                            .labelStyle(.iconOnly)
-                            .foregroundStyle(.secondary)
-                            .accessibilityLabel("Already found")
+                        foundLabel
+                    }
+
+                    VStack(alignment: .leading, spacing: 5) {
+                        Text(result.discovery.title)
+                            .font(.headline)
+
+                        foundLabel
                     }
                 }
 
-                HStack(spacing: 12) {
+                AdaptiveMetadataView {
                     Label(
-                        result.discovery.difficulty.displayName,
+                        "\(result.discovery.difficulty.displayName) difficulty",
                         systemImage: "sparkles"
                     )
 
@@ -47,7 +51,23 @@ struct NearbyDiscoveryRow: View {
                 .foregroundStyle(.secondary)
             }
         }
-        .padding(.vertical, 5)
+        .padding(.vertical, 6)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(
+            ParkHuntAccessibility.nearbyResult(
+                result,
+                areaName: areaName
+            )
+        )
+    }
+
+    @ViewBuilder
+    private var foundLabel: some View {
+        if result.isFound {
+            Label("Found", systemImage: "checkmark.circle.fill")
+                .font(.caption.weight(.semibold))
+                .foregroundStyle(.secondary)
+        }
     }
 
     private func distanceText(_ meters: Double) -> String {

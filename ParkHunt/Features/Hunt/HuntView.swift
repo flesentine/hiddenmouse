@@ -98,14 +98,14 @@ struct HuntView: View {
         _ presentation: HuntPresentation
     ) -> some View {
         VStack(alignment: .leading, spacing: 12) {
-            HStack(spacing: 12) {
+            AdaptiveMetadataView {
                 Label(
                     presentation.discovery.category.displayName,
                     systemImage: presentation.discovery.category.systemImageName
                 )
 
                 Label(
-                    presentation.discovery.difficulty.displayName,
+                    "\(presentation.discovery.difficulty.displayName) difficulty",
                     systemImage: "gauge.with.dots.needle.33percent"
                 )
             }
@@ -115,6 +115,7 @@ struct HuntView: View {
             Text(presentation.discovery.title)
                 .font(.largeTitle.bold())
                 .fixedSize(horizontal: false, vertical: true)
+                .accessibilityAddTraits(.isHeader)
 
             if let locationText = presentation.locationText {
                 Label(locationText, systemImage: "mappin.and.ellipse")
@@ -138,32 +139,66 @@ struct HuntView: View {
         totalHintCount: Int
     ) -> some View {
         VStack(alignment: .leading, spacing: 14) {
-            HStack {
-                Label(
-                    hintTitle(hint, visibleIndex: visibleIndex),
-                    systemImage: hint.resolvedKind == .detailed
-                        ? "lifepreserver.fill"
-                        : "lightbulb.fill"
-                )
-                .font(.headline)
-
-                Spacer()
-
-                if hint.resolvedKind == .clue {
-                    Text(
-                        "Clue \(visibleIndex + 1) of \(max(totalHintCount - detailedHintCount, 1))"
+            ViewThatFits(in: .horizontal) {
+                HStack {
+                    Label(
+                        hintTitle(hint, visibleIndex: visibleIndex),
+                        systemImage: hint.resolvedKind == .detailed
+                            ? "lifepreserver.fill"
+                            : "lightbulb.fill"
                     )
-                    .font(.caption.weight(.semibold))
-                    .foregroundStyle(.secondary)
+                    .font(.headline)
+
+                    Spacer()
+
+                    if let position = hintPositionText(
+                        hint,
+                        visibleIndex: visibleIndex,
+                        totalHintCount: totalHintCount
+                    ) {
+                        Text(position)
+                            .font(.caption.weight(.semibold))
+                            .foregroundStyle(.secondary)
+                    }
+                }
+
+                VStack(alignment: .leading, spacing: 5) {
+                    Label(
+                        hintTitle(hint, visibleIndex: visibleIndex),
+                        systemImage: hint.resolvedKind == .detailed
+                            ? "lifepreserver.fill"
+                            : "lightbulb.fill"
+                    )
+                    .font(.headline)
+
+                    if let position = hintPositionText(
+                        hint,
+                        visibleIndex: visibleIndex,
+                        totalHintCount: totalHintCount
+                    ) {
+                        Text(position)
+                            .font(.caption.weight(.semibold))
+                            .foregroundStyle(.secondary)
+                    }
                 }
             }
 
             Text(hint.text)
                 .font(.title3.weight(.medium))
                 .fixedSize(horizontal: false, vertical: true)
-                .accessibilityLabel(
-                    "\(hintTitle(hint, visibleIndex: visibleIndex)): \(hint.text)"
-                )
+        }
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(
+            ParkHuntAccessibility.hint(
+                title: hintTitle(hint, visibleIndex: visibleIndex),
+                position: hintPositionText(
+                    hint,
+                    visibleIndex: visibleIndex,
+                    totalHintCount: totalHintCount
+                ),
+                text: hint.text
+            )
+        )
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(20)
@@ -185,7 +220,7 @@ struct HuntView: View {
                 isRevealPresented = true
             } label: {
                 Label("View Reveal Again", systemImage: "eye")
-                    .frame(maxWidth: .infinity, minHeight: 44)
+                    .frame(maxWidth: .infinity, minHeight: 48)
             }
             .buttonStyle(.bordered)
             .accessibilityHint("Opens the full reveal screen")
@@ -330,7 +365,7 @@ struct HuntView: View {
                 dismiss()
             } label: {
                 Label("Back to Hunts", systemImage: "chevron.left")
-                    .frame(maxWidth: .infinity, minHeight: 44)
+                    .frame(maxWidth: .infinity, minHeight: 48)
             }
             .buttonStyle(.bordered)
             .accessibilityHint(
@@ -370,7 +405,7 @@ struct HuntView: View {
                     actionTitle(action),
                     systemImage: action.systemImageName
                 )
-                .frame(maxWidth: .infinity, minHeight: 44)
+                .frame(maxWidth: .infinity, minHeight: 48)
             }
             .buttonStyle(.bordered)
             .accessibilityHint(
@@ -434,9 +469,9 @@ struct HuntView: View {
     private func nextHuntContext(
         _ result: NearbyDiscoveryResult
     ) -> some View {
-        HStack(spacing: 12) {
+        AdaptiveMetadataView {
             Label(
-                result.discovery.difficulty.displayName,
+                "\(result.discovery.difficulty.displayName) difficulty",
                 systemImage: "sparkles"
             )
 
@@ -506,6 +541,18 @@ struct HuntView: View {
                 for: presentation.discovery.id
             )
         )
+    }
+
+    private func hintPositionText(
+        _ hint: Hint,
+        visibleIndex: Int,
+        totalHintCount: Int
+    ) -> String? {
+        guard hint.resolvedKind == .clue else {
+            return nil
+        }
+
+        return "Clue \(visibleIndex + 1) of \(max(totalHintCount - detailedHintCount, 1))"
     }
 
     private func hintTitle(

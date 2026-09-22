@@ -45,6 +45,7 @@ struct RevealView: View {
                     Text(presentation.discovery.title)
                         .font(.largeTitle.bold())
                         .fixedSize(horizontal: false, vertical: true)
+                        .accessibilityAddTraits(.isHeader)
 
                     if let contextText = presentation.contextText {
                         Label(contextText, systemImage: "mappin.and.ellipse")
@@ -96,7 +97,7 @@ struct RevealView: View {
                     .frame(maxWidth: .infinity)
                     .clipShape(RoundedRectangle(cornerRadius: 16))
                     .accessibilityLabel(
-                        "Reference photo for \(presentation.discovery.title)"
+                        "Reference photo for \(presentation.discovery.title). Visual aid for the exact location."
                     )
             } else {
                 HStack(alignment: .top, spacing: 12) {

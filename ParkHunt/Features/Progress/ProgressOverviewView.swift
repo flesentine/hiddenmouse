@@ -68,36 +68,70 @@ struct ProgressOverviewView: View {
         _ summary: ProgressSummary
     ) -> some View {
         VStack(alignment: .leading, spacing: 16) {
-            HStack(alignment: .firstTextBaseline) {
-                Text("Overall")
-                    .font(.headline)
+            ViewThatFits(in: .horizontal) {
+                HStack(alignment: .firstTextBaseline) {
+                    Text("Overall")
+                        .font(.headline)
 
-                Spacer()
+                    Spacer()
 
-                Text(
-                    "\(summary.overall.found) / \(summary.overall.total)"
-                )
-                .font(.title2.bold())
-                .monospacedDigit()
+                    Text(
+                        "\(summary.overall.found) / \(summary.overall.total)"
+                    )
+                    .font(.title2.bold())
+                    .monospacedDigit()
+                }
+
+                VStack(alignment: .leading, spacing: 5) {
+                    Text("Overall")
+                        .font(.headline)
+
+                    Text(
+                        "\(summary.overall.found) / \(summary.overall.total) found"
+                    )
+                    .font(.title3.bold())
+                    .monospacedDigit()
+                }
             }
 
             ProgressView(
                 value: summary.overall.completionFraction
             )
+            .accessibilityLabel("Overall progress")
+            .accessibilityValue(
+                "\(summary.overall.found) of \(summary.overall.total) found"
+            )
 
-            HStack(spacing: 18) {
-                stat(
-                    value: summary.overall.found,
-                    label: "Found"
-                )
-                stat(
-                    value: summary.overall.started,
-                    label: "Started"
-                )
-                stat(
-                    value: summary.overall.remaining,
-                    label: "Remaining"
-                )
+            ViewThatFits(in: .horizontal) {
+                HStack(spacing: 18) {
+                    stat(
+                        value: summary.overall.found,
+                        label: "Found"
+                    )
+                    stat(
+                        value: summary.overall.started,
+                        label: "Started"
+                    )
+                    stat(
+                        value: summary.overall.remaining,
+                        label: "Remaining"
+                    )
+                }
+
+                VStack(alignment: .leading, spacing: 10) {
+                    stat(
+                        value: summary.overall.found,
+                        label: "Found"
+                    )
+                    stat(
+                        value: summary.overall.started,
+                        label: "Started"
+                    )
+                    stat(
+                        value: summary.overall.remaining,
+                        label: "Remaining"
+                    )
+                }
             }
 
             if let lastUpdatedAt = summary.lastUpdatedAt {
@@ -120,6 +154,7 @@ struct ProgressOverviewView: View {
             VStack(alignment: .leading, spacing: 12) {
                 Label("Recent", systemImage: "clock")
                     .font(.headline)
+                    .accessibilityAddTraits(.isHeader)
 
                 if let recentFound = summary.recentFound {
                     recentCard(
@@ -191,21 +226,38 @@ struct ProgressOverviewView: View {
 
             ForEach(rows) { row in
                 VStack(alignment: .leading, spacing: 8) {
-                    HStack {
-                        Text(row.title)
-                            .font(.subheadline.weight(.semibold))
+                    ViewThatFits(in: .horizontal) {
+                        HStack {
+                            Text(row.title)
+                                .font(.subheadline.weight(.semibold))
 
-                        Spacer()
+                            Spacer()
 
-                        Text(
-                            "\(row.count.found) / \(row.count.total)"
-                        )
-                        .font(.subheadline.monospacedDigit())
-                        .foregroundStyle(.secondary)
+                            Text(
+                                "\(row.count.found) / \(row.count.total)"
+                            )
+                            .font(.subheadline.monospacedDigit())
+                            .foregroundStyle(.secondary)
+                        }
+
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(row.title)
+                                .font(.subheadline.weight(.semibold))
+
+                            Text(
+                                "\(row.count.found) of \(row.count.total) found"
+                            )
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
+                        }
                     }
 
                     ProgressView(
                         value: row.count.completionFraction
+                    )
+                    .accessibilityLabel(row.title)
+                    .accessibilityValue(
+                        "\(row.count.found) of \(row.count.total) found"
                     )
                 }
                 .padding(16)

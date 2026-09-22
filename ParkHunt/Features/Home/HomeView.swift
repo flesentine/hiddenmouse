@@ -73,6 +73,7 @@ struct HomeView: View {
 
             Text("Discover what everyone else walks past.")
                 .font(.title2.bold())
+                .accessibilityAddTraits(.isHeader)
 
             Text("Pick a hunt, follow the clues, and keep your eyes on the park.")
                 .font(.subheadline)
@@ -192,6 +193,9 @@ struct HomeView: View {
             .background(.background, in: RoundedRectangle(cornerRadius: 20))
         }
         .buttonStyle(.plain)
+        .accessibilityLabel(
+            "Progress, \(summary.overall.found) of \(summary.overall.total) found. \(progressSubtitle(summary))"
+        )
         .accessibilityHint("Shows detailed hunt progress")
     }
 
@@ -260,7 +264,7 @@ struct HomeView: View {
                     Spacer()
                     Image(systemName: "arrow.right")
                 }
-                .frame(minHeight: 44)
+                .frame(minHeight: 48)
                 .padding(.horizontal, 16)
             }
             .buttonStyle(.borderedProminent)

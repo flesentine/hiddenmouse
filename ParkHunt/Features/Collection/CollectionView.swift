@@ -70,6 +70,7 @@ struct CollectionView: View {
                         Label("Clear", systemImage: "xmark.circle")
                     }
                     .buttonStyle(.bordered)
+        .controlSize(.large)
                 }
             }
             .padding(.horizontal, 16)
@@ -101,6 +102,7 @@ struct CollectionView: View {
             )
         }
         .buttonStyle(.bordered)
+        .controlSize(.large)
         .accessibilityLabel(
             "Status filter: \(filters.status.displayName)"
         )
@@ -138,6 +140,7 @@ struct CollectionView: View {
             )
         }
         .buttonStyle(.bordered)
+        .controlSize(.large)
         .accessibilityLabel(
             "Land filter: \(selectedLandName(collection))"
         )
@@ -178,6 +181,7 @@ struct CollectionView: View {
             )
         }
         .buttonStyle(.bordered)
+        .controlSize(.large)
         .accessibilityLabel(
             "Category filter: \(filters.category.map(categoryName) ?? "All Categories")"
         )
@@ -208,18 +212,27 @@ struct CollectionView: View {
             )
 
             VStack(alignment: .leading, spacing: 7) {
-                HStack(alignment: .firstTextBaseline, spacing: 10) {
-                    Text(item.discovery.title)
-                        .font(.headline)
+                ViewThatFits(in: .horizontal) {
+                    HStack(alignment: .firstTextBaseline, spacing: 10) {
+                        Text(item.discovery.title)
+                            .font(.headline)
 
-                    Spacer()
+                        Spacer()
 
-                    statusLabel(item)
+                        statusLabel(item)
+                    }
+
+                    VStack(alignment: .leading, spacing: 5) {
+                        Text(item.discovery.title)
+                            .font(.headline)
+
+                        statusLabel(item)
+                    }
                 }
 
-                HStack(spacing: 12) {
+                AdaptiveMetadataView {
                     Label(
-                        item.discovery.difficulty.displayName,
+                        "\(item.discovery.difficulty.displayName) difficulty",
                         systemImage: "sparkles"
                     )
 
@@ -239,7 +252,11 @@ struct CollectionView: View {
                 }
             }
         }
-        .padding(.vertical, 5)
+        .padding(.vertical, 6)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(
+            ParkHuntAccessibility.collectionItem(item)
+        )
     }
 
     @ViewBuilder

@@ -4,73 +4,32 @@ Park Hunt is an iPhone-first scavenger-hunt companion for discovering hidden det
 
 ## Completed efforts
 
-### #1–#20 Core experience + offline hardening
+### #1–#21 Core experience + offline images
 
-Park Hunt now supports the complete local hunt loop and has CI protection against accidental networking in the prototype core.
+Park Hunt now supports the complete local hunt loop, offline image packaging/downsampling, progress, Collection, Settings, and CI guards for offline/image integrity.
 
-### #21 Image handling
+### #22 Accessibility
 
-The app now has an offline, memory-conscious image pipeline for discovery thumbnails and full reveals.
+The core experience has been hardened for Dynamic Type and VoiceOver without capping the user’s preferred text size.
 
-Content can independently declare:
+- metadata rows use adaptive horizontal/vertical layouts instead of compressing text,
+- Hunt clue headers stack when accessibility text sizes need more room,
+- Progress totals and section rows adapt vertically at large text sizes,
+- custom action buttons use at least a **48 pt** tap target,
+- difficulty is always presented as text plus an icon,
+- Found / Started / Unfound states are explicit text and symbols rather than color-only states,
+- Nearby and Collection rows expose deterministic VoiceOver summaries with title, state, difficulty, location context, and distance/date when available,
+- Hunt clue cards expose clue title, clue position, and clue text as one meaningful VoiceOver element,
+- important page/section titles participate in VoiceOver’s heading rotor,
+- the Reveal image has descriptive alternative text while list thumbnails remain decorative,
+- Help Style choices expose both their description and selected/not-selected state,
+- progress bars expose numeric “x of y found” accessibility values.
 
-- `thumbnailImageName` — small list/browse artwork,
-- `revealImageName` — larger exact-reference artwork.
-
-Older JSON without `thumbnailImageName` remains compatible.
-
-### Runtime behavior
-
-`BundledRevealImageStore` now uses ImageIO thumbnail generation rather than decoding original photos at their full source size.
-
-- thumbnails are capped at **320 px**,
-- reveal images are capped at **1600 px**,
-- decoded images are cached by filename + requested pixel size,
-- images are loaded only from the application bundle.
-
-Collection and Nearby rows use the thumbnail asset when provided. Reveal uses the larger downsampled reveal asset.
-
-### Authoring / compression
-
-Use the bundled helper to turn one source photo into the two production variants:
-
-```bash
-./scripts/prepare-discovery-image.sh ~/Desktop/source.jpg pirates-secret-001
-```
-
-It produces:
-
-```text
-ParkHunt/Resources/Images/pirates-secret-001-thumb.jpg
-ParkHunt/Resources/Images/pirates-secret-001-reveal.jpg
-```
-
-and prints the two JSON fields to paste into the discovery record.
-
-The authoring sizes are:
-
-- thumbnail: max 320 px, JPEG normal quality,
-- reveal: max 1600 px, JPEG high quality.
-
-### CI packaging guard
-
-GitHub Actions now verifies image references before building.
-
-For every referenced image it requires:
-
-- filename-only references,
-- a packaged file in `ParkHunt/Resources/Images/`,
-- JPG/JPEG/HEIC/PNG format,
-- thumbnail file size no larger than **400 KB**,
-- reveal file size no larger than **2 MB**.
-
-The existing offline-readiness loader also verifies both thumbnail and reveal references exist in the installed bundle.
-
-The prototype discovery currently declares no images, so its behavior is unchanged until real field-test content is populated.
+The app continues to use semantic SwiftUI fonts and system foreground styles, so text responds to Dynamic Type and colors follow system contrast/appearance settings.
 
 ## Verification
 
-CI now runs:
+CI continues to run:
 
 ```text
 Verify offline core
@@ -79,29 +38,8 @@ Verify offline core
 → Build for iOS Simulator
 ```
 
-Unit-test source also covers backward-compatible image decoding, thumbnail/reveal round-tripping, and independent offline validation of the two image roles. The workflow still builds rather than runs XCTest; full test execution remains in #32.
-
-## Architecture
-
-```text
-ParkHunt/
-├── Core/
-│   ├── Content/  Bundle image store + downsampling
-│   └── Offline/  Referenced-image readiness validation
-├── Features/
-│   ├── Collection/ Thumbnail presentation
-│   ├── Nearby/     Thumbnail presentation
-│   ├── Reveal/     Downsampled reveal presentation
-│   └── Shared/     DiscoveryThumbnailView
-└── Resources/
-    └── Images/      Optimized packaged image variants
-
-scripts/
-├── prepare-discovery-image.sh
-├── verify-image-assets.py
-└── verify-offline-core.sh
-```
+Accessibility-label source tests are committed for Nearby, Collection, Hunt clue, and progress descriptions. Full XCTest execution remains part of #32; UI accessibility traversal testing remains part of #33.
 
 ## Next effort
 
-**#22 Accessibility:** Dynamic Type, VoiceOver, contrast, large tap areas, and non-color-only difficulty/status presentation across the core hunt flow.
+**#23 One-handed UX polish:** move the highest-frequency hunt actions into the easiest thumb zone and tighten button ordering/spacing for in-park use.

@@ -41,11 +41,15 @@ struct SpoilerSettingsView: View {
                                     .accessibilityLabel("Selected")
                             }
                         }
-                        .padding(.vertical, 5)
+                        .padding(.vertical, 6)
+                        .parkHuntTapTarget()
                     }
                     .buttonStyle(.plain)
+                    .accessibilityLabel(
+                        "\(preference.displayName). \(preference.description)"
+                    )
                     .accessibilityValue(
-                        selection == preference ? "Selected" : ""
+                        selection == preference ? "Selected" : "Not selected"
                     )
                 }
             } header: {

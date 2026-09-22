@@ -67,6 +67,7 @@ struct NearbyPermissionView: View {
 
             Text("Find discoveries around you")
                 .font(.title2.bold())
+                .accessibilityAddTraits(.isHeader)
 
             Text(
                 "Use your location for a quick nearby check, or browse the park manually."
@@ -92,7 +93,7 @@ struct NearbyPermissionView: View {
                 permission.requestWhenInUse()
             } label: {
                 Label("Use My Location", systemImage: "location.fill")
-                    .frame(maxWidth: .infinity, minHeight: 44)
+                    .frame(maxWidth: .infinity, minHeight: 48)
             }
             .buttonStyle(.borderedProminent)
 
@@ -172,7 +173,7 @@ struct NearbyPermissionView: View {
                             "Start Suggested Hunt",
                             systemImage: "arrow.right.circle.fill"
                         )
-                        .frame(maxWidth: .infinity, minHeight: 44)
+                        .frame(maxWidth: .infinity, minHeight: 48)
                     }
                     .buttonStyle(.borderedProminent)
                     .accessibilityHint(
@@ -183,7 +184,7 @@ struct NearbyPermissionView: View {
                 Button("Check Again") {
                     locate()
                 }
-                .frame(maxWidth: .infinity, minHeight: 44)
+                .frame(maxWidth: .infinity, minHeight: 48)
                 .buttonStyle(.bordered)
 
                 NavigationLink {
@@ -193,7 +194,7 @@ struct NearbyPermissionView: View {
                     )
                 } label: {
                     Text(context == nil ? "Browse by Area" : "Browse Different Area")
-                        .frame(maxWidth: .infinity, minHeight: 44)
+                        .frame(maxWidth: .infinity, minHeight: 48)
                 }
                 .buttonStyle(.bordered)
             }
@@ -241,7 +242,7 @@ struct NearbyPermissionView: View {
             Button("Try Again") {
                 locate()
             }
-            .frame(maxWidth: .infinity, minHeight: 44)
+            .frame(maxWidth: .infinity, minHeight: 48)
             .buttonStyle(.borderedProminent)
 
             browseByAreaButton
@@ -262,7 +263,7 @@ struct NearbyPermissionView: View {
             Button("Try Again") {
                 locate()
             }
-            .frame(maxWidth: .infinity, minHeight: 44)
+            .frame(maxWidth: .infinity, minHeight: 48)
             .buttonStyle(.borderedProminent)
 
             browseByAreaButton
@@ -291,7 +292,7 @@ struct NearbyPermissionView: View {
 
                 openURL(url)
             }
-            .frame(maxWidth: .infinity, minHeight: 44)
+            .frame(maxWidth: .infinity, minHeight: 48)
             .buttonStyle(.bordered)
         }
     }
@@ -319,7 +320,7 @@ struct NearbyPermissionView: View {
             )
         } label: {
             Label("Browse by Area", systemImage: "map")
-                .frame(maxWidth: .infinity, minHeight: 44)
+                .frame(maxWidth: .infinity, minHeight: 48)
         }
         .buttonStyle(.bordered)
     }
