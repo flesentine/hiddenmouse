@@ -12,6 +12,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Verify offline core
         run: ./scripts/verify-offline-core.sh
+      - name: Verify image assets
+        run: python3 ./scripts/verify-image-assets.py
       - name: Install XcodeGen
         run: brew install xcodegen
       - name: Generate Xcode project

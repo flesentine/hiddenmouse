@@ -4,92 +4,104 @@ Park Hunt is an iPhone-first scavenger-hunt companion for discovering hidden det
 
 ## Completed efforts
 
-### #1–#19 Core experience
+### #1–#20 Core experience + offline hardening
 
-Park Hunt now supports offline content, GPS/manual browsing, ranked hunt selection, progressive clues, spoiler controls, Reveal, persistent completion, Find Another, progress summaries, Collection, and a full Settings hub.
+Park Hunt now supports the complete local hunt loop and has CI protection against accidental networking in the prototype core.
 
-### #20 Offline behavior
+### #21 Image handling
 
-The prototype's core hunt loop is now explicitly hardened for airplane-mode use.
+The app now has an offline, memory-conscious image pipeline for discovery thumbnails and full reveals.
 
-- The discovery catalog is read only from the application bundle.
-- Home, manual park/land browsing, Collection, hunts, clues, progress, settings, completion, and text reveals use local content/state only.
-- Progress and preferences remain local in UserDefaults.
-- Reveal photos are resolved explicitly from the application bundle through `BundledRevealImageStore`.
-- If a hunt declares a `revealImageName` but that image is not actually packaged, `ContentLoader` rejects the catalog as not offline-ready instead of failing later in the Reveal UI.
-- A CI check scans the app source/content and fails if core networking APIs or hard-coded HTTP(S) URLs are introduced.
+Content can independently declare:
 
-The current prototype catalog does not require a reveal photo, so its text reveal remains fully usable offline. Future records that name a reveal image must package that image with the app.
+- `thumbnailImageName` — small list/browse artwork,
+- `revealImageName` — larger exact-reference artwork.
 
-The offline CI guard currently blocks `URLSession`, `URLRequest`, `AsyncImage`, Network.framework connections, Alamofire, and hard-coded HTTP(S) URLs inside `ParkHunt/`.
+Older JSON without `thumbnailImageName` remains compatible.
+
+### Runtime behavior
+
+`BundledRevealImageStore` now uses ImageIO thumbnail generation rather than decoding original photos at their full source size.
+
+- thumbnails are capped at **320 px**,
+- reveal images are capped at **1600 px**,
+- decoded images are cached by filename + requested pixel size,
+- images are loaded only from the application bundle.
+
+Collection and Nearby rows use the thumbnail asset when provided. Reveal uses the larger downsampled reveal asset.
+
+### Authoring / compression
+
+Use the bundled helper to turn one source photo into the two production variants:
+
+```bash
+./scripts/prepare-discovery-image.sh ~/Desktop/source.jpg pirates-secret-001
+```
+
+It produces:
+
+```text
+ParkHunt/Resources/Images/pirates-secret-001-thumb.jpg
+ParkHunt/Resources/Images/pirates-secret-001-reveal.jpg
+```
+
+and prints the two JSON fields to paste into the discovery record.
+
+The authoring sizes are:
+
+- thumbnail: max 320 px, JPEG normal quality,
+- reveal: max 1600 px, JPEG high quality.
+
+### CI packaging guard
+
+GitHub Actions now verifies image references before building.
+
+For every referenced image it requires:
+
+- filename-only references,
+- a packaged file in `ParkHunt/Resources/Images/`,
+- JPG/JPEG/HEIC/PNG format,
+- thumbnail file size no larger than **400 KB**,
+- reveal file size no larger than **2 MB**.
+
+The existing offline-readiness loader also verifies both thumbnail and reveal references exist in the installed bundle.
+
+The prototype discovery currently declares no images, so its behavior is unchanged until real field-test content is populated.
 
 ## Verification
 
-The GitHub build now performs the offline-core guard before XcodeGen/project compilation. Unit-test coverage also defines offline-readiness behavior for optional images, required packaged images, and the real bundled catalog. The current GitHub workflow still builds the app target; full XCTest execution remains part of the dedicated internal-testing effort.
+CI now runs:
+
+```text
+Verify offline core
+→ Verify image assets
+→ Generate Xcode project
+→ Build for iOS Simulator
+```
+
+Unit-test source also covers backward-compatible image decoding, thumbnail/reveal round-tripping, and independent offline validation of the two image roles. The workflow still builds rather than runs XCTest; full test execution remains in #32.
 
 ## Architecture
 
 ```text
 ParkHunt/
-├── App/
 ├── Core/
-│   ├── Collection/
-│   ├── Content/
-│   ├── Domain/
-│   ├── Feedback/
-│   ├── Location/
-│   ├── Nearby/
-│   ├── Offline/   Offline readiness validation
-│   ├── Progress/
-│   └── Settings/
+│   ├── Content/  Bundle image store + downsampling
+│   └── Offline/  Referenced-image readiness validation
 ├── Features/
-│   ├── Collection/
-│   ├── Home/
-│   ├── Hunt/
-│   ├── Nearby/
-│   ├── Progress/
-│   ├── Reveal/
-│   └── Settings/
+│   ├── Collection/ Thumbnail presentation
+│   ├── Nearby/     Thumbnail presentation
+│   ├── Reveal/     Downsampled reveal presentation
+│   └── Shared/     DiscoveryThumbnailView
 └── Resources/
+    └── Images/      Optimized packaged image variants
 
 scripts/
+├── prepare-discovery-image.sh
+├── verify-image-assets.py
 └── verify-offline-core.sh
-
-ParkHuntTests/
-Config/
-.github/
-```
-
-## Open the project on a Mac
-
-Requirements: Xcode and Homebrew.
-
-```bash
-./bootstrap.sh
-```
-
-Or manually:
-
-```bash
-brew install xcodegen
-xcodegen generate
-open ParkHunt.xcodeproj
-```
-
-## Build from the command line
-
-```bash
-./scripts/verify-offline-core.sh
-xcodegen generate
-xcodebuild \
-  -project ParkHunt.xcodeproj \
-  -scheme ParkHunt \
-  -configuration Debug \
-  -destination 'generic/platform=iOS Simulator' \
-  CODE_SIGNING_ALLOWED=NO \
-  build
 ```
 
 ## Next effort
 
-**#21 Image handling:** add efficient thumbnail/reveal-image packaging, sizing, and compression without changing the offline-first guarantee.
+**#22 Accessibility:** Dynamic Type, VoiceOver, contrast, large tap areas, and non-color-only difficulty/status presentation across the core hunt flow.

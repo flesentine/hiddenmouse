@@ -89,7 +89,7 @@ struct RevealView: View {
                 .font(.headline)
 
             if let imageName = presentation.referenceImageName,
-               let image = imageStore.image(named: imageName) {
+               let image = imageStore.reveal(named: imageName) {
                 Image(uiImage: image)
                     .resizable()
                     .scaledToFit()

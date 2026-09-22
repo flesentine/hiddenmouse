@@ -6,40 +6,46 @@ struct NearbyDiscoveryRow: View {
     let areaName: String?
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 7) {
-            HStack(alignment: .firstTextBaseline) {
-                Text(result.discovery.title)
-                    .font(.headline)
+        HStack(alignment: .top, spacing: 12) {
+            DiscoveryThumbnailView(
+                imageName: result.discovery.thumbnailImageName
+            )
 
-                Spacer()
+            VStack(alignment: .leading, spacing: 7) {
+                HStack(alignment: .firstTextBaseline) {
+                    Text(result.discovery.title)
+                        .font(.headline)
 
-                if result.isFound {
-                    Label("Found", systemImage: "checkmark.circle.fill")
-                        .labelStyle(.iconOnly)
-                        .foregroundStyle(.secondary)
-                        .accessibilityLabel("Already found")
-                }
-            }
+                    Spacer()
 
-            HStack(spacing: 12) {
-                Label(
-                    result.discovery.difficulty.displayName,
-                    systemImage: "sparkles"
-                )
-
-                if let areaName {
-                    Label(areaName, systemImage: "mappin")
+                    if result.isFound {
+                        Label("Found", systemImage: "checkmark.circle.fill")
+                            .labelStyle(.iconOnly)
+                            .foregroundStyle(.secondary)
+                            .accessibilityLabel("Already found")
+                    }
                 }
 
-                if let distanceMeters = result.distanceMeters {
+                HStack(spacing: 12) {
                     Label(
-                        distanceText(distanceMeters),
-                        systemImage: "location"
+                        result.discovery.difficulty.displayName,
+                        systemImage: "sparkles"
                     )
+
+                    if let areaName {
+                        Label(areaName, systemImage: "mappin")
+                    }
+
+                    if let distanceMeters = result.distanceMeters {
+                        Label(
+                            distanceText(distanceMeters),
+                            systemImage: "location"
+                        )
+                    }
                 }
+                .font(.caption)
+                .foregroundStyle(.secondary)
             }
-            .font(.caption)
-            .foregroundStyle(.secondary)
         }
         .padding(.vertical, 5)
     }

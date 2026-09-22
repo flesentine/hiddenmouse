@@ -60,9 +60,7 @@ struct CollectionView: View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 10) {
                 statusMenu
-
                 landMenu(collection)
-
                 categoryMenu(collection)
 
                 if !filters.isDefault {
@@ -204,35 +202,41 @@ struct CollectionView: View {
     private func collectionRow(
         _ item: CollectionItem
     ) -> some View {
-        VStack(alignment: .leading, spacing: 7) {
-            HStack(alignment: .firstTextBaseline, spacing: 10) {
-                Text(item.discovery.title)
-                    .font(.headline)
+        HStack(alignment: .top, spacing: 12) {
+            DiscoveryThumbnailView(
+                imageName: item.discovery.thumbnailImageName
+            )
 
-                Spacer()
+            VStack(alignment: .leading, spacing: 7) {
+                HStack(alignment: .firstTextBaseline, spacing: 10) {
+                    Text(item.discovery.title)
+                        .font(.headline)
 
-                statusLabel(item)
-            }
+                    Spacer()
 
-            HStack(spacing: 12) {
-                Label(
-                    item.discovery.difficulty.displayName,
-                    systemImage: "sparkles"
-                )
-
-                Label(item.landName, systemImage: "map")
-
-                if let areaName = item.areaName {
-                    Label(areaName, systemImage: "mappin")
+                    statusLabel(item)
                 }
-            }
-            .font(.caption)
-            .foregroundStyle(.secondary)
 
-            if let statusDateText = statusDateText(item) {
-                Text(statusDateText)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
+                HStack(spacing: 12) {
+                    Label(
+                        item.discovery.difficulty.displayName,
+                        systemImage: "sparkles"
+                    )
+
+                    Label(item.landName, systemImage: "map")
+
+                    if let areaName = item.areaName {
+                        Label(areaName, systemImage: "mappin")
+                    }
+                }
+                .font(.caption)
+                .foregroundStyle(.secondary)
+
+                if let statusDateText = statusDateText(item) {
+                    Text(statusDateText)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
             }
         }
         .padding(.vertical, 5)
