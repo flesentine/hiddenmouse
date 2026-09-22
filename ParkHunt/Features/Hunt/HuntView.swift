@@ -236,6 +236,9 @@ struct HuntView: View {
             .foregroundStyle(.secondary)
 
             Button {
+                updateActiveSession(
+                    revealPresented: true
+                )
                 isRevealPresented = true
             } label: {
                 Label("View Reveal Again", systemImage: "eye")
@@ -624,6 +627,9 @@ struct HuntView: View {
         )
 
         if action == .revealLocation {
+            updateActiveSession(
+                revealPresented: true
+            )
             isRevealPresented = true
         }
     }
