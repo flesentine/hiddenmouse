@@ -21,7 +21,7 @@ final class AccessibilityTextTests: XCTestCase {
                 result,
                 areaName: "Pirates"
             ),
-            "Secret, Found, Hard difficulty, Pirates, about 120 m away"
+            "Secret, Found, Hard difficulty, Pirates, about 130 m away"
         )
     }
 
