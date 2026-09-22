@@ -1,9 +1,10 @@
 import SwiftUI
-import UIKit
 
 struct RevealView: View {
     let discoveryID: String
     let contentLoader: ContentLoader
+
+    private let imageStore = BundledRevealImageStore()
 
     @State private var presentation: RevealPresentation?
     @State private var loadState: LoadState = .loading
@@ -88,7 +89,7 @@ struct RevealView: View {
                 .font(.headline)
 
             if let imageName = presentation.referenceImageName,
-               let image = UIImage(named: imageName) {
+               let image = imageStore.image(named: imageName) {
                 Image(uiImage: image)
                     .resizable()
                     .scaledToFit()

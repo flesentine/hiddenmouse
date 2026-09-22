@@ -55,4 +55,5 @@ enum ContentStoreError: Error, Equatable {
     case unreadableResource(path: String, reason: String)
     case decodingFailed(String)
     case validationFailed([ContentCatalogValidationIssue])
+    case offlineReadinessFailed([OfflineReadinessIssue])
 }

@@ -10,6 +10,8 @@ jobs:
     runs-on: macos-15
     steps:
       - uses: actions/checkout@v4
+      - name: Verify offline core
+        run: ./scripts/verify-offline-core.sh
       - name: Install XcodeGen
         run: brew install xcodegen
       - name: Generate Xcode project
