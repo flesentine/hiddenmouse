@@ -199,7 +199,6 @@ struct HuntView: View {
                 text: hint.text
             )
         )
-        }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(20)
         .background(.background, in: RoundedRectangle(cornerRadius: 22))
