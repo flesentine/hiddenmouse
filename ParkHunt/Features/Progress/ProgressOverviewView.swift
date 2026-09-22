@@ -223,6 +223,7 @@ struct ProgressOverviewView: View {
         VStack(alignment: .leading, spacing: 12) {
             Label(title, systemImage: systemImage)
                 .font(.headline)
+                .accessibilityAddTraits(.isHeader)
 
             ForEach(rows) { row in
                 VStack(alignment: .leading, spacing: 8) {
