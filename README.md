@@ -4,28 +4,25 @@ Park Hunt is an iPhone-first scavenger-hunt companion for discovering hidden det
 
 ## Completed efforts
 
-### #1–#21 Core experience + offline images
+### #1–#22 Core experience + accessibility
 
-Park Hunt now supports the complete local hunt loop, offline image packaging/downsampling, progress, Collection, Settings, and CI guards for offline/image integrity.
+Park Hunt now supports the complete local hunt loop, offline image packaging/downsampling, progress, Collection, Settings, and an accessibility pass for Dynamic Type, VoiceOver, large tap targets, and non-color-only state.
 
-### #22 Accessibility
+### #23 One-handed UX polish
 
-The core experience has been hardened for Dynamic Type and VoiceOver without capping the user’s preferred text size.
+The Hunt screen’s bottom safe-area tray is now reserved only for the actions a guest is most likely to use while walking.
 
-- metadata rows use adaptive horizontal/vertical layouts instead of compressing text,
-- Hunt clue headers stack when accessibility text sizes need more room,
-- Progress totals and section rows adapt vertically at large text sizes,
-- custom action buttons use at least a **48 pt** tap target,
-- difficulty is always presented as text plus an icon,
-- Found / Started / Unfound states are explicit text and symbols rather than color-only states,
-- Nearby and Collection rows expose deterministic VoiceOver summaries with title, state, difficulty, location context, and distance/date when available,
-- Hunt clue cards expose clue title, clue position, and clue text as one meaningful VoiceOver element,
-- important page/section titles participate in VoiceOver’s heading rotor,
-- the Reveal image has descriptive alternative text while list thumbnails remain decorative,
-- Help Style choices expose both their description and selected/not-selected state,
-- progress bars expose numeric “x of y found” accessibility values.
+- The duplicate **Back to Hunts** button was removed from the thumb tray; normal iOS navigation already provides Back.
+- Active hunts keep **I Found It** in the easiest bottom position with a 54 pt target.
+- The most relevant help action shares the thumb row with **I Found It** on normal text sizes.
+- At large Dynamic Type sizes the row stacks automatically, with **I Found It** remaining lowest/easiest to reach.
+- Explorer mode’s subtle **Need Help** action is promoted into the reachable main help slot without changing what it reveals.
+- Help Me / Show Me can keep one alternate, less-prominent help path above the main thumb row.
+- After completion, all clue/found controls disappear and the tray becomes a single prominent **Find Another** action.
+- The Found success card still previews the recommended next hunt, but no longer duplicates the button higher on the screen.
+- If there is no unfinished nearby hunt, the bottom tray disappears and the success card reports **Nearby set complete**.
 
-The app continues to use semantic SwiftUI fonts and system foreground styles, so text responds to Dynamic Type and colors follow system contrast/appearance settings.
+The behavior is represented by a pure `HuntThumbTrayState` model so active/completed action ordering can be tested independently of SwiftUI layout.
 
 ## Verification
 
@@ -38,8 +35,8 @@ Verify offline core
 → Build for iOS Simulator
 ```
 
-Accessibility-label source tests are committed for Nearby, Collection, Hunt clue, and progress descriptions. Full XCTest execution remains part of #32; UI accessibility traversal testing remains part of #33.
+Source tests cover Normal, Explorer, Help Me, completed-next-hunt, and completed-with-no-next-action tray states. XCTest execution remains scheduled for #32.
 
 ## Next effort
 
-**#23 One-handed UX polish:** move the highest-frequency hunt actions into the easiest thumb zone and tighten button ordering/spacing for in-park use.
+**#24 Haptics:** keep the existing success haptic and add restrained clue/help feedback where it improves in-park interaction without becoming noisy.

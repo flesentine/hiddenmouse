@@ -7,8 +7,6 @@ struct HuntView: View {
     let spoilerPreferenceStore: any SpoilerPreferenceStoring
     let hapticPreferenceStore: any HapticPreferenceStoring
 
-    @Environment(\.dismiss) private var dismiss
-
     @State private var presentation: HuntPresentation?
     @State private var snapshot: ContentSnapshot?
     @State private var userProgress = UserProgress()
@@ -54,13 +52,24 @@ struct HuntView: View {
             progression: progression,
             preference: spoilerPreference
         )
+        let recommendation = isFound(presentation)
+            ? nextHuntRecommendation(for: presentation)
+            : nil
+        let thumbTrayState = HuntThumbTrayState.make(
+            isFound: isFound(presentation),
+            assistOptions: assistOptions,
+            recommendation: recommendation
+        )
 
         return ScrollView {
             VStack(alignment: .leading, spacing: 22) {
                 huntHeader(presentation)
 
                 if isFound(presentation) {
-                    foundSuccessCard(presentation)
+                    foundSuccessCard(
+                        presentation,
+                        recommendation: recommendation
+                    )
                 }
 
                 ForEach(
@@ -88,8 +97,9 @@ struct HuntView: View {
         }
         .safeAreaInset(edge: .bottom) {
             huntControls(
+                presentation: presentation,
                 progression: progression,
-                assistOptions: assistOptions
+                state: thumbTrayState
             )
         }
     }
@@ -230,13 +240,10 @@ struct HuntView: View {
     }
 
     private func foundSuccessCard(
-        _ presentation: HuntPresentation
+        _ presentation: HuntPresentation,
+        recommendation: NearbyDiscoveryResult?
     ) -> some View {
-        let recommendation = nextHuntRecommendation(
-            for: presentation
-        )
-
-        return VStack(alignment: .leading, spacing: 14) {
+        VStack(alignment: .leading, spacing: 14) {
             Label("Found It!", systemImage: "checkmark.seal.fill")
                 .font(.title3.bold())
 
@@ -258,17 +265,9 @@ struct HuntView: View {
 
                 nextHuntContext(recommendation)
 
-                NavigationLink(value: recommendation.discovery.id) {
-                    Label(
-                        "Find Another",
-                        systemImage: "arrow.right.circle.fill"
-                    )
-                    .frame(maxWidth: .infinity, minHeight: 48)
-                }
-                .buttonStyle(.borderedProminent)
-                .accessibilityHint(
-                    "Starts the best unfinished hunt near this discovery"
-                )
+                Text("Find Another is ready below.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
             } else {
                 Divider()
 
@@ -313,104 +312,112 @@ struct HuntView: View {
         .accessibilityElement(children: .combine)
     }
 
+    @ViewBuilder
     private func huntControls(
+        presentation: HuntPresentation,
         progression: HuntProgressionState,
-        assistOptions: HuntAssistOptions
+        state: HuntThumbTrayState
     ) -> some View {
-        VStack(spacing: 10) {
-            if let presentation,
-               !isFound(presentation) {
-                Button {
-                    markFound(presentation)
-                } label: {
-                    Label("I Found It", systemImage: "checkmark.circle.fill")
-                        .frame(maxWidth: .infinity, minHeight: 50)
+        switch state.mode {
+        case let .active(mainAssist, alternateAssist):
+            VStack(spacing: 10) {
+                if let alternateAssist {
+                    assistButton(alternateAssist)
                 }
-                .buttonStyle(.borderedProminent)
-                .accessibilityHint(
-                    "Marks this discovery as found and saves it to your progress"
-                )
-            }
 
-            if let primaryAction = assistOptions.primaryAction,
-               !isCurrentDiscoveryFound {
-                actionButton(
-                    primaryAction,
-                    prominent: true
-                )
-            }
+                if mainAssist == nil {
+                    Text(
+                        progression.isRevealVisible
+                            ? "All available help has been revealed."
+                            : "Keep looking around before asking for more help."
+                    )
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                }
 
-            if let secondaryAction = assistOptions.secondaryAction,
-               !isCurrentDiscoveryFound {
-                actionButton(
-                    secondaryAction,
-                    prominent: false
-                )
-            }
+                ViewThatFits(in: .horizontal) {
+                    HStack(spacing: 12) {
+                        if let mainAssist {
+                            assistButton(mainAssist)
+                        }
 
-            if !isCurrentDiscoveryFound,
-               assistOptions.primaryAction == nil,
-               assistOptions.secondaryAction == nil {
-                Text(
-                    progression.isRevealVisible
-                        ? "You’ve revealed all available help for this hunt."
-                        : "Keep exploring. Help is intentionally subtle in Explorer mode."
-                )
-                .font(.caption)
-                .foregroundStyle(.secondary)
-            }
+                        foundButton(presentation)
+                    }
 
-            Button {
-                dismiss()
-            } label: {
-                Label("Back to Hunts", systemImage: "chevron.left")
-                    .frame(maxWidth: .infinity, minHeight: 48)
+                    VStack(spacing: 10) {
+                        if let mainAssist {
+                            assistButton(mainAssist)
+                        }
+
+                        foundButton(presentation)
+                    }
+                }
             }
-            .buttonStyle(.bordered)
-            .accessibilityHint(
-                "Leaves this hunt. Your clue progress is saved."
-            )
+            .padding(.horizontal, 16)
+            .padding(.top, 10)
+            .padding(.bottom, 8)
+            .background(.bar)
+
+        case let .completed(nextDiscoveryID, nextDiscoveryTitle):
+            if let nextDiscoveryID {
+                VStack(spacing: 8) {
+                    NavigationLink(value: nextDiscoveryID) {
+                        Label(
+                            "Find Another",
+                            systemImage: "arrow.right.circle.fill"
+                        )
+                        .frame(maxWidth: .infinity, minHeight: 54)
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .accessibilityLabel(
+                        nextDiscoveryTitle.map {
+                            "Find Another. Next hunt: \($0)"
+                        } ?? "Find Another"
+                    )
+                    .accessibilityHint(
+                        "Starts the best unfinished hunt near this discovery"
+                    )
+                }
+                .padding(.horizontal, 16)
+                .padding(.top, 10)
+                .padding(.bottom, 8)
+                .background(.bar)
+            }
         }
-        .padding(.horizontal, 20)
-        .padding(.top, 10)
-        .padding(.bottom, 8)
-        .background(.bar)
     }
 
-    @ViewBuilder
-    private func actionButton(
-        _ action: HuntProgressionAction,
-        prominent: Bool
+    private func foundButton(
+        _ presentation: HuntPresentation
     ) -> some View {
-        if prominent {
-            Button {
-                perform(action)
-            } label: {
-                Label(
-                    actionTitle(action),
-                    systemImage: action.systemImageName
-                )
-                .frame(maxWidth: .infinity, minHeight: 48)
-            }
-            .buttonStyle(.borderedProminent)
-            .accessibilityHint(
-                accessibilityHint(for: action)
-            )
-        } else {
-            Button {
-                perform(action)
-            } label: {
-                Label(
-                    actionTitle(action),
-                    systemImage: action.systemImageName
-                )
-                .frame(maxWidth: .infinity, minHeight: 48)
-            }
-            .buttonStyle(.bordered)
-            .accessibilityHint(
-                accessibilityHint(for: action)
-            )
+        Button {
+            markFound(presentation)
+        } label: {
+            Label("I Found It", systemImage: "checkmark.circle.fill")
+                .frame(maxWidth: .infinity, minHeight: 54)
         }
+        .buttonStyle(.borderedProminent)
+        .accessibilityHint(
+            "Marks this discovery as found and saves it to your progress"
+        )
+    }
+
+    private func assistButton(
+        _ action: HuntProgressionAction
+    ) -> some View {
+        Button {
+            perform(action)
+        } label: {
+            Label(
+                actionTitle(action),
+                systemImage: action.systemImageName
+            )
+            .frame(maxWidth: .infinity, minHeight: 54)
+        }
+        .buttonStyle(.bordered)
+        .accessibilityHint(
+            accessibilityHint(for: action)
+        )
     }
 
     private var loadingView: some View {
