@@ -67,7 +67,6 @@ struct HuntView: View {
 
                 if isFound(presentation) {
                     foundSuccessCard(
-                        presentation,
                         recommendation: recommendation
                     )
                 }
@@ -89,7 +88,7 @@ struct HuntView: View {
                     instructionCard
                 }
 
-                Spacer(minLength: 140)
+                Spacer(minLength: 96)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.horizontal, 20)
@@ -240,7 +239,6 @@ struct HuntView: View {
     }
 
     private func foundSuccessCard(
-        _ presentation: HuntPresentation,
         recommendation: NearbyDiscoveryResult?
     ) -> some View {
         VStack(alignment: .leading, spacing: 14) {
@@ -455,14 +453,6 @@ struct HuntView: View {
             }
             .buttonStyle(.borderedProminent)
         }
-    }
-
-    private var isCurrentDiscoveryFound: Bool {
-        guard let presentation else {
-            return false
-        }
-
-        return isFound(presentation)
     }
 
     private var detailedHintCount: Int {
