@@ -2,6 +2,10 @@ import Combine
 @preconcurrency import CoreLocation
 import Foundation
 
+/// Ephemeral foreground-only location data.
+///
+/// This type intentionally does not conform to Codable and must never be
+/// written to persistent storage.
 struct LocationFix: Equatable, Sendable {
     let latitude: Double
     let longitude: Double
@@ -64,6 +68,11 @@ final class LocationService: NSObject, ObservableObject {
         if state == .locating {
             state = .idle
         }
+    }
+
+    func discardCurrentLocation() {
+        manager.stopUpdatingLocation()
+        state = .idle
     }
 
     nonisolated static func quality(

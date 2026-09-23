@@ -14,6 +14,8 @@ jobs:
         run: ./scripts/verify-offline-core.sh
       - name: Verify image assets
         run: python3 ./scripts/verify-image-assets.py
+      - name: Verify privacy boundaries
+        run: python3 ./scripts/verify-privacy-boundaries.py
       - name: Install XcodeGen
         run: brew install xcodegen
       - name: Generate Xcode project

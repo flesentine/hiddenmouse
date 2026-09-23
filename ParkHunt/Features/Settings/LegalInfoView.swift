@@ -6,7 +6,7 @@ struct LegalInfoView: View {
             Section("Privacy") {
                 Label {
                     Text(
-                        "Nearby uses location only while you are using the app. Park Hunt takes a foreground fix when requested and does not store location history."
+                        "Nearby uses location only while you are using the app. Park Hunt requests one foreground fix, never saves the coordinates, and discards the in-memory fix when Nearby closes or the app backgrounds."
                     )
                 } icon: {
                     Image(systemName: "location")
@@ -14,7 +14,7 @@ struct LegalInfoView: View {
 
                 Label {
                     Text(
-                        "Hunt progress, Help Style, haptic preferences, and prototype product-use analytics are stored locally on this device."
+                        "Hunt progress, Help Style, haptic preferences, and optional prototype product-use analytics are stored locally on this device."
                     )
                 } icon: {
                     Image(systemName: "iphone")
@@ -22,10 +22,18 @@ struct LegalInfoView: View {
 
                 Label {
                     Text(
-                        "Prototype analytics record events such as app open, hunt start, help/reveal use, found, Find Another, unfinished exit, and hunt restoration. They do not include precise location, clue or reveal text, image names, or a user/device identifier, and they are not uploaded."
+                        "Local Analytics can be turned off or cleared in Settings. Stored analytics are automatically removed after 30 days and capped at 500 events."
                     )
                 } icon: {
                     Image(systemName: "chart.bar")
+                }
+
+                Label {
+                    Text(
+                        "Analytics never include precise location, clue or reveal text, discovery titles, image names, tags, or a user/device identifier, and there is no analytics upload path."
+                    )
+                } icon: {
+                    Image(systemName: "hand.raised")
                 }
             }
 

@@ -9,6 +9,7 @@ struct NearbyPermissionView: View {
     @StateObject private var locationService = LocationService()
 
     @Environment(\.openURL) private var openURL
+    @Environment(\.scenePhase) private var scenePhase
 
     @State private var snapshot: ContentSnapshot?
     @State private var userProgress = UserProgress()
@@ -60,8 +61,22 @@ struct NearbyPermissionView: View {
                 locate()
             }
         }
+        .onChange(of: scenePhase) { _, newPhase in
+            switch newPhase {
+            case .active:
+                if snapshot != nil,
+                   permission.state.isAuthorized,
+                   locationService.state == .idle {
+                    locate()
+                }
+            case .inactive, .background:
+                locationService.discardCurrentLocation()
+            @unknown default:
+                locationService.discardCurrentLocation()
+            }
+        }
         .onDisappear {
-            locationService.stop()
+            locationService.discardCurrentLocation()
         }
     }
 
@@ -370,7 +385,7 @@ struct NearbyPermissionView: View {
     private var privacyNote: some View {
         Label {
             Text(
-                "Park Hunt requests only When In Use access, takes a one-time fix for Nearby, and does not store location history."
+                "Park Hunt requests only When In Use access, takes a one-time foreground fix for Nearby, never saves the coordinates, and discards the fix when Nearby closes or the app backgrounds."
             )
             .font(.footnote)
             .foregroundStyle(.secondary)

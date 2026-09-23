@@ -7,14 +7,20 @@ struct SettingsView: View {
     let spoilerPreferenceStore: any SpoilerPreferenceStoring
     let hapticPreferenceStore: any HapticPreferenceStoring
     let activeHuntStore: any ActiveHuntStoring
+    let analyticsRecorder: any AnalyticsRecording
+    let analyticsPreferenceStore: any AnalyticsPreferenceStoring
 
     @StateObject private var locationPermission = LocationPermissionController()
     @Environment(\.openURL) private var openURL
 
     @State private var helpStyle: SpoilerPreference = .normal
     @State private var hapticsEnabled = true
+    @State private var localAnalyticsEnabled = true
+    @State private var analyticsEventCount = 0
     @State private var showResetConfirmation = false
+    @State private var showClearAnalyticsConfirmation = false
     @State private var didResetProgress = false
+    @State private var didClearAnalytics = false
 
     private let appInfo = AppInfo.current
 
@@ -22,6 +28,7 @@ struct SettingsView: View {
         List {
             locationSection
             gameplaySection
+            privacySection
             dataSection
             aboutSection
         }
@@ -30,6 +37,8 @@ struct SettingsView: View {
         .onAppear {
             helpStyle = spoilerPreferenceStore.load()
             hapticsEnabled = hapticPreferenceStore.load()
+            localAnalyticsEnabled = analyticsPreferenceStore.load()
+            refreshAnalyticsCount()
         }
         .alert(
             "Reset Hunt Progress?",
@@ -43,7 +52,22 @@ struct SettingsView: View {
             }
         } message: {
             Text(
-                "This clears found hunts, clue progress, reveal history, and progress timestamps on this device. Help Style and haptics will not change."
+                "This clears found hunts, clue progress, reveal history, and progress timestamps on this device. Help Style, haptics, and local analytics data will not change."
+            )
+        }
+        .alert(
+            "Clear Local Analytics?",
+            isPresented: $showClearAnalyticsConfirmation
+        ) {
+            Button("Cancel", role: .cancel) {}
+            Button("Clear Analytics", role: .destructive) {
+                analyticsRecorder.clear()
+                refreshAnalyticsCount()
+                didClearAnalytics = true
+            }
+        } message: {
+            Text(
+                "This permanently deletes the locally stored product-use events on this device. It does not affect hunt progress."
             )
         }
     }
@@ -90,7 +114,7 @@ struct SettingsView: View {
             Text("Location")
         } footer: {
             Text(
-                "Park Hunt asks for When In Use access only from Nearby. Manual park and land browsing works without location."
+                "Park Hunt asks for When In Use access only from Nearby. Coordinates are used only for the current foreground check, are never saved, and are discarded when Nearby closes or the app backgrounds."
             )
         }
     }
@@ -135,6 +159,69 @@ struct SettingsView: View {
         }
     }
 
+    private var privacySection: some View {
+        Section {
+            Toggle(
+                isOn: Binding(
+                    get: { localAnalyticsEnabled },
+                    set: { newValue in
+                        localAnalyticsEnabled = newValue
+                        analyticsPreferenceStore.save(newValue)
+                        didClearAnalytics = false
+                    }
+                )
+            ) {
+                Label(
+                    "Local Analytics",
+                    systemImage: "chart.bar"
+                )
+            }
+            .accessibilityHint(
+                "Controls whether Park Hunt records new product-use events locally on this device"
+            )
+
+            HStack {
+                Label(
+                    "Stored Analytics",
+                    systemImage: "internaldrive"
+                )
+
+                Spacer()
+
+                Text(
+                    "\(analyticsEventCount) event\(analyticsEventCount == 1 ? "" : "s")"
+                )
+                .foregroundStyle(.secondary)
+                .monospacedDigit()
+            }
+
+            Button(role: .destructive) {
+                showClearAnalyticsConfirmation = true
+            } label: {
+                Label(
+                    "Clear Analytics Data",
+                    systemImage: "trash"
+                )
+            }
+            .disabled(analyticsEventCount == 0)
+
+            if didClearAnalytics {
+                Label(
+                    "Local analytics cleared",
+                    systemImage: "checkmark.circle"
+                )
+                .font(.caption)
+                .foregroundStyle(.secondary)
+            }
+        } header: {
+            Text("Privacy")
+        } footer: {
+            Text(
+                "Analytics stay on this device, never include precise location, and are automatically removed after 30 days. Turning this off stops new events; clearing deletes stored events now."
+            )
+        }
+    }
+
     private var dataSection: some View {
         Section {
             Button(role: .destructive) {
@@ -158,7 +245,7 @@ struct SettingsView: View {
             Text("Data")
         } footer: {
             Text(
-                "Reset affects only hunt history on this device."
+                "Reset affects only hunt history on this device. Analytics data is managed separately in Privacy."
             )
         }
     }
@@ -198,6 +285,10 @@ struct SettingsView: View {
         }
     }
 
+    private func refreshAnalyticsCount() {
+        analyticsEventCount = analyticsRecorder.events().count
+    }
+
     private func openSystemSettings() {
         guard let url = URL(
             string: UIApplication.openSettingsURLString
@@ -210,13 +301,19 @@ struct SettingsView: View {
 }
 
 #Preview {
+    let analyticsPreference = MemoryAnalyticsPreferenceStore()
+
     NavigationStack {
         SettingsView(
             contentLoader: ContentLoader(),
             progressStore: MemoryUserProgressStore(),
             spoilerPreferenceStore: MemorySpoilerPreferenceStore(),
             hapticPreferenceStore: MemoryHapticPreferenceStore(),
-            activeHuntStore: MemoryActiveHuntStore()
+            activeHuntStore: MemoryActiveHuntStore(),
+            analyticsRecorder: MemoryAnalyticsRecorder(
+                preferenceStore: analyticsPreference
+            ),
+            analyticsPreferenceStore: analyticsPreference
         )
     }
 }
