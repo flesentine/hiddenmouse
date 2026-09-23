@@ -8,9 +8,19 @@ struct ParkHuntApp: App {
     private let spoilerPreferenceStore = UserDefaultsSpoilerPreferenceStore()
     private let hapticPreferenceStore = UserDefaultsHapticPreferenceStore()
     private let activeHuntStore = UserDefaultsActiveHuntStore()
-    private let analyticsPreferenceStore =
-        UserDefaultsAnalyticsPreferenceStore()
-    private let analyticsRecorder = UserDefaultsAnalyticsRecorder()
+    private let analyticsPreferenceStore:
+        UserDefaultsAnalyticsPreferenceStore
+    private let analyticsRecorder:
+        UserDefaultsAnalyticsRecorder
+
+    init() {
+        let preferenceStore =
+            UserDefaultsAnalyticsPreferenceStore()
+        analyticsPreferenceStore = preferenceStore
+        analyticsRecorder = UserDefaultsAnalyticsRecorder(
+            preferenceStore: preferenceStore
+        )
+    }
 
     var body: some Scene {
         WindowGroup {
