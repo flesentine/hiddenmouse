@@ -1,0 +1,43 @@
+{
+  "id": "replace-with-stable-id",
+  "title": "Human-readable discovery title",
+  "parkID": "disneyland",
+  "landID": "new-orleans-square",
+  "areaID": "pirates-of-the-caribbean",
+  "category": "imagineeringDetail",
+  "difficulty": "medium",
+  "location": {
+    "latitude": 0.0,
+    "longitude": 0.0,
+    "radiusMeters": 75
+  },
+  "hints": [
+    {
+      "id": "replace-with-stable-id-h1",
+      "order": 1,
+      "text": "First clue.",
+      "kind": "clue"
+    },
+    {
+      "id": "replace-with-stable-id-h2",
+      "order": 2,
+      "text": "Second clue.",
+      "kind": "clue"
+    },
+    {
+      "id": "replace-with-stable-id-h3",
+      "order": 3,
+      "text": "Detailed help.",
+      "kind": "detailed"
+    }
+  ],
+  "revealDescription": "Exact-location reveal shown only after Show Me.",
+  "thumbnailImageName": "replace-with-stable-id-thumb.jpg",
+  "revealImageName": "replace-with-stable-id-reveal.jpg",
+  "verificationStatus": "unverified",
+  "lastVerifiedAt": "2026-09-23T00:00:00Z",
+  "isIndoor": false,
+  "tags": [
+    "example-tag"
+  ]
+}

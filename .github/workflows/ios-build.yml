@@ -10,6 +10,8 @@ jobs:
     runs-on: macos-15
     steps:
       - uses: actions/checkout@v4
+      - name: Verify content admin catalog
+        run: python3 ./scripts/build-content-catalog.py --check
       - name: Verify offline core
         run: ./scripts/verify-offline-core.sh
       - name: Verify image assets

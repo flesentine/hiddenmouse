@@ -4,67 +4,59 @@ Park Hunt is an iPhone-first scavenger-hunt companion for discovering hidden det
 
 ## Completed efforts
 
-### #1–#27 Core experience + local analytics
+### #1–#28 Core experience + privacy
 
-Park Hunt now supports the complete local hunt loop, offline image packaging/downsampling, progress, Collection, Settings, accessibility, one-handed controls, haptics, active-hunt restoration, explicit recovery states, and a local typed analytics foundation.
+Park Hunt now supports the complete local hunt loop, offline image packaging/downsampling, progress, Collection, Settings, accessibility, one-handed controls, haptics, restoration, recovery states, local analytics, and explicit privacy controls.
 
-### #28 Privacy implementation
+### #29 Content admin format
 
-Privacy controls and retention rules are now explicit and enforced.
+Content authors no longer need to touch Swift or hand-maintain the app’s bundled aggregate catalog.
 
-#### Location
+The source of truth is now:
 
-- Nearby still requests only **When In Use** authorization.
-- A location fix exists only in memory for the current Nearby calculation.
-- `LocationFix` intentionally does not conform to `Codable`.
-- Leaving Nearby or backgrounding the app immediately discards the in-memory fix.
-- Returning to an active Nearby screen obtains a fresh foreground fix instead of retaining old coordinates.
-- No location history, latitude, longitude, accuracy, or raw `LocationFix` is persisted.
+```text
+ContentAdmin/
+├── lands.json
+├── areas.json
+├── discoveries/
+│   └── 010-prototype-secret-001.json
+└── templates/
+    └── discovery.template.json
+```
 
-#### Local analytics controls
+Each discovery is an independent JSON document. Its filename starts with a numeric editorial-order prefix so content can be reordered without changing the discovery’s stable ID.
 
-Settings → Privacy now includes:
+`scripts/build-content-catalog.py` combines the admin source into the runtime bundle:
 
-- **Local Analytics** on/off,
-- current locally stored event count,
-- **Clear Analytics Data** with destructive confirmation.
+```bash
+python3 scripts/build-content-catalog.py
+```
 
-Local Analytics defaults on because it remains entirely on-device. Turning it off immediately stops new event recording but does not silently delete existing data. Clear Analytics Data permanently deletes the stored event buffer without changing hunt progress or the analytics preference.
+CI runs:
 
-#### Retention
+```bash
+python3 scripts/build-content-catalog.py --check
+```
 
-Analytics now has two independent limits:
+and fails if `ParkHunt/Resources/content-catalog.json` was edited directly or is out of sync with `ContentAdmin/`.
 
-- newest **500 events** maximum,
-- automatic **30-day** retention.
+The complete authoring workflow, allowed enum values, image workflow, location shape, hint convention, verification states, and date format are documented in `ContentAdmin/README.md`.
 
-Expired events are pruned on read and write.
-
-#### CI privacy guard
-
-`scripts/verify-privacy-boundaries.py` fails CI if:
-
-- a Swift file that uses `UserDefaults` also references precise-location fields/types,
-- `LocationFix` becomes Codable,
-- the location layer gains file/UserDefaults persistence,
-- the typed analytics schema adds banned precise-location or sensitive-content identifiers.
-
-The Privacy & Legal screen documents these behaviors.
+The existing prototype discovery has been migrated into the admin source without changing its runtime content.
 
 ## Verification
 
 CI now runs:
 
 ```text
-Verify offline core
+Verify content admin catalog
+→ Verify offline core
 → Verify image assets
 → Verify privacy boundaries
 → Generate Xcode project
 → Build for iOS Simulator
 ```
 
-Source tests cover analytics preference behavior, disabling collection, independent clearing, and 30-day retention. Full XCTest execution remains scheduled for #32.
-
 ## Next effort
 
-**#29 Content admin format:** make adding and maintaining discoveries possible without editing Swift code.
+**#30 Content validation tools:** add editorial validation for missing hints, invalid coordinates, duplicate/stale IDs, bad image references, invalid land/area assignments, placeholder/TODO content, and incomplete records before content can ship.
