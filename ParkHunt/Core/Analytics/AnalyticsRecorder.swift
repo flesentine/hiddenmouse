@@ -68,9 +68,10 @@ final class MemoryAnalyticsRecorder: AnalyticsRecording {
         events: [AnalyticsEventRecord] = [],
         maximumEventCount: Int = 500
     ) {
-        self.maximumEventCount = max(maximumEventCount, 1)
+        let cappedMaximum = max(maximumEventCount, 1)
+        self.maximumEventCount = cappedMaximum
         self.storedEvents = Array(
-            events.suffix(self.maximumEventCount)
+            events.suffix(cappedMaximum)
         )
     }
 
