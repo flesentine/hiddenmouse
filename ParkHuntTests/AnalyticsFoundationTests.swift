@@ -116,7 +116,10 @@ final class AnalyticsFoundationTests: XCTestCase {
 
     func testMemoryRecorderCapsOldestEvents() {
         let recorder = MemoryAnalyticsRecorder(
-            maximumEventCount: 3
+            maximumEventCount: 3,
+            nowProvider: {
+                Date(timeIntervalSince1970: 4)
+            }
         )
 
         recorder.record(
@@ -154,7 +157,10 @@ final class AnalyticsFoundationTests: XCTestCase {
         let recorder = UserDefaultsAnalyticsRecorder(
             defaults: defaults,
             storageKey: "analytics",
-            maximumEventCount: 10
+            maximumEventCount: 10,
+            nowProvider: {
+                Date(timeIntervalSince1970: 500)
+            }
         )
         let event = AnalyticsEventRecord.huntStarted(
             discovery: makeDiscovery(),
