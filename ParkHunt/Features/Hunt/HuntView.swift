@@ -8,7 +8,27 @@ struct HuntView: View {
     let hapticPreferenceStore: any HapticPreferenceStoring
     let activeHuntStore: any ActiveHuntStoring
     let analyticsRecorder: any AnalyticsRecording
-    let launchContext: AnalyticsHuntLaunchContext = .standard
+    let launchContext: AnalyticsHuntLaunchContext
+
+    init(
+        discoveryID: String,
+        contentLoader: ContentLoader,
+        progressStore: any UserProgressStoring,
+        spoilerPreferenceStore: any SpoilerPreferenceStoring,
+        hapticPreferenceStore: any HapticPreferenceStoring,
+        activeHuntStore: any ActiveHuntStoring,
+        analyticsRecorder: any AnalyticsRecording,
+        launchContext: AnalyticsHuntLaunchContext = .standard
+    ) {
+        self.discoveryID = discoveryID
+        self.contentLoader = contentLoader
+        self.progressStore = progressStore
+        self.spoilerPreferenceStore = spoilerPreferenceStore
+        self.hapticPreferenceStore = hapticPreferenceStore
+        self.activeHuntStore = activeHuntStore
+        self.analyticsRecorder = analyticsRecorder
+        self.launchContext = launchContext
+    }
 
     @Environment(\.scenePhase) private var scenePhase
 
