@@ -49,6 +49,8 @@ if analytics_schema.exists():
         "revealDescription",
         "revealImageName",
         "thumbnailImageName",
+        "title",
+        "tags",
         "deviceID",
         "userID",
     ]
