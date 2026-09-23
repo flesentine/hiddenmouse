@@ -7,10 +7,12 @@ struct RootView: View {
     let spoilerPreferenceStore: any SpoilerPreferenceStoring
     let hapticPreferenceStore: any HapticPreferenceStoring
     let activeHuntStore: any ActiveHuntStoring
+    let analyticsRecorder: any AnalyticsRecording
 
     @State private var restorationSession: ActiveHuntSession?
     @State private var isPresentingRestoredHunt = false
     @State private var didAttemptRestoration = false
+    @State private var didRecordAppOpen = false
 
     var body: some View {
         NavigationStack {
@@ -28,7 +30,8 @@ struct RootView: View {
                     progressStore: progressStore,
                     spoilerPreferenceStore: spoilerPreferenceStore,
                     hapticPreferenceStore: hapticPreferenceStore,
-                    activeHuntStore: activeHuntStore
+                    activeHuntStore: activeHuntStore,
+                    analyticsRecorder: analyticsRecorder
                 )
             }
             .navigationDestination(
@@ -41,14 +44,26 @@ struct RootView: View {
                         progressStore: progressStore,
                         spoilerPreferenceStore: spoilerPreferenceStore,
                         hapticPreferenceStore: hapticPreferenceStore,
-                        activeHuntStore: activeHuntStore
+                        activeHuntStore: activeHuntStore,
+                        analyticsRecorder: analyticsRecorder,
+                        launchContext: .restored
                     )
                 }
             }
         }
         .task {
+            recordAppOpenIfNeeded()
             restoreActiveHuntIfNeeded()
         }
+    }
+
+    private func recordAppOpenIfNeeded() {
+        guard !didRecordAppOpen else {
+            return
+        }
+
+        didRecordAppOpen = true
+        analyticsRecorder.record(.appOpen())
     }
 
     private func restoreActiveHuntIfNeeded() {
@@ -75,6 +90,17 @@ struct RootView: View {
                 return
             }
 
+            if let discovery = snapshot.discovery(
+                id: restorable.discoveryID
+            ) {
+                analyticsRecorder.record(
+                    .activeHuntRestored(
+                        discovery: discovery,
+                        revealWasOpen: restorable.isRevealPresented
+                    )
+                )
+            }
+
             restorationSession = restorable
             isPresentingRestoredHunt = true
         } catch {
@@ -91,6 +117,7 @@ struct RootView: View {
         progressStore: MemoryUserProgressStore(),
         spoilerPreferenceStore: MemorySpoilerPreferenceStore(),
         hapticPreferenceStore: MemoryHapticPreferenceStore(),
-        activeHuntStore: MemoryActiveHuntStore()
+        activeHuntStore: MemoryActiveHuntStore(),
+        analyticsRecorder: MemoryAnalyticsRecorder()
     )
 }

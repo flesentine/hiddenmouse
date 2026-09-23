@@ -7,6 +7,8 @@ struct HuntView: View {
     let spoilerPreferenceStore: any SpoilerPreferenceStoring
     let hapticPreferenceStore: any HapticPreferenceStoring
     let activeHuntStore: any ActiveHuntStoring
+    let analyticsRecorder: any AnalyticsRecording
+    let launchContext: AnalyticsHuntLaunchContext = .standard
 
     @Environment(\.scenePhase) private var scenePhase
 
@@ -16,6 +18,7 @@ struct HuntView: View {
     @State private var spoilerPreference: SpoilerPreference = .normal
     @State private var loadState: LoadState = .loading
     @State private var isRevealPresented = false
+    @State private var didRecordHuntStart = false
 
     var body: some View {
         Group {
@@ -390,6 +393,16 @@ struct HuntView: View {
                     .accessibilityHint(
                         "Starts the best unfinished hunt near this discovery"
                     )
+                    .simultaneousGesture(
+                        TapGesture().onEnded {
+                            analyticsRecorder.record(
+                                .findAnotherTapped(
+                                    currentDiscovery: presentation.discovery,
+                                    nextDiscoveryID: nextDiscoveryID
+                                )
+                            )
+                        }
+                    )
                 }
                 .padding(.horizontal, 16)
                 .padding(.top, 10)
@@ -537,6 +550,11 @@ struct HuntView: View {
             progressStore.save(userProgress)
         }
 
+        analyticsRecorder.record(
+            .discoveryFound(
+                discovery: presentation.discovery
+            )
+        )
         clearActiveSessionIfMatching()
         playHapticIfEnabled(.discoveryFound)
     }
@@ -622,6 +640,13 @@ struct HuntView: View {
             progressStore.save(userProgress)
         }
 
+        analyticsRecorder.record(
+            .assistAction(
+                action,
+                discovery: presentation.discovery
+            )
+        )
+
         playHapticIfEnabled(
             HuntHapticPolicy.event(for: action)
         )
@@ -667,6 +692,11 @@ struct HuntView: View {
             return
         }
 
+        analyticsRecorder.record(
+            .huntExitedUnfinished(
+                discovery: presentation.discovery
+            )
+        )
         activeHuntStore.clear()
     }
 
@@ -678,6 +708,19 @@ struct HuntView: View {
         }
 
         HuntHaptics.play(event)
+    }
+
+    private func recordHuntStartIfNeeded(
+        _ discovery: Discovery
+    ) {
+        guard !didRecordHuntStart else {
+            return
+        }
+
+        didRecordHuntStart = true
+        analyticsRecorder.record(
+            .huntStarted(discovery: discovery)
+        )
     }
 
     private func load() {
@@ -715,6 +758,15 @@ struct HuntView: View {
             userProgress = loadedProgress
             snapshot = loadedSnapshot
             presentation = loadedPresentation
+
+            if launchContext == .standard,
+               !loadedProgress.progress(
+                    for: loadedPresentation.discovery.id
+               ).isFound {
+                recordHuntStartIfNeeded(
+                    loadedPresentation.discovery
+                )
+            }
 
             let restoredSession = activeHuntStore.load()
             let shouldRestoreReveal =
@@ -758,7 +810,8 @@ struct HuntView: View {
             progressStore: MemoryUserProgressStore(),
             spoilerPreferenceStore: MemorySpoilerPreferenceStore(),
             hapticPreferenceStore: MemoryHapticPreferenceStore(),
-            activeHuntStore: MemoryActiveHuntStore()
+            activeHuntStore: MemoryActiveHuntStore(),
+            analyticsRecorder: MemoryAnalyticsRecorder()
         )
     }
 }

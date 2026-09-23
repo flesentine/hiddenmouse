@@ -4,28 +4,44 @@ Park Hunt is an iPhone-first scavenger-hunt companion for discovering hidden det
 
 ## Completed efforts
 
-### #1–#25 Core experience + restoration
+### #1–#26 Core experience + recovery
 
-Park Hunt now supports the complete local hunt loop, offline image packaging/downsampling, progress, Collection, Settings, accessibility, one-handed controls, haptics, and active-hunt restoration.
+Park Hunt now supports the complete local hunt loop, offline image packaging/downsampling, progress, Collection, Settings, accessibility, one-handed controls, haptics, active-hunt restoration, and explicit recovery/error states.
 
-### #26 Error states
+### #27 Analytics foundation
 
-The core experience now distinguishes recoverable failures and empty/completed states instead of collapsing them into generic blank screens.
+The prototype now has a local, strongly typed analytics foundation for measuring the core hunt funnel without introducing a network SDK.
 
-- **Location denied** keeps manual browsing available and offers an iOS Settings shortcut.
-- **Weak or unavailable location** offers retry plus manual browsing.
-- **Catalog load failures** are separated from “no nearby park” and show retry actions.
-- Packaged-content failures distinguish missing content, invalid catalog data, and missing required offline assets in the recovery model.
-- **No nearby hunts** explains that nothing is cataloged close enough and points the guest to manual area browsing/check-again.
-- **All nearby hunts complete** is shown separately from “no hunts,” while completed hunts remain available for deliberate revisit.
-- Manual land browsing shows **Land Complete** when every hunt there is found, with a direct route back to choose another land.
-- Empty manual land/park catalog states are explicit; catalog-load failures have retry actions.
-- Collection load failures have retry, and zero-result filters offer **Clear Filters**.
-- Reveal treats a missing/unreadable photo as nonfatal because the full text reveal remains available.
-- A discovery removed before Reveal opens shows **Reveal Unavailable** with a direct **Back to Hunt** action.
-- Home no longer advertises an already-completed first discovery after the whole current catalog is complete; it shows **All Available Hunts Found** and **Review Collection** instead.
+Recorded events:
 
-A shared `CatalogRecoveryPresentation` and `HuntAvailabilityState` make these distinctions testable outside SwiftUI.
+- app open,
+- hunt started,
+- active unfinished hunt restored,
+- normal clue revealed,
+- detailed help revealed,
+- full reveal opened,
+- discovery found,
+- Find Another tapped,
+- unfinished hunt deliberately exited.
+
+Analytics records may contain only bounded gameplay metadata such as discovery ID, land ID, category, difficulty, hint order/kind, next discovery ID, and whether Reveal was open during restoration.
+
+They deliberately do **not** contain:
+
+- latitude/longitude or location fixes,
+- clue text,
+- reveal text,
+- discovery titles,
+- image names,
+- tags,
+- a user ID,
+- a device ID.
+
+Events are stored only in local UserDefaults through `UserDefaultsAnalyticsRecorder`. No analytics network request, SDK, or upload path exists. The local buffer is capped at the newest **500 events** so prototype instrumentation cannot grow without bound.
+
+Restored hunts record `activeHuntRestored` rather than being counted as a new `huntStarted`, which keeps return/retention behavior separate from new hunt starts. Deliberately leaving an unfinished hunt records `huntExitedUnfinished`, allowing later field-test analysis to distinguish abandonment from return.
+
+The Privacy & Legal screen now documents the local analytics behavior.
 
 ## Verification
 
@@ -38,8 +54,8 @@ Verify offline core
 → Build for iOS Simulator
 ```
 
-Source tests cover empty/available/all-complete hunt classification and catalog-recovery classification. Full XCTest execution remains scheduled for #32.
+Source tests cover event typing, restoration metadata, privacy-sensitive field exclusion, local persistence, clearing, and bounded event retention. Full XCTest execution remains scheduled for #32.
 
 ## Next effort
 
-**#27 Analytics foundation:** define privacy-conscious local event instrumentation for app open, hunt start, clue/reveal, found, Find Another, and return behavior.
+**#28 Privacy implementation:** formalize local-data retention and privacy controls, ensure precise location is never persisted, and add user-facing controls for locally stored analytics where appropriate.

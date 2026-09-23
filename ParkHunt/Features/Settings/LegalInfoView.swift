@@ -14,10 +14,18 @@ struct LegalInfoView: View {
 
                 Label {
                     Text(
-                        "Hunt progress, Help Style, and haptic preferences are stored locally on this device."
+                        "Hunt progress, Help Style, haptic preferences, and prototype product-use analytics are stored locally on this device."
                     )
                 } icon: {
                     Image(systemName: "iphone")
+                }
+
+                Label {
+                    Text(
+                        "Prototype analytics record events such as app open, hunt start, help/reveal use, found, Find Another, unfinished exit, and hunt restoration. They do not include precise location, clue or reveal text, image names, or a user/device identifier, and they are not uploaded."
+                    )
+                } icon: {
+                    Image(systemName: "chart.bar")
                 }
             }
 
