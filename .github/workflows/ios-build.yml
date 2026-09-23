@@ -10,6 +10,10 @@ jobs:
     runs-on: macos-15
     steps:
       - uses: actions/checkout@v4
+      - name: Self-test content validator
+        run: python3 ./scripts/validate-content-admin.py --self-test
+      - name: Validate content admin
+        run: python3 ./scripts/validate-content-admin.py
       - name: Verify content admin catalog
         run: python3 ./scripts/build-content-catalog.py --check
       - name: Verify offline core

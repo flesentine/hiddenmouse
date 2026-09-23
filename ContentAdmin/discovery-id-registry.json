@@ -1,0 +1,6 @@
+{
+  "prototype-secret-001": {
+    "state": "development",
+    "notes": "Development-only fixture. Replace during prototype content population."
+  }
+}

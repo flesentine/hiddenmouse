@@ -35,6 +35,17 @@ def load_array(path: Path, label: str):
     return value
 
 
+def runtime_discovery(value):
+    if not isinstance(value, dict):
+        return value
+
+    return {
+        key: field_value
+        for key, field_value in value.items()
+        if not key.startswith("_")
+    }
+
+
 def load_discoveries():
     if not DISCOVERIES_DIR.is_dir():
         raise SystemExit(
@@ -52,7 +63,7 @@ def load_discoveries():
             raise SystemExit(
                 f"{path.relative_to(ROOT)} must contain one JSON discovery object."
             )
-        discoveries.append(value)
+        discoveries.append(runtime_discovery(value))
 
     return discoveries
 

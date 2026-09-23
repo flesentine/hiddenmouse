@@ -4,52 +4,70 @@ Park Hunt is an iPhone-first scavenger-hunt companion for discovering hidden det
 
 ## Completed efforts
 
-### #1–#28 Core experience + privacy
+### #1–#29 Core experience + content admin
 
-Park Hunt now supports the complete local hunt loop, offline image packaging/downsampling, progress, Collection, Settings, accessibility, one-handed controls, haptics, restoration, recovery states, local analytics, and explicit privacy controls.
+Park Hunt now supports the full local hunt loop, offline image packaging, progress, accessibility, one-handed controls, haptics, restoration, recovery, local analytics/privacy controls, and JSON-based content administration.
 
-### #29 Content admin format
+### #30 Content validation tools
 
-Content authors no longer need to touch Swift or hand-maintain the app’s bundled aggregate catalog.
+Content changes now go through an editorial validator before the generated catalog or Xcode build is accepted.
 
-The source of truth is now:
+`scripts/validate-content-admin.py` checks:
 
-```text
-ContentAdmin/
-├── lands.json
-├── areas.json
-├── discoveries/
-│   └── 010-prototype-secret-001.json
-└── templates/
-    └── discovery.template.json
+- discovery filename/order format,
+- required and unknown fields,
+- stable kebab-case IDs,
+- duplicate land/area/discovery/hint/tag IDs,
+- discovery ID registry lifecycle,
+- retired-ID reuse,
+- category/difficulty/status enum values,
+- park/land/area relationships,
+- location coordinate/radius bounds,
+- two normal clues + one final detailed hint,
+- unique contiguous hint order,
+- non-empty clue/reveal content,
+- ISO 8601 verification dates,
+- `lastVerifiedAt` for verified content,
+- image filename/type/existence,
+- placeholder/TODO/prototype text.
+
+The validator has its own mutation self-tests and runs in CI before catalog synchronization.
+
+The new `ContentAdmin/discovery-id-registry.json` gives IDs a lifecycle:
+
+- `development`
+- `active`
+- `retired`
+
+Retired IDs remain reserved and cannot be reused.
+
+The intentional prototype fixture is explicitly marked:
+
+```json
+"_editorial": {
+  "developmentOnly": true,
+  "notes": "..."
+}
 ```
 
-Each discovery is an independent JSON document. Its filename starts with a numeric editorial-order prefix so content can be reordered without changing the discovery’s stable ID.
+Admin-only underscore fields are stripped from the generated app catalog.
 
-`scripts/build-content-catalog.py` combines the admin source into the runtime bundle:
+Normal development validation permits that explicit fixture with warnings. Field-test/release validation is stricter:
 
 ```bash
-python3 scripts/build-content-catalog.py
+python3 scripts/validate-content-admin.py --shipping
 ```
 
-CI runs:
-
-```bash
-python3 scripts/build-content-catalog.py --check
-```
-
-and fails if `ParkHunt/Resources/content-catalog.json` was edited directly or is out of sync with `ContentAdmin/`.
-
-The complete authoring workflow, allowed enum values, image workflow, location shape, hint convention, verification states, and date format are documented in `ContentAdmin/README.md`.
-
-The existing prototype discovery has been migrated into the admin source without changing its runtime content.
+Shipping mode rejects development-only content, placeholder text, and discoveries still marked `unverified` or `needsRecheck`.
 
 ## Verification
 
 CI now runs:
 
 ```text
-Verify content admin catalog
+Self-test content validator
+→ Validate content admin
+→ Verify content admin catalog
 → Verify offline core
 → Verify image assets
 → Verify privacy boundaries
@@ -59,4 +77,4 @@ Verify content admin catalog
 
 ## Next effort
 
-**#30 Content validation tools:** add editorial validation for missing hints, invalid coordinates, duplicate/stale IDs, bad image references, invalid land/area assignments, placeholder/TODO content, and incomplete records before content can ship.
+**#31 Prototype content population:** replace the development fixture with the first 15–20 original, validated Disneyland discoveries for the field-test area.
