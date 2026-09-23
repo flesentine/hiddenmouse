@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct ManualLandBrowseView: View {
+    @Environment(\.dismiss) private var dismiss
+
     let landID: String
     let landName: String
     let contentLoader: ContentLoader
@@ -14,21 +16,63 @@ struct ManualLandBrowseView: View {
     var body: some View {
         Group {
             if loadFailed {
-                ContentUnavailableView(
-                    "Couldn’t Load Hunts",
-                    systemImage: "exclamationmark.triangle",
-                    description: Text("Your offline discovery catalog couldn’t be opened.")
-                )
+                ContentUnavailableView {
+                    Label(
+                        "Couldn’t Load Hunts",
+                        systemImage: "exclamationmark.triangle"
+                    )
+                } description: {
+                    Text("Your offline discovery catalog couldn’t be opened.")
+                } actions: {
+                    Button("Try Again") {
+                        load(reload: true)
+                    }
+                    .buttonStyle(.borderedProminent)
+                }
             } else if !hasLoaded {
                 ProgressView("Loading hunts…")
             } else if results.isEmpty {
-                ContentUnavailableView(
-                    "No Hunts Ready",
-                    systemImage: "binoculars",
-                    description: Text("There are no available discoveries in this land yet.")
-                )
+                ContentUnavailableView {
+                    Label(
+                        "No Hunts Ready",
+                        systemImage: "binoculars"
+                    )
+                } description: {
+                    Text(
+                        "There are no available discoveries in this land yet. Choose another land to keep browsing."
+                    )
+                } actions: {
+                    Button("Choose Another Land") {
+                        dismiss()
+                    }
+                    .buttonStyle(.borderedProminent)
+                }
             } else {
                 List {
+                    if availabilityState == .allComplete {
+                        Section {
+                            VStack(alignment: .leading, spacing: 8) {
+                                Label(
+                                    "Land Complete",
+                                    systemImage: "checkmark.circle.fill"
+                                )
+                                .font(.headline)
+
+                                Text(
+                                    "You’ve found every hunt in \(landName). Revisit a find below or choose another land."
+                                )
+                                .font(.subheadline)
+                                .foregroundStyle(.secondary)
+
+                                Button("Choose Another Land") {
+                                    dismiss()
+                                }
+                                .buttonStyle(.bordered)
+                            }
+                            .padding(.vertical, 6)
+                        }
+                    }
+
                     if let suggested = suggestedResult {
                         Section {
                             NavigationLink(value: suggested.discovery.id) {
@@ -70,13 +114,23 @@ struct ManualLandBrowseView: View {
         DiscoverySelector.select(from: results)
     }
 
-    private func load() {
+    private var availabilityState: HuntAvailabilityState {
+        HuntAvailabilityState.make(
+            results: results
+        )
+    }
+
+    private func load(
+        reload: Bool = false
+    ) {
         defer {
             hasLoaded = true
         }
 
         do {
-            let loadedSnapshot = try contentLoader.load()
+            let loadedSnapshot = try reload
+                ? contentLoader.reload()
+                : contentLoader.load()
             snapshot = loadedSnapshot
 
             results = NearbyDiscoveryEngine.results(

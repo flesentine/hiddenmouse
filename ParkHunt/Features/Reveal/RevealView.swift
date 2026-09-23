@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct RevealView: View {
+    @Environment(\.dismiss) private var dismiss
+
     let discoveryID: String
     let contentLoader: ContentLoader
 
@@ -107,11 +109,15 @@ struct RevealView: View {
                         .accessibilityHidden(true)
 
                     VStack(alignment: .leading, spacing: 4) {
-                        Text("No reference photo yet")
-                            .font(.subheadline.weight(.semibold))
+                        Text(
+                            presentation.referenceImageName == nil
+                                ? "No reference photo yet"
+                                : "Reference photo unavailable"
+                        )
+                        .font(.subheadline.weight(.semibold))
 
                         Text(
-                            "The exact location is still shown above. A reference photo isn’t available for this hunt yet."
+                            "The text reveal above is complete, so you can keep hunting without the photo."
                         )
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
@@ -137,13 +143,21 @@ struct RevealView: View {
     }
 
     private var unavailableView: some View {
-        ContentUnavailableView(
-            "Reveal Unavailable",
-            systemImage: "eye.slash",
-            description: Text(
+        ContentUnavailableView {
+            Label(
+                "Reveal Unavailable",
+                systemImage: "eye.slash"
+            )
+        } description: {
+            Text(
                 "This discovery is no longer available."
             )
-        )
+        } actions: {
+            Button("Back to Hunt") {
+                dismiss()
+            }
+            .buttonStyle(.borderedProminent)
+        }
     }
 
     private var failedView: some View {
@@ -156,17 +170,21 @@ struct RevealView: View {
             Text("Your offline discovery catalog couldn’t be opened.")
         } actions: {
             Button("Try Again") {
-                load()
+                load(reload: true)
             }
             .buttonStyle(.borderedProminent)
         }
     }
 
-    private func load() {
+    private func load(
+        reload: Bool = false
+    ) {
         loadState = .loading
 
         do {
-            let snapshot = try contentLoader.load()
+            let snapshot = try reload
+                ? contentLoader.reload()
+                : contentLoader.load()
             presentation = RevealPresentation.make(
                 discoveryID: discoveryID,
                 snapshot: snapshot

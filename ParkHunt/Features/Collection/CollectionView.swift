@@ -13,13 +13,21 @@ struct CollectionView: View {
     var body: some View {
         Group {
             if loadFailed {
-                ContentUnavailableView(
-                    "Couldn’t Load Collection",
-                    systemImage: "exclamationmark.triangle",
-                    description: Text(
+                ContentUnavailableView {
+                    Label(
+                        "Couldn’t Load Collection",
+                        systemImage: "exclamationmark.triangle"
+                    )
+                } description: {
+                    Text(
                         "Your offline discovery catalog couldn’t be opened."
                     )
-                )
+                } actions: {
+                    Button("Try Again") {
+                        load(reload: true)
+                    }
+                    .buttonStyle(.borderedProminent)
+                }
             } else if !hasLoaded {
                 ProgressView("Loading collection…")
             } else if let collection {
@@ -280,15 +288,25 @@ struct CollectionView: View {
     }
 
     private var emptyState: some View {
-        ContentUnavailableView(
-            "No Matching Hunts",
-            systemImage: "line.3.horizontal.decrease.circle",
-            description: Text(
+        ContentUnavailableView {
+            Label(
+                "No Matching Hunts",
+                systemImage: "line.3.horizontal.decrease.circle"
+            )
+        } description: {
+            Text(
                 filters.isDefault
                     ? "There are no available discoveries in the current catalog."
                     : "Try clearing or changing the collection filters."
             )
-        )
+        } actions: {
+            if !filters.isDefault {
+                Button("Clear Filters") {
+                    filters = CollectionFilters()
+                }
+                .buttonStyle(.borderedProminent)
+            }
+        }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 
@@ -339,9 +357,13 @@ struct CollectionView: View {
         }
     }
 
-    private func load() {
+    private func load(
+        reload: Bool = false
+    ) {
         do {
-            snapshot = try contentLoader.load()
+            snapshot = try reload
+                ? contentLoader.reload()
+                : contentLoader.load()
             userProgress = progressStore.load()
             loadFailed = false
         } catch {

@@ -13,11 +13,19 @@ struct ManualLandSelectionView: View {
     var body: some View {
         Group {
             if loadFailed {
-                ContentUnavailableView(
-                    "Couldn’t Load Lands",
-                    systemImage: "exclamationmark.triangle",
-                    description: Text("Your offline park catalog couldn’t be opened.")
-                )
+                ContentUnavailableView {
+                    Label(
+                        "Couldn’t Load Lands",
+                        systemImage: "exclamationmark.triangle"
+                    )
+                } description: {
+                    Text("Your offline park catalog couldn’t be opened.")
+                } actions: {
+                    Button("Try Again") {
+                        load(reload: true)
+                    }
+                    .buttonStyle(.borderedProminent)
+                }
             } else if !hasLoaded {
                 ProgressView("Loading lands…")
             } else if landOptions.isEmpty {
@@ -61,13 +69,17 @@ struct ManualLandSelectionView: View {
         }
     }
 
-    private func load() {
+    private func load(
+        reload: Bool = false
+    ) {
         defer {
             hasLoaded = true
         }
 
         do {
-            let snapshot = try contentLoader.load()
+            let snapshot = try reload
+                ? contentLoader.reload()
+                : contentLoader.load()
             landOptions = ManualAreaPresentation.lands(
                 inPark: parkID,
                 snapshot: snapshot

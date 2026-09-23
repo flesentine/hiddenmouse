@@ -12,21 +12,26 @@ struct NearbyPermissionView: View {
 
     @State private var snapshot: ContentSnapshot?
     @State private var userProgress = UserProgress()
+    @State private var catalogError: CatalogRecoveryPresentation?
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 24) {
                 hero
 
-                switch permission.state {
-                case .notDetermined:
-                    requestCard
-                case .authorized:
-                    authorizedContent
-                case .denied:
-                    deniedCard
-                case .restricted:
-                    restrictedCard
+                if let catalogError {
+                    catalogFailureCard(catalogError)
+                } else {
+                    switch permission.state {
+                    case .notDetermined:
+                        requestCard
+                    case .authorized:
+                        authorizedContent
+                    case .denied:
+                        deniedCard
+                    case .restricted:
+                        restrictedCard
+                    }
                 }
 
                 privacyNote
@@ -38,10 +43,10 @@ struct NearbyPermissionView: View {
         .navigationTitle("Nearby")
         .navigationBarTitleDisplayMode(.inline)
         .task {
-            snapshot = try? contentLoader.load()
-            userProgress = progressStore.load()
+            loadCatalog()
 
-            if permission.state.isAuthorized,
+            if snapshot != nil,
+               permission.state.isAuthorized,
                locationService.state == .idle {
                 locate()
             }
@@ -50,7 +55,8 @@ struct NearbyPermissionView: View {
             userProgress = progressStore.load()
         }
         .onChange(of: permission.state) { _, newState in
-            if newState.isAuthorized {
+            if newState.isAuthorized,
+               snapshot != nil {
                 locate()
             }
         }
@@ -137,6 +143,9 @@ struct NearbyPermissionView: View {
         let context = nearbyContext(for: fix)
         let results = nearbyResults(fix: fix, context: context)
         let suggested = DiscoverySelector.select(from: results)
+        let availability = HuntAvailabilityState.make(
+            results: results
+        )
 
         return VStack(alignment: .leading, spacing: 16) {
             permissionCard {
@@ -166,6 +175,39 @@ struct NearbyPermissionView: View {
                 )
                 .font(.caption)
                 .foregroundStyle(.secondary)
+
+                if context != nil {
+                    switch availability {
+                    case .allComplete:
+                        Label(
+                            "Nearby Hunts Complete",
+                            systemImage: "checkmark.circle.fill"
+                        )
+                        .font(.headline)
+
+                        Text(
+                            "You’ve found every hunt in this nearby set. Browse a different area to keep going, or revisit a completed hunt below."
+                        )
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+
+                    case .noneAvailable:
+                        Label(
+                            "No Nearby Hunts",
+                            systemImage: "binoculars"
+                        )
+                        .font(.headline)
+
+                        Text(
+                            "There aren’t any cataloged hunts close enough to this location yet. Browse by area or check again from another spot."
+                        )
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+
+                    case .available:
+                        EmptyView()
+                    }
+                }
 
                 if let suggested {
                     NavigationLink(value: suggested.discovery.id) {
@@ -351,7 +393,57 @@ struct NearbyPermissionView: View {
     }
 
     private func locate() {
+        guard snapshot != nil else {
+            loadCatalog()
+            return
+        }
+
         locationService.requestCurrentLocation()
+    }
+
+    private func loadCatalog(
+        reload: Bool = false
+    ) {
+        do {
+            snapshot = try reload
+                ? contentLoader.reload()
+                : contentLoader.load()
+            userProgress = progressStore.load()
+            catalogError = nil
+        } catch {
+            snapshot = nil
+            catalogError = CatalogRecoveryPresentation.make(
+                error: error
+            )
+            locationService.stop()
+        }
+    }
+
+    private func catalogFailureCard(
+        _ recovery: CatalogRecoveryPresentation
+    ) -> some View {
+        permissionCard {
+            Label(
+                recovery.title,
+                systemImage: "exclamationmark.triangle"
+            )
+            .font(.headline)
+
+            Text(recovery.message)
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+
+            Button("Try Again") {
+                loadCatalog(reload: true)
+
+                if snapshot != nil,
+                   permission.state.isAuthorized {
+                    locate()
+                }
+            }
+            .frame(maxWidth: .infinity, minHeight: 48)
+            .buttonStyle(.borderedProminent)
+        }
     }
 
     private func nearbyContext(for fix: LocationFix) -> NearbyContext? {

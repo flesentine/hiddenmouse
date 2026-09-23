@@ -11,11 +11,19 @@ struct ManualAreaSelectionView: View {
     var body: some View {
         Group {
             if loadFailed {
-                ContentUnavailableView(
-                    "Couldn’t Load Areas",
-                    systemImage: "exclamationmark.triangle",
-                    description: Text("Your offline park catalog couldn’t be opened.")
-                )
+                ContentUnavailableView {
+                    Label(
+                        "Couldn’t Load Areas",
+                        systemImage: "exclamationmark.triangle"
+                    )
+                } description: {
+                    Text("Your offline park catalog couldn’t be opened.")
+                } actions: {
+                    Button("Try Again") {
+                        load(reload: true)
+                    }
+                    .buttonStyle(.borderedProminent)
+                }
             } else if !hasLoaded {
                 ProgressView("Loading parks…")
             } else if parkOptions.isEmpty {
@@ -60,13 +68,17 @@ struct ManualAreaSelectionView: View {
         return "\(park.landCount) \(landWord) · \(ManualAreaPresentation.discoveryCountText(park.discoveryCount))"
     }
 
-    private func load() {
+    private func load(
+        reload: Bool = false
+    ) {
         defer {
             hasLoaded = true
         }
 
         do {
-            let snapshot = try contentLoader.load()
+            let snapshot = try reload
+                ? contentLoader.reload()
+                : contentLoader.load()
             parkOptions = ManualAreaPresentation.parks(from: snapshot)
             loadFailed = false
         } catch {

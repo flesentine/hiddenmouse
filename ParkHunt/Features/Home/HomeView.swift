@@ -206,8 +206,12 @@ struct HomeView: View {
         VStack(alignment: .leading, spacing: 20) {
             areaCard(presentation)
 
-            if let discoveryID = presentation.primaryDiscoveryID,
-               let title = presentation.primaryDiscoveryTitle {
+            if let progressSummary,
+               progressSummary.overall.total > 0,
+               progressSummary.overall.remaining == 0 {
+                allCompleteContent
+            } else if let discoveryID = presentation.primaryDiscoveryID,
+                      let title = presentation.primaryDiscoveryTitle {
                 featuredDiscovery(
                     id: discoveryID,
                     title: title,
@@ -271,6 +275,39 @@ struct HomeView: View {
             }
             .buttonStyle(.borderedProminent)
             .accessibilityHint("Opens this discovery")
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(18)
+        .background(.background, in: RoundedRectangle(cornerRadius: 20))
+    }
+
+    private var allCompleteContent: some View {
+        VStack(alignment: .leading, spacing: 14) {
+            Label(
+                "All Available Hunts Found",
+                systemImage: "checkmark.seal.fill"
+            )
+            .font(.headline)
+
+            Text(
+                "You’ve completed every hunt in the current catalog. Review your finds now, and new content can appear here later."
+            )
+            .font(.subheadline)
+            .foregroundStyle(.secondary)
+
+            NavigationLink {
+                CollectionView(
+                    contentLoader: contentLoader,
+                    progressStore: progressStore
+                )
+            } label: {
+                Label(
+                    "Review Collection",
+                    systemImage: "square.grid.2x2"
+                )
+                .frame(maxWidth: .infinity, minHeight: 48)
+            }
+            .buttonStyle(.borderedProminent)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(18)

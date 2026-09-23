@@ -4,26 +4,28 @@ Park Hunt is an iPhone-first scavenger-hunt companion for discovering hidden det
 
 ## Completed efforts
 
-### #1–#24 Core experience + tactile hunt flow
+### #1–#25 Core experience + restoration
 
-Park Hunt now supports the complete local hunt loop, offline image packaging/downsampling, progress, Collection, Settings, accessibility, one-handed controls, and restrained hunt haptics.
+Park Hunt now supports the complete local hunt loop, offline image packaging/downsampling, progress, Collection, Settings, accessibility, one-handed controls, haptics, and active-hunt restoration.
 
-### #25 State restoration
+### #26 Error states
 
-Park Hunt now persists the active hunt separately from ordinary hunt progress so an interruption can return the player to the exact gameplay state.
+The core experience now distinguishes recoverable failures and empty/completed states instead of collapsing them into generic blank screens.
 
-- starting an unfinished hunt records it as the active hunt,
-- reopening the app automatically returns to that unfinished discovery,
-- saved clue order is restored from the existing `UserProgress` data without advancing or rewriting the clue timestamp,
-- if **Show Me** was open when the app was interrupted, restoration returns through the Hunt and reopens the Reveal screen,
-- dismissing Reveal updates the active session back to the Hunt screen,
-- completing **I Found It** clears the active-hunt restoration target,
-- deliberately backing out of an unfinished Hunt while the app is active clears the restoration target,
-- removed/unavailable or already-completed discoveries are rejected as stale restoration targets,
-- a transient catalog-load failure does not erase the saved restoration target,
-- **Reset Hunt Progress** also clears the active-hunt session while preserving Help Style and haptics.
+- **Location denied** keeps manual browsing available and offers an iOS Settings shortcut.
+- **Weak or unavailable location** offers retry plus manual browsing.
+- **Catalog load failures** are separated from “no nearby park” and show retry actions.
+- Packaged-content failures distinguish missing content, invalid catalog data, and missing required offline assets in the recovery model.
+- **No nearby hunts** explains that nothing is cataloged close enough and points the guest to manual area browsing/check-again.
+- **All nearby hunts complete** is shown separately from “no hunts,” while completed hunts remain available for deliberate revisit.
+- Manual land browsing shows **Land Complete** when every hunt there is found, with a direct route back to choose another land.
+- Empty manual land/park catalog states are explicit; catalog-load failures have retry actions.
+- Collection load failures have retry, and zero-result filters offer **Clear Filters**.
+- Reveal treats a missing/unreadable photo as nonfatal because the full text reveal remains available.
+- A discovery removed before Reveal opens shows **Reveal Unavailable** with a direct **Back to Hunt** action.
+- Home no longer advertises an already-completed first discovery after the whole current catalog is complete; it shows **All Available Hunts Found** and **Review Collection** instead.
 
-The active session is stored locally in `UserDefaultsActiveHuntStore`; no account or network dependency is introduced.
+A shared `CatalogRecoveryPresentation` and `HuntAvailabilityState` make these distinctions testable outside SwiftUI.
 
 ## Verification
 
@@ -36,8 +38,8 @@ Verify offline core
 → Build for iOS Simulator
 ```
 
-Source tests cover active-session persistence, stale/completed-session rejection, exact saved clue stage, and saved Reveal state. Full XCTest execution remains scheduled for #32.
+Source tests cover empty/available/all-complete hunt classification and catalog-recovery classification. Full XCTest execution remains scheduled for #32.
 
 ## Next effort
 
-**#26 Error states:** harden denied/no location, bad content, missing photo, no nearby hunts, and all-complete states with clear recovery actions.
+**#27 Analytics foundation:** define privacy-conscious local event instrumentation for app open, hunt start, clue/reveal, found, Find Another, and return behavior.
