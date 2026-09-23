@@ -39,19 +39,24 @@ final class UserDefaultsAnalyticsRecorder: AnalyticsRecording {
     }
 
     func record(_ event: AnalyticsEventRecord) {
-        guard preferenceStore.load() else {
-            return
-        }
-
         let now = nowProvider()
-        guard isRetained(event, now: now) else {
+        let rawEvents = loadRawEvents()
+        var storedEvents = capped(
+            retained(
+                rawEvents,
+                now: now
+            )
+        )
+
+        if storedEvents != rawEvents {
+            save(storedEvents)
+        }
+
+        guard preferenceStore.load(),
+              isRetained(event, now: now) else {
             return
         }
 
-        var storedEvents = retained(
-            loadRawEvents(),
-            now: now
-        )
         storedEvents.append(event)
         storedEvents = capped(storedEvents)
         save(storedEvents)
@@ -162,13 +167,10 @@ final class MemoryAnalyticsRecorder: AnalyticsRecording {
     }
 
     func record(_ event: AnalyticsEventRecord) {
-        guard preferenceStore.load() else {
-            return
-        }
-
         prune()
 
-        guard isRetained(event) else {
+        guard preferenceStore.load(),
+              isRetained(event) else {
             return
         }
 
