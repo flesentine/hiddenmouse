@@ -4,6 +4,7 @@ import UIKit
 struct NearbyPermissionView: View {
     let contentLoader: ContentLoader
     let progressStore: any UserProgressStoring
+    let huntRouteDependencies: HuntRouteDependencies
 
     @StateObject private var permission = LocationPermissionController()
     @StateObject private var locationService = LocationService()
@@ -225,7 +226,11 @@ struct NearbyPermissionView: View {
                 }
 
                 if let suggested {
-                    NavigationLink(value: suggested.discovery.id) {
+                    NavigationLink {
+                        huntRouteDependencies.makeHuntView(
+                            discoveryID: suggested.discovery.id
+                        )
+                    } label: {
                         Label(
                             "Start Suggested Hunt",
                             systemImage: "arrow.right.circle.fill"
@@ -247,7 +252,8 @@ struct NearbyPermissionView: View {
                 NavigationLink {
                     ManualAreaSelectionView(
                         contentLoader: contentLoader,
-                        progressStore: progressStore
+                        progressStore: progressStore,
+                        huntRouteDependencies: huntRouteDependencies
                     )
                 } label: {
                     Text(context == nil ? "Browse by Area" : "Browse Different Area")
@@ -262,7 +268,11 @@ struct NearbyPermissionView: View {
                         .font(.headline)
 
                     ForEach(results.prefix(5)) { result in
-                        NavigationLink(value: result.discovery.id) {
+                        NavigationLink {
+                            huntRouteDependencies.makeHuntView(
+                                discoveryID: result.discovery.id
+                            )
+                        } label: {
                             NearbyDiscoveryRow(
                                 result: result,
                                 areaName: areaName(for: result.discovery)
@@ -374,7 +384,8 @@ struct NearbyPermissionView: View {
         NavigationLink {
             ManualAreaSelectionView(
                 contentLoader: contentLoader,
-                progressStore: progressStore
+                progressStore: progressStore,
+                huntRouteDependencies: huntRouteDependencies
             )
         } label: {
             Label("Browse by Area", systemImage: "map")
@@ -525,7 +536,8 @@ struct NearbyPermissionView: View {
     NavigationStack {
         NearbyPermissionView(
             contentLoader: ContentLoader(),
-            progressStore: MemoryUserProgressStore()
+            progressStore: MemoryUserProgressStore(),
+            huntRouteDependencies: .preview
         )
     }
 }

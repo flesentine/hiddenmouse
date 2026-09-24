@@ -5,6 +5,7 @@ struct ManualLandSelectionView: View {
     let parkName: String
     let contentLoader: ContentLoader
     let progressStore: any UserProgressStoring
+    let huntRouteDependencies: HuntRouteDependencies
 
     @State private var landOptions: [ManualLandOption] = []
     @State private var loadFailed = false
@@ -41,7 +42,8 @@ struct ManualLandSelectionView: View {
                             landID: land.id,
                             landName: land.name,
                             contentLoader: contentLoader,
-                            progressStore: progressStore
+                            progressStore: progressStore,
+                            huntRouteDependencies: huntRouteDependencies
                         )
                     } label: {
                         VStack(alignment: .leading, spacing: 5) {

@@ -7,6 +7,7 @@ struct ManualLandBrowseView: View {
     let landName: String
     let contentLoader: ContentLoader
     let progressStore: any UserProgressStoring
+    let huntRouteDependencies: HuntRouteDependencies
 
     @State private var results: [NearbyDiscoveryResult] = []
     @State private var snapshot: ContentSnapshot?
@@ -75,7 +76,11 @@ struct ManualLandBrowseView: View {
 
                     if let suggested = suggestedResult {
                         Section {
-                            NavigationLink(value: suggested.discovery.id) {
+                            NavigationLink {
+                                huntRouteDependencies.makeHuntView(
+                                    discoveryID: suggested.discovery.id
+                                )
+                            } label: {
                                 Label(
                                     "Start Suggested Hunt",
                                     systemImage: "arrow.right.circle.fill"
@@ -91,7 +96,11 @@ struct ManualLandBrowseView: View {
 
                     Section("All Hunts") {
                         ForEach(results) { result in
-                            NavigationLink(value: result.discovery.id) {
+                            NavigationLink {
+                                huntRouteDependencies.makeHuntView(
+                                    discoveryID: result.discovery.id
+                                )
+                            } label: {
                                 NearbyDiscoveryRow(
                                     result: result,
                                     areaName: areaName(for: result.discovery)

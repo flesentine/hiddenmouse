@@ -3,6 +3,7 @@ import SwiftUI
 struct ManualAreaSelectionView: View {
     let contentLoader: ContentLoader
     let progressStore: any UserProgressStoring
+    let huntRouteDependencies: HuntRouteDependencies
 
     @State private var parkOptions: [ManualParkOption] = []
     @State private var loadFailed = false
@@ -39,7 +40,8 @@ struct ManualAreaSelectionView: View {
                             parkID: park.id,
                             parkName: park.name,
                             contentLoader: contentLoader,
-                            progressStore: progressStore
+                            progressStore: progressStore,
+                            huntRouteDependencies: huntRouteDependencies
                         )
                     } label: {
                         VStack(alignment: .leading, spacing: 5) {
@@ -93,7 +95,8 @@ struct ManualAreaSelectionView: View {
     NavigationStack {
         ManualAreaSelectionView(
             contentLoader: ContentLoader(),
-            progressStore: MemoryUserProgressStore()
+            progressStore: MemoryUserProgressStore(),
+            huntRouteDependencies: .preview
         )
     }
 }

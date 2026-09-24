@@ -92,7 +92,8 @@ struct HomeView: View {
         NavigationLink {
             NearbyPermissionView(
                 contentLoader: contentLoader,
-                progressStore: progressStore
+                progressStore: progressStore,
+                huntRouteDependencies: huntRouteDependencies
             )
         } label: {
             HStack(spacing: 14) {
@@ -384,6 +385,17 @@ struct HomeView: View {
         progressSummary = ProgressSummary.make(
             snapshot: snapshot,
             progress: progressStore.load()
+        )
+    }
+
+    private var huntRouteDependencies: HuntRouteDependencies {
+        HuntRouteDependencies(
+            contentLoader: contentLoader,
+            progressStore: progressStore,
+            spoilerPreferenceStore: spoilerPreferenceStore,
+            hapticPreferenceStore: hapticPreferenceStore,
+            activeHuntStore: activeHuntStore,
+            analyticsRecorder: analyticsRecorder
         )
     }
 
