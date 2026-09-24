@@ -15,47 +15,792 @@
       "name": "Pirates of the Caribbean",
       "kind": "attraction",
       "sortOrder": 1
+    },
+    {
+      "id": "haunted-mansion",
+      "landID": "new-orleans-square",
+      "name": "Haunted Mansion",
+      "kind": "attraction",
+      "sortOrder": 2
+    },
+    {
+      "id": "royal-street",
+      "landID": "new-orleans-square",
+      "name": "Royal Street",
+      "kind": "area",
+      "sortOrder": 3
+    },
+    {
+      "id": "rivers-of-america-waterfront",
+      "landID": "new-orleans-square",
+      "name": "Rivers of America Waterfront",
+      "kind": "area",
+      "sortOrder": 4
+    },
+    {
+      "id": "pieces-of-eight",
+      "landID": "new-orleans-square",
+      "name": "Pieces of Eight",
+      "kind": "area",
+      "sortOrder": 5
     }
   ],
   "discoveries": [
     {
-      "id": "prototype-secret-001",
-      "title": "Prototype Discovery",
+      "id": "royal-street-louisiana-flag",
+      "title": "A Flag Above Royal Street",
+      "parkID": "disneyland",
+      "landID": "new-orleans-square",
+      "areaID": "royal-street",
+      "category": "historicalDetail",
+      "difficulty": "easy",
+      "location": {
+        "latitude": 33.8117,
+        "longitude": -117.9202,
+        "radiusMeters": 80
+      },
+      "hints": [
+        {
+          "id": "royal-street-louisiana-flag-h1",
+          "order": 1,
+          "text": "Start on Royal Street and look above the storefront level rather than at the signs in front of you.",
+          "kind": "clue"
+        },
+        {
+          "id": "royal-street-louisiana-flag-h2",
+          "order": 2,
+          "text": "Search the roofline for a flag connected to the real-world state that inspired this land.",
+          "kind": "clue"
+        },
+        {
+          "id": "royal-street-louisiana-flag-h3",
+          "order": 3,
+          "text": "The detail is the Louisiana state flag flying above Royal Street.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "Look above Royal Street for the Louisiana state flag, a small real-world touch that reinforces New Orleans Square's setting.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": false,
+      "tags": [
+        "royal-street",
+        "look-up",
+        "history"
+      ]
+    },
+    {
+      "id": "new-orleans-four-streets",
+      "title": "Four Streets in One Tiny Land",
+      "parkID": "disneyland",
+      "landID": "new-orleans-square",
+      "areaID": "royal-street",
+      "category": "historicalDetail",
+      "difficulty": "easy",
+      "location": {
+        "latitude": 33.8117,
+        "longitude": -117.9202,
+        "radiusMeters": 90
+      },
+      "hints": [
+        {
+          "id": "new-orleans-four-streets-h1",
+          "order": 1,
+          "text": "Ignore attraction names and hunt for the land's own street signs.",
+          "kind": "clue"
+        },
+        {
+          "id": "new-orleans-four-streets-h2",
+          "order": 2,
+          "text": "One sign can help you notice that New Orleans Square is laid out like a miniature city neighborhood.",
+          "kind": "clue"
+        },
+        {
+          "id": "new-orleans-four-streets-h3",
+          "order": 3,
+          "text": "Find the named streets: Royal Street, Orleans Street, Front Street, and Esplanade Street.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "New Orleans Square uses actual street names—Royal, Orleans, Front, and Esplanade—rather than treating every walkway as an unnamed path.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": false,
+      "tags": [
+        "royal-street",
+        "street-sign",
+        "history"
+      ]
+    },
+    {
+      "id": "twenty-one-royal-address",
+      "title": "The 21 Royal Address",
+      "parkID": "disneyland",
+      "landID": "new-orleans-square",
+      "areaID": "royal-street",
+      "category": "historicalDetail",
+      "difficulty": "medium",
+      "location": {
+        "latitude": 33.8117,
+        "longitude": -117.9202,
+        "radiusMeters": 70
+      },
+      "hints": [
+        {
+          "id": "twenty-one-royal-address-h1",
+          "order": 1,
+          "text": "Most Disneyland buildings do not advertise a normal-looking street number. Look for one here.",
+          "kind": "clue"
+        },
+        {
+          "id": "twenty-one-royal-address-h2",
+          "order": 2,
+          "text": "Stay around Royal Street and scan doors and façades for a two-digit address.",
+          "kind": "clue"
+        },
+        {
+          "id": "twenty-one-royal-address-h3",
+          "order": 3,
+          "text": "Find the building marked 21 Royal Street.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "The detail is the 21 Royal Street address—one of the unusually specific street addresses built into New Orleans Square.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": false,
+      "tags": [
+        "royal-street",
+        "address",
+        "architecture"
+      ]
+    },
+    {
+      "id": "club-thirty-three-orleans-address",
+      "title": "The 33 Orleans Address",
+      "parkID": "disneyland",
+      "landID": "new-orleans-square",
+      "areaID": "royal-street",
+      "category": "secretFeature",
+      "difficulty": "medium",
+      "location": {
+        "latitude": 33.8118,
+        "longitude": -117.9203,
+        "radiusMeters": 70
+      },
+      "hints": [
+        {
+          "id": "club-thirty-three-orleans-address-h1",
+          "order": 1,
+          "text": "Another numbered address is nearby, but this one is associated with a famously private Disneyland space.",
+          "kind": "clue"
+        },
+        {
+          "id": "club-thirty-three-orleans-address-h2",
+          "order": 2,
+          "text": "Look around Orleans Street for the number rather than searching the old Royal Street entrance.",
+          "kind": "clue"
+        },
+        {
+          "id": "club-thirty-three-orleans-address-h3",
+          "order": 3,
+          "text": "Find the entrance marked 33 Orleans Street.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "The current Club 33 entrance is associated with 33 Orleans Street, a discreet numbered address tucked into New Orleans Square.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": false,
+      "tags": [
+        "orleans-street",
+        "address",
+        "club-33"
+      ]
+    },
+    {
+      "id": "dream-suite-wd-rd-railing",
+      "title": "Two Initials in the Ironwork",
       "parkID": "disneyland",
       "landID": "new-orleans-square",
       "areaID": "pirates-of-the-caribbean",
-      "category": "secretFeature",
-      "difficulty": "easy",
+      "category": "historicalDetail",
+      "difficulty": "hard",
       "location": {
-        "latitude": 33.8119,
-        "longitude": -117.919,
+        "latitude": 33.8116,
+        "longitude": -117.9202,
         "radiusMeters": 100
       },
       "hints": [
         {
-          "id": "prototype-secret-001-h1",
+          "id": "dream-suite-wd-rd-railing-h1",
           "order": 1,
-          "text": "This is development-only content used to verify the offline catalog.",
+          "text": "Stand outside near Pirates of the Caribbean and look up toward the balcony ironwork.",
           "kind": "clue"
         },
         {
-          "id": "prototype-secret-001-h2",
+          "id": "dream-suite-wd-rd-railing-h2",
           "order": 2,
-          "text": "Real park clues will replace this record during prototype content population.",
+          "text": "Do not search for a printed sign. The tribute is worked into the decorative railing itself.",
           "kind": "clue"
         },
         {
-          "id": "prototype-secret-001-h3",
+          "id": "dream-suite-wd-rd-railing-h3",
           "order": 3,
-          "text": "This detailed development hint exists only to verify the final help stage.",
+          "text": "Look for the initials WD and RD hidden in the balcony railing above the Pirates area.",
           "kind": "detailed"
         }
       ],
-      "revealDescription": "Prototype content only. Replace this entry before field testing.",
-      "verificationStatus": "unverified",
+      "revealDescription": "The balcony railing includes WD and RD, honoring Walt Disney and Roy Disney in the space originally planned as a private family apartment.",
+      "verificationStatus": "needsRecheck",
       "isIndoor": false,
       "tags": [
-        "prototype"
+        "pirates-area",
+        "look-up",
+        "walt-disney",
+        "roy-disney"
+      ]
+    },
+    {
+      "id": "riverfront-1764-mark",
+      "title": "The Mysterious 1764",
+      "parkID": "disneyland",
+      "landID": "new-orleans-square",
+      "areaID": "rivers-of-america-waterfront",
+      "category": "historicalDetail",
+      "difficulty": "medium",
+      "location": {
+        "latitude": 33.8115,
+        "longitude": -117.9208,
+        "radiusMeters": 90
+      },
+      "hints": [
+        {
+          "id": "riverfront-1764-mark-h1",
+          "order": 1,
+          "text": "Walk the New Orleans Square side of the Rivers of America and inspect the themed masonry.",
+          "kind": "clue"
+        },
+        {
+          "id": "riverfront-1764-mark-h2",
+          "order": 2,
+          "text": "You're looking for a four-digit year worked into a bricked-up architectural detail.",
+          "kind": "clue"
+        },
+        {
+          "id": "riverfront-1764-mark-h3",
+          "order": 3,
+          "text": "Find the sealed-looking wall detail marked 1764 along the riverfront.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "The riverfront detail is marked 1764, an atmospheric reference tied to the history and architectural influences of New Orleans.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": false,
+      "tags": [
+        "riverfront",
+        "1764",
+        "history"
+      ]
+    },
+    {
+      "id": "pieces-of-eight-jack-doll",
+      "title": "A Tiny Pirate in the Window",
+      "parkID": "disneyland",
+      "landID": "new-orleans-square",
+      "areaID": "pieces-of-eight",
+      "category": "movieReference",
+      "difficulty": "hard",
+      "location": {
+        "latitude": 33.8116,
+        "longitude": -117.9201,
+        "radiusMeters": 55
+      },
+      "hints": [
+        {
+          "id": "pieces-of-eight-jack-doll-h1",
+          "order": 1,
+          "text": "After the Pirates area, inspect the display windows at Pieces of Eight instead of walking straight past.",
+          "kind": "clue"
+        },
+        {
+          "id": "pieces-of-eight-jack-doll-h2",
+          "order": 2,
+          "text": "Look for a small figure styled like a familiar movie pirate rather than a full-size prop.",
+          "kind": "clue"
+        },
+        {
+          "id": "pieces-of-eight-jack-doll-h3",
+          "order": 3,
+          "text": "The target is the Captain Jack Sparrow-style voodoo doll in the Pieces of Eight window.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "A small Captain Jack Sparrow-style voodoo doll is hidden among the Pieces of Eight display details.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": true,
+      "tags": [
+        "pieces-of-eight",
+        "captain-jack",
+        "movie-reference"
+      ]
+    },
+    {
+      "id": "pieces-of-eight-monkey-chandelier",
+      "title": "The Monkey Above the Register",
+      "parkID": "disneyland",
+      "landID": "new-orleans-square",
+      "areaID": "pieces-of-eight",
+      "category": "movieReference",
+      "difficulty": "medium",
+      "location": {
+        "latitude": 33.8116,
+        "longitude": -117.9201,
+        "radiusMeters": 50
+      },
+      "hints": [
+        {
+          "id": "pieces-of-eight-monkey-chandelier-h1",
+          "order": 1,
+          "text": "Inside Pieces of Eight, shift your attention from the merchandise to the ceiling fixtures.",
+          "kind": "clue"
+        },
+        {
+          "id": "pieces-of-eight-monkey-chandelier-h2",
+          "order": 2,
+          "text": "Search above the register for an animal worked into a chandelier.",
+          "kind": "clue"
+        },
+        {
+          "id": "pieces-of-eight-monkey-chandelier-h3",
+          "order": 3,
+          "text": "Find the white pirate monkey hanging from the chandelier above the register area.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "A white pirate monkey hangs from a chandelier above the register area, echoing the mischievous monkey associated with the Pirates films.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": true,
+      "tags": [
+        "pieces-of-eight",
+        "monkey",
+        "look-up"
+      ]
+    },
+    {
+      "id": "new-orleans-rooftop-ship-masts",
+      "title": "The Ship You Cannot Reach",
+      "parkID": "disneyland",
+      "landID": "new-orleans-square",
+      "areaID": "royal-street",
+      "category": "imagineeringDetail",
+      "difficulty": "medium",
+      "location": {
+        "latitude": 33.8117,
+        "longitude": -117.9204,
+        "radiusMeters": 120
+      },
+      "hints": [
+        {
+          "id": "new-orleans-rooftop-ship-masts-h1",
+          "order": 1,
+          "text": "Look above the New Orleans Square roofs and pretend you are standing in a busy port.",
+          "kind": "clue"
+        },
+        {
+          "id": "new-orleans-rooftop-ship-masts-h2",
+          "order": 2,
+          "text": "The ship is not on the river in front of you. Only part of it appears above the buildings.",
+          "kind": "clue"
+        },
+        {
+          "id": "new-orleans-rooftop-ship-masts-h3",
+          "order": 3,
+          "text": "Find the sailing-ship masts and sails peeking over the New Orleans Square roofline.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "The rooftop masts and sails create the illusion that a tall ship is docked just beyond the buildings, extending the port-city story beyond the visible streets.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": false,
+      "tags": [
+        "roofline",
+        "ship",
+        "environmental-storytelling"
+      ]
+    },
+    {
+      "id": "haunted-queue-spanish-fountain",
+      "title": "The Fountain With a Past",
+      "parkID": "disneyland",
+      "landID": "new-orleans-square",
+      "areaID": "haunted-mansion",
+      "category": "historicalDetail",
+      "difficulty": "easy",
+      "location": {
+        "latitude": 33.812,
+        "longitude": -117.921,
+        "radiusMeters": 100
+      },
+      "hints": [
+        {
+          "id": "haunted-queue-spanish-fountain-h1",
+          "order": 1,
+          "text": "Enter the newer Haunted Mansion grounds and watch for a familiar water feature near the start of the expanded queue.",
+          "kind": "clue"
+        },
+        {
+          "id": "haunted-queue-spanish-fountain-h2",
+          "order": 2,
+          "text": "It is a Spanish-style fountain that was reused rather than created only for this garden.",
+          "kind": "clue"
+        },
+        {
+          "id": "haunted-queue-spanish-fountain-h3",
+          "order": 3,
+          "text": "Find the Spanish fountain near the entrance to the expanded Haunted Mansion grounds.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "The Spanish-style fountain in the expanded Haunted Mansion queue previously stood in the nearby area that became Magnolia Park.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": false,
+      "tags": [
+        "haunted-mansion",
+        "queue",
+        "fountain"
+      ]
+    },
+    {
+      "id": "haunted-queue-raven-pair",
+      "title": "Two Ravens on Watch",
+      "parkID": "disneyland",
+      "landID": "new-orleans-square",
+      "areaID": "haunted-mansion",
+      "category": "imagineeringDetail",
+      "difficulty": "easy",
+      "location": {
+        "latitude": 33.812,
+        "longitude": -117.9211,
+        "radiusMeters": 90
+      },
+      "hints": [
+        {
+          "id": "haunted-queue-raven-pair-h1",
+          "order": 1,
+          "text": "Once inside the expanded Mansion grounds, look for a matched pair acting like silent guards.",
+          "kind": "clue"
+        },
+        {
+          "id": "haunted-queue-raven-pair-h2",
+          "order": 2,
+          "text": "They are birds with a long association with omens and the supernatural.",
+          "kind": "clue"
+        },
+        {
+          "id": "haunted-queue-raven-pair-h3",
+          "order": 3,
+          "text": "Find the pair of raven figures guarding the Haunted Mansion garden path.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "Two raven figures guard the expanded grounds, adding an ominous bridge between the living world and the Mansion's ghostly story.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": false,
+      "tags": [
+        "haunted-mansion",
+        "queue",
+        "ravens"
+      ]
+    },
+    {
+      "id": "haunted-queue-crouching-cat",
+      "title": "The Cat Ready to Pounce",
+      "parkID": "disneyland",
+      "landID": "new-orleans-square",
+      "areaID": "haunted-mansion",
+      "category": "imagineeringDetail",
+      "difficulty": "medium",
+      "location": {
+        "latitude": 33.812,
+        "longitude": -117.9211,
+        "radiusMeters": 90
+      },
+      "hints": [
+        {
+          "id": "haunted-queue-crouching-cat-h1",
+          "order": 1,
+          "text": "Search low instead of high as you move through the Haunted Mansion garden.",
+          "kind": "clue"
+        },
+        {
+          "id": "haunted-queue-crouching-cat-h2",
+          "order": 2,
+          "text": "The figure is tucked among grasses and looks frozen just before a leap.",
+          "kind": "clue"
+        },
+        {
+          "id": "haunted-queue-crouching-cat-h3",
+          "order": 3,
+          "text": "Find the crouching cat statue hidden among the grasses in the queue garden.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "A crouching cat statue sits low among the grasses, posed as if it is about to pounce.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": false,
+      "tags": [
+        "haunted-mansion",
+        "queue",
+        "cat"
+      ]
+    },
+    {
+      "id": "gracey-garden-sea-maiden",
+      "title": "The Storm-Tossed Sea Maiden",
+      "parkID": "disneyland",
+      "landID": "new-orleans-square",
+      "areaID": "haunted-mansion",
+      "category": "imagineeringDetail",
+      "difficulty": "medium",
+      "location": {
+        "latitude": 33.8121,
+        "longitude": -117.9212,
+        "radiusMeters": 90
+      },
+      "hints": [
+        {
+          "id": "gracey-garden-sea-maiden-h1",
+          "order": 1,
+          "text": "Look for the garden space associated with Master Gracey.",
+          "kind": "clue"
+        },
+        {
+          "id": "gracey-garden-sea-maiden-h2",
+          "order": 2,
+          "text": "Inspect the fountain face rather than only the water or surrounding plants.",
+          "kind": "clue"
+        },
+        {
+          "id": "gracey-garden-sea-maiden-h3",
+          "order": 3,
+          "text": "Find the sea-maiden face in Master Gracey's garden fountain, with wild hair and a startled expression.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "Master Gracey's garden includes a fountain with the face of a sea maiden whose windswept hair and startled expression make her look caught in a storm.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": false,
+      "tags": [
+        "haunted-mansion",
+        "master-gracey",
+        "fountain"
+      ]
+    },
+    {
+      "id": "gracey-gazebo-left-behind",
+      "title": "What Gracey Left Behind",
+      "parkID": "disneyland",
+      "landID": "new-orleans-square",
+      "areaID": "haunted-mansion",
+      "category": "imagineeringDetail",
+      "difficulty": "medium",
+      "location": {
+        "latitude": 33.8121,
+        "longitude": -117.9212,
+        "radiusMeters": 85
+      },
+      "hints": [
+        {
+          "id": "gracey-gazebo-left-behind-h1",
+          "order": 1,
+          "text": "Stay in Master Gracey's garden and inspect the old iron gazebo.",
+          "kind": "clue"
+        },
+        {
+          "id": "gracey-gazebo-left-behind-h2",
+          "order": 2,
+          "text": "You're looking for a small group of personal objects, as if someone stood up and walked away.",
+          "kind": "clue"
+        },
+        {
+          "id": "gracey-gazebo-left-behind-h3",
+          "order": 3,
+          "text": "Find the bench with a well-read book, an armillary sphere, and a pipe left in the gazebo.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "Inside Master Gracey's wrought-iron gazebo are a bench, a worn book, an armillary sphere, and a pipe—quiet props that make the garden feel recently occupied.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": false,
+      "tags": [
+        "haunted-mansion",
+        "master-gracey",
+        "gazebo"
+      ]
+    },
+    {
+      "id": "leota-garden-oddity-statuary",
+      "title": "Leota's Frozen Oddities",
+      "parkID": "disneyland",
+      "landID": "new-orleans-square",
+      "areaID": "haunted-mansion",
+      "category": "imagineeringDetail",
+      "difficulty": "medium",
+      "location": {
+        "latitude": 33.8121,
+        "longitude": -117.9213,
+        "radiusMeters": 90
+      },
+      "hints": [
+        {
+          "id": "leota-garden-oddity-statuary-h1",
+          "order": 1,
+          "text": "Move farther into the grounds toward Madame Leota's garden and scan the small statuary.",
+          "kind": "clue"
+        },
+        {
+          "id": "leota-garden-oddity-statuary-h2",
+          "order": 2,
+          "text": "Look for several little animals that seem caught in the middle of an enchantment.",
+          "kind": "clue"
+        },
+        {
+          "id": "leota-garden-oddity-statuary-h3",
+          "order": 3,
+          "text": "Find the oddity statues—including frogs, lizards, rats, and a cymbal-playing monkey.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "Madame Leota's garden contains a collection of strange little animal statues, including a cymbal-playing monkey, all posed as if frozen by a spell.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": false,
+      "tags": [
+        "haunted-mansion",
+        "madame-leota",
+        "statuary"
+      ]
+    },
+    {
+      "id": "leota-garden-fortune-orbs",
+      "title": "A Garden Full of Fortunes",
+      "parkID": "disneyland",
+      "landID": "new-orleans-square",
+      "areaID": "haunted-mansion",
+      "category": "easterEgg",
+      "difficulty": "medium",
+      "location": {
+        "latitude": 33.8121,
+        "longitude": -117.9213,
+        "radiusMeters": 90
+      },
+      "hints": [
+        {
+          "id": "leota-garden-fortune-orbs-h1",
+          "order": 1,
+          "text": "Madame Leota's garden repeats one shape often enough to become a visual theme.",
+          "kind": "clue"
+        },
+        {
+          "id": "leota-garden-fortune-orbs-h2",
+          "order": 2,
+          "text": "Think of the object a fortune teller might stare into for a glimpse of the future.",
+          "kind": "clue"
+        },
+        {
+          "id": "leota-garden-fortune-orbs-h3",
+          "order": 3,
+          "text": "Look for the repeating crystal-ball or fortune-telling orb motif throughout Leota's garden.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "Fortune-telling orbs repeat throughout Madame Leota's garden, visually linking the space to her role as the Mansion's resident medium.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": false,
+      "tags": [
+        "haunted-mansion",
+        "madame-leota",
+        "fortune-telling"
+      ]
+    },
+    {
+      "id": "leota-oak-chimes-bells",
+      "title": "The Tree That Rings",
+      "parkID": "disneyland",
+      "landID": "new-orleans-square",
+      "areaID": "haunted-mansion",
+      "category": "secretFeature",
+      "difficulty": "easy",
+      "location": {
+        "latitude": 33.8121,
+        "longitude": -117.9213,
+        "radiusMeters": 95
+      },
+      "hints": [
+        {
+          "id": "leota-oak-chimes-bells-h1",
+          "order": 1,
+          "text": "Find the large oak in Madame Leota's courtyard and look beyond its leaves.",
+          "kind": "clue"
+        },
+        {
+          "id": "leota-oak-chimes-bells-h2",
+          "order": 2,
+          "text": "This detail can move and make sound when the breeze catches it.",
+          "kind": "clue"
+        },
+        {
+          "id": "leota-oak-chimes-bells-h3",
+          "order": 3,
+          "text": "Look for the colorful ornaments, chimes, and bells hanging from the oak tree.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "Madame Leota's courtyard oak is decorated with colorful ornaments, chimes, and bells that can stir and ring in the breeze.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": false,
+      "tags": [
+        "haunted-mansion",
+        "madame-leota",
+        "oak-tree"
+      ]
+    },
+    {
+      "id": "mansion-greenhouse-strange-plants",
+      "title": "The Ghosts' Greenhouse",
+      "parkID": "disneyland",
+      "landID": "new-orleans-square",
+      "areaID": "haunted-mansion",
+      "category": "secretFeature",
+      "difficulty": "easy",
+      "location": {
+        "latitude": 33.8122,
+        "longitude": -117.9213,
+        "radiusMeters": 100
+      },
+      "hints": [
+        {
+          "id": "mansion-greenhouse-strange-plants-h1",
+          "order": 1,
+          "text": "Keep moving toward the rear of the expanded Haunted Mansion garden.",
+          "kind": "clue"
+        },
+        {
+          "id": "mansion-greenhouse-strange-plants-h2",
+          "order": 2,
+          "text": "Look for an ornate structure made from iron and glass rather than another statue.",
+          "kind": "clue"
+        },
+        {
+          "id": "mansion-greenhouse-strange-plants-h3",
+          "order": 3,
+          "text": "Find the Mansion greenhouse at the back of the garden and inspect its unusual plant collection.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "At the rear of the grounds is an ornate iron-and-glass greenhouse presented as a place where the Mansion's ghostly residents cultivate unusual plants.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": false,
+      "tags": [
+        "haunted-mansion",
+        "greenhouse",
+        "plants"
       ]
     }
   ]

@@ -1,0 +1,42 @@
+{
+  "id": "club-thirty-three-orleans-address",
+  "title": "The 33 Orleans Address",
+  "parkID": "disneyland",
+  "landID": "new-orleans-square",
+  "areaID": "royal-street",
+  "category": "secretFeature",
+  "difficulty": "medium",
+  "location": {
+    "latitude": 33.8118,
+    "longitude": -117.9203,
+    "radiusMeters": 70
+  },
+  "hints": [
+    {
+      "id": "club-thirty-three-orleans-address-h1",
+      "order": 1,
+      "text": "Another numbered address is nearby, but this one is associated with a famously private Disneyland space.",
+      "kind": "clue"
+    },
+    {
+      "id": "club-thirty-three-orleans-address-h2",
+      "order": 2,
+      "text": "Look around Orleans Street for the number rather than searching the old Royal Street entrance.",
+      "kind": "clue"
+    },
+    {
+      "id": "club-thirty-three-orleans-address-h3",
+      "order": 3,
+      "text": "Find the entrance marked 33 Orleans Street.",
+      "kind": "detailed"
+    }
+  ],
+  "revealDescription": "The current Club 33 entrance is associated with 33 Orleans Street, a discreet numbered address tucked into New Orleans Square.",
+  "verificationStatus": "needsRecheck",
+  "isIndoor": false,
+  "tags": [
+    "orleans-street",
+    "address",
+    "club-33"
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "id": "leota-garden-fortune-orbs",
+  "title": "A Garden Full of Fortunes",
+  "parkID": "disneyland",
+  "landID": "new-orleans-square",
+  "areaID": "haunted-mansion",
+  "category": "easterEgg",
+  "difficulty": "medium",
+  "location": {
+    "latitude": 33.8121,
+    "longitude": -117.9213,
+    "radiusMeters": 90
+  },
+  "hints": [
+    {
+      "id": "leota-garden-fortune-orbs-h1",
+      "order": 1,
+      "text": "Madame Leota's garden repeats one shape often enough to become a visual theme.",
+      "kind": "clue"
+    },
+    {
+      "id": "leota-garden-fortune-orbs-h2",
+      "order": 2,
+      "text": "Think of the object a fortune teller might stare into for a glimpse of the future.",
+      "kind": "clue"
+    },
+    {
+      "id": "leota-garden-fortune-orbs-h3",
+      "order": 3,
+      "text": "Look for the repeating crystal-ball or fortune-telling orb motif throughout Leota's garden.",
+      "kind": "detailed"
+    }
+  ],
+  "revealDescription": "Fortune-telling orbs repeat throughout Madame Leota's garden, visually linking the space to her role as the Mansion's resident medium.",
+  "verificationStatus": "needsRecheck",
+  "isIndoor": false,
+  "tags": [
+    "haunted-mansion",
+    "madame-leota",
+    "fortune-telling"
+  ]
+}

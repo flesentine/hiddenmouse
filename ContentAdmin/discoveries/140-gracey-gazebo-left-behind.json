@@ -1,0 +1,42 @@
+{
+  "id": "gracey-gazebo-left-behind",
+  "title": "What Gracey Left Behind",
+  "parkID": "disneyland",
+  "landID": "new-orleans-square",
+  "areaID": "haunted-mansion",
+  "category": "imagineeringDetail",
+  "difficulty": "medium",
+  "location": {
+    "latitude": 33.8121,
+    "longitude": -117.9212,
+    "radiusMeters": 85
+  },
+  "hints": [
+    {
+      "id": "gracey-gazebo-left-behind-h1",
+      "order": 1,
+      "text": "Stay in Master Gracey's garden and inspect the old iron gazebo.",
+      "kind": "clue"
+    },
+    {
+      "id": "gracey-gazebo-left-behind-h2",
+      "order": 2,
+      "text": "You're looking for a small group of personal objects, as if someone stood up and walked away.",
+      "kind": "clue"
+    },
+    {
+      "id": "gracey-gazebo-left-behind-h3",
+      "order": 3,
+      "text": "Find the bench with a well-read book, an armillary sphere, and a pipe left in the gazebo.",
+      "kind": "detailed"
+    }
+  ],
+  "revealDescription": "Inside Master Gracey's wrought-iron gazebo are a bench, a worn book, an armillary sphere, and a pipe—quiet props that make the garden feel recently occupied.",
+  "verificationStatus": "needsRecheck",
+  "isIndoor": false,
+  "tags": [
+    "haunted-mansion",
+    "master-gracey",
+    "gazebo"
+  ]
+}

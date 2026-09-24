@@ -1,0 +1,42 @@
+{
+  "id": "leota-oak-chimes-bells",
+  "title": "The Tree That Rings",
+  "parkID": "disneyland",
+  "landID": "new-orleans-square",
+  "areaID": "haunted-mansion",
+  "category": "secretFeature",
+  "difficulty": "easy",
+  "location": {
+    "latitude": 33.8121,
+    "longitude": -117.9213,
+    "radiusMeters": 95
+  },
+  "hints": [
+    {
+      "id": "leota-oak-chimes-bells-h1",
+      "order": 1,
+      "text": "Find the large oak in Madame Leota's courtyard and look beyond its leaves.",
+      "kind": "clue"
+    },
+    {
+      "id": "leota-oak-chimes-bells-h2",
+      "order": 2,
+      "text": "This detail can move and make sound when the breeze catches it.",
+      "kind": "clue"
+    },
+    {
+      "id": "leota-oak-chimes-bells-h3",
+      "order": 3,
+      "text": "Look for the colorful ornaments, chimes, and bells hanging from the oak tree.",
+      "kind": "detailed"
+    }
+  ],
+  "revealDescription": "Madame Leota's courtyard oak is decorated with colorful ornaments, chimes, and bells that can stir and ring in the breeze.",
+  "verificationStatus": "needsRecheck",
+  "isIndoor": false,
+  "tags": [
+    "haunted-mansion",
+    "madame-leota",
+    "oak-tree"
+  ]
+}

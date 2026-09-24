@@ -1,0 +1,42 @@
+{
+  "id": "new-orleans-four-streets",
+  "title": "Four Streets in One Tiny Land",
+  "parkID": "disneyland",
+  "landID": "new-orleans-square",
+  "areaID": "royal-street",
+  "category": "historicalDetail",
+  "difficulty": "easy",
+  "location": {
+    "latitude": 33.8117,
+    "longitude": -117.9202,
+    "radiusMeters": 90
+  },
+  "hints": [
+    {
+      "id": "new-orleans-four-streets-h1",
+      "order": 1,
+      "text": "Ignore attraction names and hunt for the land's own street signs.",
+      "kind": "clue"
+    },
+    {
+      "id": "new-orleans-four-streets-h2",
+      "order": 2,
+      "text": "One sign can help you notice that New Orleans Square is laid out like a miniature city neighborhood.",
+      "kind": "clue"
+    },
+    {
+      "id": "new-orleans-four-streets-h3",
+      "order": 3,
+      "text": "Find the named streets: Royal Street, Orleans Street, Front Street, and Esplanade Street.",
+      "kind": "detailed"
+    }
+  ],
+  "revealDescription": "New Orleans Square uses actual street names—Royal, Orleans, Front, and Esplanade—rather than treating every walkway as an unnamed path.",
+  "verificationStatus": "needsRecheck",
+  "isIndoor": false,
+  "tags": [
+    "royal-street",
+    "street-sign",
+    "history"
+  ]
+}

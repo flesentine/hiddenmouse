@@ -1,0 +1,42 @@
+{
+  "id": "pieces-of-eight-monkey-chandelier",
+  "title": "The Monkey Above the Register",
+  "parkID": "disneyland",
+  "landID": "new-orleans-square",
+  "areaID": "pieces-of-eight",
+  "category": "movieReference",
+  "difficulty": "medium",
+  "location": {
+    "latitude": 33.8116,
+    "longitude": -117.9201,
+    "radiusMeters": 50
+  },
+  "hints": [
+    {
+      "id": "pieces-of-eight-monkey-chandelier-h1",
+      "order": 1,
+      "text": "Inside Pieces of Eight, shift your attention from the merchandise to the ceiling fixtures.",
+      "kind": "clue"
+    },
+    {
+      "id": "pieces-of-eight-monkey-chandelier-h2",
+      "order": 2,
+      "text": "Search above the register for an animal worked into a chandelier.",
+      "kind": "clue"
+    },
+    {
+      "id": "pieces-of-eight-monkey-chandelier-h3",
+      "order": 3,
+      "text": "Find the white pirate monkey hanging from the chandelier above the register area.",
+      "kind": "detailed"
+    }
+  ],
+  "revealDescription": "A white pirate monkey hangs from a chandelier above the register area, echoing the mischievous monkey associated with the Pirates films.",
+  "verificationStatus": "needsRecheck",
+  "isIndoor": true,
+  "tags": [
+    "pieces-of-eight",
+    "monkey",
+    "look-up"
+  ]
+}

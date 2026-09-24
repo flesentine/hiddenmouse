@@ -5,5 +5,33 @@
     "name": "Pirates of the Caribbean",
     "kind": "attraction",
     "sortOrder": 1
+  },
+  {
+    "id": "haunted-mansion",
+    "landID": "new-orleans-square",
+    "name": "Haunted Mansion",
+    "kind": "attraction",
+    "sortOrder": 2
+  },
+  {
+    "id": "royal-street",
+    "landID": "new-orleans-square",
+    "name": "Royal Street",
+    "kind": "area",
+    "sortOrder": 3
+  },
+  {
+    "id": "rivers-of-america-waterfront",
+    "landID": "new-orleans-square",
+    "name": "Rivers of America Waterfront",
+    "kind": "area",
+    "sortOrder": 4
+  },
+  {
+    "id": "pieces-of-eight",
+    "landID": "new-orleans-square",
+    "name": "Pieces of Eight",
+    "kind": "area",
+    "sortOrder": 5
   }
 ]

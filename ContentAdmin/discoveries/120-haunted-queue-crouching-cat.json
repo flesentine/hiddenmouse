@@ -1,0 +1,42 @@
+{
+  "id": "haunted-queue-crouching-cat",
+  "title": "The Cat Ready to Pounce",
+  "parkID": "disneyland",
+  "landID": "new-orleans-square",
+  "areaID": "haunted-mansion",
+  "category": "imagineeringDetail",
+  "difficulty": "medium",
+  "location": {
+    "latitude": 33.812,
+    "longitude": -117.9211,
+    "radiusMeters": 90
+  },
+  "hints": [
+    {
+      "id": "haunted-queue-crouching-cat-h1",
+      "order": 1,
+      "text": "Search low instead of high as you move through the Haunted Mansion garden.",
+      "kind": "clue"
+    },
+    {
+      "id": "haunted-queue-crouching-cat-h2",
+      "order": 2,
+      "text": "The figure is tucked among grasses and looks frozen just before a leap.",
+      "kind": "clue"
+    },
+    {
+      "id": "haunted-queue-crouching-cat-h3",
+      "order": 3,
+      "text": "Find the crouching cat statue hidden among the grasses in the queue garden.",
+      "kind": "detailed"
+    }
+  ],
+  "revealDescription": "A crouching cat statue sits low among the grasses, posed as if it is about to pounce.",
+  "verificationStatus": "needsRecheck",
+  "isIndoor": false,
+  "tags": [
+    "haunted-mansion",
+    "queue",
+    "cat"
+  ]
+}

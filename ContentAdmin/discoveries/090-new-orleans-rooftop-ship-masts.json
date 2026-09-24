@@ -1,0 +1,42 @@
+{
+  "id": "new-orleans-rooftop-ship-masts",
+  "title": "The Ship You Cannot Reach",
+  "parkID": "disneyland",
+  "landID": "new-orleans-square",
+  "areaID": "royal-street",
+  "category": "imagineeringDetail",
+  "difficulty": "medium",
+  "location": {
+    "latitude": 33.8117,
+    "longitude": -117.9204,
+    "radiusMeters": 120
+  },
+  "hints": [
+    {
+      "id": "new-orleans-rooftop-ship-masts-h1",
+      "order": 1,
+      "text": "Look above the New Orleans Square roofs and pretend you are standing in a busy port.",
+      "kind": "clue"
+    },
+    {
+      "id": "new-orleans-rooftop-ship-masts-h2",
+      "order": 2,
+      "text": "The ship is not on the river in front of you. Only part of it appears above the buildings.",
+      "kind": "clue"
+    },
+    {
+      "id": "new-orleans-rooftop-ship-masts-h3",
+      "order": 3,
+      "text": "Find the sailing-ship masts and sails peeking over the New Orleans Square roofline.",
+      "kind": "detailed"
+    }
+  ],
+  "revealDescription": "The rooftop masts and sails create the illusion that a tall ship is docked just beyond the buildings, extending the port-city story beyond the visible streets.",
+  "verificationStatus": "needsRecheck",
+  "isIndoor": false,
+  "tags": [
+    "roofline",
+    "ship",
+    "environmental-storytelling"
+  ]
+}

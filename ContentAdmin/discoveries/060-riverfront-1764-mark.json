@@ -1,0 +1,42 @@
+{
+  "id": "riverfront-1764-mark",
+  "title": "The Mysterious 1764",
+  "parkID": "disneyland",
+  "landID": "new-orleans-square",
+  "areaID": "rivers-of-america-waterfront",
+  "category": "historicalDetail",
+  "difficulty": "medium",
+  "location": {
+    "latitude": 33.8115,
+    "longitude": -117.9208,
+    "radiusMeters": 90
+  },
+  "hints": [
+    {
+      "id": "riverfront-1764-mark-h1",
+      "order": 1,
+      "text": "Walk the New Orleans Square side of the Rivers of America and inspect the themed masonry.",
+      "kind": "clue"
+    },
+    {
+      "id": "riverfront-1764-mark-h2",
+      "order": 2,
+      "text": "You're looking for a four-digit year worked into a bricked-up architectural detail.",
+      "kind": "clue"
+    },
+    {
+      "id": "riverfront-1764-mark-h3",
+      "order": 3,
+      "text": "Find the sealed-looking wall detail marked 1764 along the riverfront.",
+      "kind": "detailed"
+    }
+  ],
+  "revealDescription": "The riverfront detail is marked 1764, an atmospheric reference tied to the history and architectural influences of New Orleans.",
+  "verificationStatus": "needsRecheck",
+  "isIndoor": false,
+  "tags": [
+    "riverfront",
+    "1764",
+    "history"
+  ]
+}

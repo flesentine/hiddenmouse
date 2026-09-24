@@ -60,6 +60,14 @@ python3 scripts/validate-content-admin.py --shipping
 
 Shipping mode rejects development-only content, placeholder text, and discoveries still marked `unverified` or `needsRecheck`.
 
+### #31 Prototype content population
+
+The development-only fixture has been replaced with **18 original New Orleans Square hunts** covering Royal Street, the Rivers of America waterfront, Pieces of Eight, the Pirates exterior area, and the expanded Haunted Mansion grounds.
+
+The batch is source-vetted but intentionally marked `needsRecheck` until each detail and approximate Nearby coordinate is confirmed in person. Normal CI accepts the batch; `--shipping` correctly blocks it until field verification is complete.
+
+Research provenance for the batch lives in `ContentAdmin/SOURCES.md`.
+
 ## Verification
 
 CI now runs:
@@ -77,4 +85,4 @@ Self-test content validator
 
 ## Next effort
 
-**#31 Prototype content population:** replace the development fixture with the first 15–20 original, validated Disneyland discoveries for the field-test area.
+**#32 Internal testing:** add focused unit coverage for discovery selection, hint progression, progress state, location calculations, and content loading.

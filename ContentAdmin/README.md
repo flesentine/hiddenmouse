@@ -12,7 +12,9 @@ ContentAdmin/
 ├── areas.json
 ├── discovery-id-registry.json
 ├── discoveries/
-│   └── 010-prototype-secret-001.json
+│   ├── 010-royal-street-louisiana-flag.json
+│   ├── ...
+│   └── 180-mansion-greenhouse-strange-plants.json
 └── templates/
     └── discovery.template.json
 ```
@@ -65,7 +67,7 @@ Shipping mode rejects:
 - `unverified` discoveries,
 - `needsRecheck` discoveries.
 
-The current prototype fixture is intentionally marked development-only, so normal development CI accepts it with warnings while `--shipping` rejects it.
+The first New Orleans Square field-test batch is intentionally marked `needsRecheck` until each discovery and its approximate location are confirmed in person. Normal development CI accepts this state; `--shipping` rejects it.
 
 ## ID registry
 
@@ -141,6 +143,8 @@ The current supported metadata is:
 ```
 
 Development-only content must have a matching `development` registry state. It can produce warnings in normal validation but is always an error in `--shipping` mode.
+
+The retired `prototype-secret-001` ID remains in the registry permanently so saved progress or future sync can never collide with a reused fixture ID.
 
 ## Runtime discovery fields
 

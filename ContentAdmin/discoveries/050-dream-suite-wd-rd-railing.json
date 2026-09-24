@@ -1,0 +1,43 @@
+{
+  "id": "dream-suite-wd-rd-railing",
+  "title": "Two Initials in the Ironwork",
+  "parkID": "disneyland",
+  "landID": "new-orleans-square",
+  "areaID": "pirates-of-the-caribbean",
+  "category": "historicalDetail",
+  "difficulty": "hard",
+  "location": {
+    "latitude": 33.8116,
+    "longitude": -117.9202,
+    "radiusMeters": 100
+  },
+  "hints": [
+    {
+      "id": "dream-suite-wd-rd-railing-h1",
+      "order": 1,
+      "text": "Stand outside near Pirates of the Caribbean and look up toward the balcony ironwork.",
+      "kind": "clue"
+    },
+    {
+      "id": "dream-suite-wd-rd-railing-h2",
+      "order": 2,
+      "text": "Do not search for a printed sign. The tribute is worked into the decorative railing itself.",
+      "kind": "clue"
+    },
+    {
+      "id": "dream-suite-wd-rd-railing-h3",
+      "order": 3,
+      "text": "Look for the initials WD and RD hidden in the balcony railing above the Pirates area.",
+      "kind": "detailed"
+    }
+  ],
+  "revealDescription": "The balcony railing includes WD and RD, honoring Walt Disney and Roy Disney in the space originally planned as a private family apartment.",
+  "verificationStatus": "needsRecheck",
+  "isIndoor": false,
+  "tags": [
+    "pirates-area",
+    "look-up",
+    "walt-disney",
+    "roy-disney"
+  ]
+}

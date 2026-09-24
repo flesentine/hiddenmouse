@@ -1,0 +1,42 @@
+{
+  "id": "mansion-greenhouse-strange-plants",
+  "title": "The Ghosts' Greenhouse",
+  "parkID": "disneyland",
+  "landID": "new-orleans-square",
+  "areaID": "haunted-mansion",
+  "category": "secretFeature",
+  "difficulty": "easy",
+  "location": {
+    "latitude": 33.8122,
+    "longitude": -117.9213,
+    "radiusMeters": 100
+  },
+  "hints": [
+    {
+      "id": "mansion-greenhouse-strange-plants-h1",
+      "order": 1,
+      "text": "Keep moving toward the rear of the expanded Haunted Mansion garden.",
+      "kind": "clue"
+    },
+    {
+      "id": "mansion-greenhouse-strange-plants-h2",
+      "order": 2,
+      "text": "Look for an ornate structure made from iron and glass rather than another statue.",
+      "kind": "clue"
+    },
+    {
+      "id": "mansion-greenhouse-strange-plants-h3",
+      "order": 3,
+      "text": "Find the Mansion greenhouse at the back of the garden and inspect its unusual plant collection.",
+      "kind": "detailed"
+    }
+  ],
+  "revealDescription": "At the rear of the grounds is an ornate iron-and-glass greenhouse presented as a place where the Mansion's ghostly residents cultivate unusual plants.",
+  "verificationStatus": "needsRecheck",
+  "isIndoor": false,
+  "tags": [
+    "haunted-mansion",
+    "greenhouse",
+    "plants"
+  ]
+}

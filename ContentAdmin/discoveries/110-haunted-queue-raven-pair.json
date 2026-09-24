@@ -1,0 +1,42 @@
+{
+  "id": "haunted-queue-raven-pair",
+  "title": "Two Ravens on Watch",
+  "parkID": "disneyland",
+  "landID": "new-orleans-square",
+  "areaID": "haunted-mansion",
+  "category": "imagineeringDetail",
+  "difficulty": "easy",
+  "location": {
+    "latitude": 33.812,
+    "longitude": -117.9211,
+    "radiusMeters": 90
+  },
+  "hints": [
+    {
+      "id": "haunted-queue-raven-pair-h1",
+      "order": 1,
+      "text": "Once inside the expanded Mansion grounds, look for a matched pair acting like silent guards.",
+      "kind": "clue"
+    },
+    {
+      "id": "haunted-queue-raven-pair-h2",
+      "order": 2,
+      "text": "They are birds with a long association with omens and the supernatural.",
+      "kind": "clue"
+    },
+    {
+      "id": "haunted-queue-raven-pair-h3",
+      "order": 3,
+      "text": "Find the pair of raven figures guarding the Haunted Mansion garden path.",
+      "kind": "detailed"
+    }
+  ],
+  "revealDescription": "Two raven figures guard the expanded grounds, adding an ominous bridge between the living world and the Mansion's ghostly story.",
+  "verificationStatus": "needsRecheck",
+  "isIndoor": false,
+  "tags": [
+    "haunted-mansion",
+    "queue",
+    "ravens"
+  ]
+}

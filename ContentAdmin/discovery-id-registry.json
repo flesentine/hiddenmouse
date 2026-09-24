@@ -1,6 +1,60 @@
 {
   "prototype-secret-001": {
-    "state": "development",
-    "notes": "Development-only fixture. Replace during prototype content population."
+    "state": "retired",
+    "notes": "Development fixture retired when effort #31 replaced it with real New Orleans Square content."
+  },
+  "royal-street-louisiana-flag": {
+    "state": "active"
+  },
+  "new-orleans-four-streets": {
+    "state": "active"
+  },
+  "twenty-one-royal-address": {
+    "state": "active"
+  },
+  "club-thirty-three-orleans-address": {
+    "state": "active"
+  },
+  "dream-suite-wd-rd-railing": {
+    "state": "active"
+  },
+  "riverfront-1764-mark": {
+    "state": "active"
+  },
+  "pieces-of-eight-jack-doll": {
+    "state": "active"
+  },
+  "pieces-of-eight-monkey-chandelier": {
+    "state": "active"
+  },
+  "new-orleans-rooftop-ship-masts": {
+    "state": "active"
+  },
+  "haunted-queue-spanish-fountain": {
+    "state": "active"
+  },
+  "haunted-queue-raven-pair": {
+    "state": "active"
+  },
+  "haunted-queue-crouching-cat": {
+    "state": "active"
+  },
+  "gracey-garden-sea-maiden": {
+    "state": "active"
+  },
+  "gracey-gazebo-left-behind": {
+    "state": "active"
+  },
+  "leota-garden-oddity-statuary": {
+    "state": "active"
+  },
+  "leota-garden-fortune-orbs": {
+    "state": "active"
+  },
+  "leota-oak-chimes-bells": {
+    "state": "active"
+  },
+  "mansion-greenhouse-strange-plants": {
+    "state": "active"
   }
 }
