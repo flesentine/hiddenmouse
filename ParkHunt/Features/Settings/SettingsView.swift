@@ -88,7 +88,8 @@ struct SettingsView: View {
                 NavigationLink {
                     NearbyPermissionView(
                         contentLoader: contentLoader,
-                        progressStore: progressStore
+                        progressStore: progressStore,
+                        huntRouteDependencies: huntRouteDependencies
                     )
                 } label: {
                     Label(
@@ -117,6 +118,17 @@ struct SettingsView: View {
                 "Park Hunt asks for When In Use access only from Nearby. Coordinates are used only for the current foreground check, are never saved, and are discarded when Nearby closes or the app backgrounds."
             )
         }
+    }
+
+    private var huntRouteDependencies: HuntRouteDependencies {
+        HuntRouteDependencies(
+            contentLoader: contentLoader,
+            progressStore: progressStore,
+            spoilerPreferenceStore: spoilerPreferenceStore,
+            hapticPreferenceStore: hapticPreferenceStore,
+            activeHuntStore: activeHuntStore,
+            analyticsRecorder: analyticsRecorder
+        )
     }
 
     private var gameplaySection: some View {

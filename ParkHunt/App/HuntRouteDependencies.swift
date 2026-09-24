@@ -6,6 +6,7 @@ struct HuntRouteDependencies {
     let activeHuntStore: any ActiveHuntStoring
     let analyticsRecorder: any AnalyticsRecording
 
+    @MainActor
     func makeHuntView(
         discoveryID: String,
         launchContext: AnalyticsHuntLaunchContext = .standard
