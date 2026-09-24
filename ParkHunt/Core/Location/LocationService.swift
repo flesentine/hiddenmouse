@@ -28,10 +28,20 @@ enum LocationServiceState: Equatable, Sendable {
     case unavailable
 }
 
+enum LocationRequestPolicy {
+    nonisolated static func shouldRequest(
+        state: LocationServiceState,
+        authorization: LocationAuthorizationState
+    ) -> Bool {
+        authorization.isAuthorized && state != .locating
+    }
+}
+
 @MainActor
 final class LocationService: NSObject, ObservableObject {
     nonisolated static let maximumUsefulAccuracyMeters = 250.0
     nonisolated static let maximumUsefulAgeSeconds = 60.0
+    nonisolated static let requestedAccuracy = kCLLocationAccuracyHundredMeters
 
     @Published private(set) var state: LocationServiceState = .idle
 
@@ -44,7 +54,7 @@ final class LocationService: NSObject, ObservableObject {
         super.init()
 
         manager.delegate = self
-        manager.desiredAccuracy = kCLLocationAccuracyHundredMeters
+        manager.desiredAccuracy = Self.requestedAccuracy
         manager.distanceFilter = kCLDistanceFilterNone
     }
 
@@ -55,6 +65,13 @@ final class LocationService: NSObject, ObservableObject {
 
         guard authorization.isAuthorized else {
             state = .unavailable
+            return
+        }
+
+        guard LocationRequestPolicy.shouldRequest(
+            state: state,
+            authorization: authorization
+        ) else {
             return
         }
 

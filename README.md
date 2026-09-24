@@ -90,6 +90,21 @@ The matrix resolves only simulators actually installed on the GitHub macOS runne
 
 Failed device runs retain their `.xcresult` bundles as a GitHub Actions artifact for diagnosis.
 
+### #35 Battery testing
+
+Battery-sensitive location behavior is now a required regression gate. Park Hunt keeps Nearby intentionally lightweight:
+
+- one foreground `requestLocation()` fix instead of continuous tracking,
+- coarse 100-meter requested accuracy rather than best/navigation accuracy,
+- duplicate requests are blocked while a fix is already in flight,
+- explicit retry remains available after a result, weak signal, or failure,
+- location is discarded when Nearby disappears or the app becomes inactive/backgrounded,
+- CI rejects continuous GPS, Always authorization, background location, visit/significant-change monitoring, and high-accuracy GPS APIs.
+
+`scripts/verify-battery-boundaries.py` enforces those source-level constraints on every push and pull request, while `LocationServiceTests` covers the runtime request policy.
+
+Simulator CI cannot produce a trustworthy real-world battery-percentage measurement. Physical battery/thermal endurance remains a field-test measurement on the later TestFlight park build; #35 establishes the automated battery-regression boundaries that should remain true before that field test.
+
 ## Verification
 
 CI now runs:
@@ -101,6 +116,7 @@ Self-test content validator
 → Verify offline core
 → Verify image assets
 → Verify privacy boundaries
+→ Verify battery boundaries
 → Generate Xcode project
 → Run unit tests
 → Run UI tests across compact / standard / large iPhones
@@ -109,4 +125,4 @@ Self-test content validator
 
 ## Next effort
 
-**#35 Battery testing:** verify location work stops when it is no longer needed and protect the park-day flow from unnecessary background location or repeated GPS usage.
+**#36 Performance testing:** measure launch/content-load responsiveness and protect the local hunt loop from avoidable main-thread or catalog-processing regressions.

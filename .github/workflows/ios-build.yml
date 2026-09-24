@@ -22,6 +22,8 @@ jobs:
         run: python3 ./scripts/verify-image-assets.py
       - name: Verify privacy boundaries
         run: python3 ./scripts/verify-privacy-boundaries.py
+      - name: Verify battery boundaries
+        run: python3 ./scripts/verify-battery-boundaries.py
       - name: Install XcodeGen
         run: brew install xcodegen
       - name: Generate Xcode project
