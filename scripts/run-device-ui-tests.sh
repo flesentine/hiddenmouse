@@ -91,6 +91,8 @@ choose(
 echo "Selected device test matrix:"
 printf '%s\n' "$SELECTED" | sed 's/^/  /'
 
+FAILURES=0
+
 while IFS='|' read -r PROFILE NAME UDID RUNTIME; do
   RESULT_PATH="TestResults/${PROFILE}.xcresult"
 
@@ -102,7 +104,7 @@ while IFS='|' read -r PROFILE NAME UDID RUNTIME; do
   xcrun simctl boot "$UDID" >/dev/null 2>&1 || true
   xcrun simctl bootstatus "$UDID" -b
 
-  xcodebuild \
+  if xcodebuild \
     -project ParkHunt.xcodeproj \
     -scheme ParkHunt \
     -configuration Debug \
@@ -110,10 +112,20 @@ while IFS='|' read -r PROFILE NAME UDID RUNTIME; do
     CODE_SIGNING_ALLOWED=NO \
     -only-testing:ParkHuntUITests \
     -resultBundlePath "$RESULT_PATH" \
-    test
+    test; then
+    echo "PASS: ${PROFILE} — ${NAME}"
+  else
+    echo "FAIL: ${PROFILE} — ${NAME}"
+    FAILURES=$((FAILURES + 1))
+  fi
 
   xcrun simctl shutdown "$UDID" >/dev/null 2>&1 || true
 done <<< "$SELECTED"
 
 echo
+if [ "$FAILURES" -ne 0 ]; then
+  echo "Device UI matrix failed on $FAILURES profile(s)."
+  exit 1
+fi
+
 echo "Device UI matrix passed on all selected iPhone profiles."

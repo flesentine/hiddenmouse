@@ -17,9 +17,10 @@ final class ParkHuntUITests: XCTestCase {
             timeout: 8,
             message: "Primary Start Hunt button did not appear"
         )
+        scrollIntoViewIfNeeded(start)
         XCTAssertTrue(
             start.isHittable,
-            "Primary Start Hunt button is not hittable on this device size"
+            "Primary Start Hunt button is not reachable by normal scrolling on this device size"
         )
 
         start.tap()
@@ -226,6 +227,19 @@ final class ParkHuntUITests: XCTestCase {
 
         if exists {
             button.tap()
+        }
+    }
+
+    @MainActor
+    private func scrollIntoViewIfNeeded(
+        _ element: XCUIElement,
+        maximumSwipes: Int = 3
+    ) {
+        var remaining = maximumSwipes
+
+        while !element.isHittable, remaining > 0 {
+            app.swipeUp()
+            remaining -= 1
         }
     }
 

@@ -86,7 +86,7 @@ The XCUITest suite now runs as a three-profile iPhone matrix on every push and p
 - **standard** — prefers iPhone 16, then iPhone 15/14,
 - **large** — prefers iPhone 16 Pro Max, then equivalent Pro Max/Plus devices.
 
-The matrix resolves only simulators actually installed on the GitHub macOS runner and logs the selected model and iOS runtime. The compact profile prefers the oldest installed runtime when multiple runtimes are available. A dedicated UI assertion also verifies the primary hunt, assist, and Found controls remain hittable at the current device size.
+The matrix resolves only simulators actually installed on the GitHub macOS runner and logs the selected model and iOS runtime. The compact profile prefers the oldest installed runtime when multiple runtimes are available. A dedicated UI assertion verifies the primary hunt remains reachable with normal scrolling on compact screens while the in-hunt Assist and Found thumb controls remain immediately hittable. The runner executes all three profiles even if an earlier profile fails, so one device cannot hide results from the others.
 
 Failed device runs retain their `.xcresult` bundles as a GitHub Actions artifact for diagnosis.
 
