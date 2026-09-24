@@ -7,33 +7,83 @@ struct ContentSnapshot: Sendable {
     private let areaByID: [String: AttractionArea]
     private let discoveryByID: [String: Discovery]
 
+    private let sortedLands: [Land]
+    private let sortedAreas: [AttractionArea]
+    private let availableDiscoveries: [Discovery]
+
+    private let areasByLandID: [String: [AttractionArea]]
+    private let availableDiscoveriesByLandID: [String: [Discovery]]
+    private let allDiscoveriesByLandID: [String: [Discovery]]
+    private let availableDiscoveriesByAreaID: [String: [Discovery]]
+    private let allDiscoveriesByAreaID: [String: [Discovery]]
+    private let availableDiscoveriesByCategory: [DiscoveryCategory: [Discovery]]
+    private let allDiscoveriesByCategory: [DiscoveryCategory: [Discovery]]
+
     init(catalog: ContentCatalog) {
         self.catalog = catalog
+
+        let sortedLands = catalog.lands.sorted(by: Self.compareLands)
+        let sortedAreas = catalog.areas.sorted(by: Self.compareAreas)
+        let availableDiscoveries = catalog.discoveries.filter(\.isAvailableForHunt)
+
         self.landByID = Self.index(catalog.lands, by: \.id)
         self.areaByID = Self.index(catalog.areas, by: \.id)
         self.discoveryByID = Self.index(catalog.discoveries, by: \.id)
+
+        self.sortedLands = sortedLands
+        self.sortedAreas = sortedAreas
+        self.availableDiscoveries = availableDiscoveries
+
+        self.areasByLandID = Dictionary(
+            grouping: sortedAreas,
+            by: \.landID
+        )
+        self.availableDiscoveriesByLandID = Dictionary(
+            grouping: availableDiscoveries,
+            by: \.landID
+        )
+        self.allDiscoveriesByLandID = Dictionary(
+            grouping: catalog.discoveries,
+            by: \.landID
+        )
+        self.availableDiscoveriesByAreaID = Dictionary(
+            grouping: availableDiscoveries.compactMap { discovery in
+                discovery.areaID.map { ($0, discovery) }
+            },
+            by: \.0
+        )
+        .mapValues { values in
+            values.map(\.1)
+        }
+        self.allDiscoveriesByAreaID = Dictionary(
+            grouping: catalog.discoveries.compactMap { discovery in
+                discovery.areaID.map { ($0, discovery) }
+            },
+            by: \.0
+        )
+        .mapValues { values in
+            values.map(\.1)
+        }
+        self.availableDiscoveriesByCategory = Dictionary(
+            grouping: availableDiscoveries,
+            by: \.category
+        )
+        self.allDiscoveriesByCategory = Dictionary(
+            grouping: catalog.discoveries,
+            by: \.category
+        )
     }
 
     var lands: [Land] {
-        catalog.lands.sorted {
-            if $0.sortOrder == $1.sortOrder {
-                return $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending
-            }
-            return $0.sortOrder < $1.sortOrder
-        }
+        sortedLands
     }
 
     var areas: [AttractionArea] {
-        catalog.areas.sorted {
-            if $0.sortOrder == $1.sortOrder {
-                return $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending
-            }
-            return $0.sortOrder < $1.sortOrder
-        }
+        sortedAreas
     }
 
     var discoveries: [Discovery] {
-        available(catalog.discoveries)
+        availableDiscoveries
     }
 
     func land(id: String) -> Land? {
@@ -60,48 +110,64 @@ struct ContentSnapshot: Sendable {
     }
 
     func areas(inLand landID: String) -> [AttractionArea] {
-        areas.filter { $0.landID == landID }
+        areasByLandID[landID] ?? []
     }
 
     func discoveries(
         inLand landID: String,
         includeUnavailable: Bool = false
     ) -> [Discovery] {
-        filtered(
-            catalog.discoveries.filter { $0.landID == landID },
-            includeUnavailable: includeUnavailable
-        )
+        if includeUnavailable {
+            return allDiscoveriesByLandID[landID] ?? []
+        }
+
+        return availableDiscoveriesByLandID[landID] ?? []
     }
 
     func discoveries(
         inArea areaID: String,
         includeUnavailable: Bool = false
     ) -> [Discovery] {
-        filtered(
-            catalog.discoveries.filter { $0.areaID == areaID },
-            includeUnavailable: includeUnavailable
-        )
+        if includeUnavailable {
+            return allDiscoveriesByAreaID[areaID] ?? []
+        }
+
+        return availableDiscoveriesByAreaID[areaID] ?? []
     }
 
     func discoveries(
         category: DiscoveryCategory,
         includeUnavailable: Bool = false
     ) -> [Discovery] {
-        filtered(
-            catalog.discoveries.filter { $0.category == category },
-            includeUnavailable: includeUnavailable
-        )
+        if includeUnavailable {
+            return allDiscoveriesByCategory[category] ?? []
+        }
+
+        return availableDiscoveriesByCategory[category] ?? []
     }
 
-    private func available(_ discoveries: [Discovery]) -> [Discovery] {
-        discoveries.filter(\.isAvailableForHunt)
+    private static func compareLands(
+        _ lhs: Land,
+        _ rhs: Land
+    ) -> Bool {
+        if lhs.sortOrder == rhs.sortOrder {
+            return lhs.name.localizedCaseInsensitiveCompare(rhs.name)
+                == .orderedAscending
+        }
+
+        return lhs.sortOrder < rhs.sortOrder
     }
 
-    private func filtered(
-        _ discoveries: [Discovery],
-        includeUnavailable: Bool
-    ) -> [Discovery] {
-        includeUnavailable ? discoveries : available(discoveries)
+    private static func compareAreas(
+        _ lhs: AttractionArea,
+        _ rhs: AttractionArea
+    ) -> Bool {
+        if lhs.sortOrder == rhs.sortOrder {
+            return lhs.name.localizedCaseInsensitiveCompare(rhs.name)
+                == .orderedAscending
+        }
+
+        return lhs.sortOrder < rhs.sortOrder
     }
 
     private static func index<T>(

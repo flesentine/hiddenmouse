@@ -105,6 +105,25 @@ Battery-sensitive location behavior is now a required regression gate. Park Hunt
 
 Simulator CI cannot produce a trustworthy real-world battery-percentage measurement. Physical battery/thermal endurance remains a field-test measurement on the later TestFlight park build; #35 establishes the automated battery-regression boundaries that should remain true before that field test.
 
+### #36 Performance testing
+
+Performance now has its own CI gate instead of relying on subjective simulator feel. The suite exercises a synthetic **1,000-discovery catalog** so the code is tested well beyond the planned 75–100 discovery field-test scale.
+
+The gate covers:
+
+- catalog JSON decode/validation,
+- indexed discovery/land/area lookups,
+- Nearby ranking and distance work,
+- Collection construction/sorting,
+- Progress summary generation,
+- repeated cold bundled-content loads recorded with XCTest clock metrics.
+
+`ContentSnapshot` now builds immutable sorted lists and lookup/grouping indexes once at initialization. Repeated screen reads no longer re-sort lands/areas or re-filter the entire discovery catalog for common land/area/category queries.
+
+The CI budgets are intentionally generous enough to avoid noisy runner failures while still catching order-of-magnitude regressions: three 1,000-item decodes under 3 seconds, 20,000 indexed lookup rounds under 2 seconds, and five full Nearby/Collection/Progress passes over 1,000 discoveries under 8 seconds.
+
+Detailed rationale and reproduction guidance live in `docs/PERFORMANCE_TESTING.md`.
+
 ## Verification
 
 CI now runs:
@@ -119,10 +138,11 @@ Self-test content validator
 → Verify battery boundaries
 → Generate Xcode project
 → Run unit tests
+→ Run performance budget tests
 → Run UI tests across compact / standard / large iPhones
 → Build for iOS Simulator
 ```
 
 ## Next effort
 
-**#36 Performance testing:** measure launch/content-load responsiveness and protect the local hunt loop from avoidable main-thread or catalog-processing regressions.
+**#37 TestFlight setup:** establish the signed beta-distribution path, build metadata, and release checklist needed to put the field-test build on real iPhones.
