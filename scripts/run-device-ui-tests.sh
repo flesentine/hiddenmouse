@@ -8,7 +8,7 @@ mkdir -p TestResults
 
 SIMULATOR_JSON="$(xcrun simctl list devices available -j)"
 
-mapfile -t SELECTED < <(
+SELECTED="$(
   printf '%s' "$SIMULATOR_JSON" | python3 -c '
 import json
 import re
@@ -68,7 +68,7 @@ def choose(label, preferred_names, classifier):
     selected = pool[0]
     used.add(selected["udid"])
     runtime_label = selected["runtime"].split(".")[-1].replace("iOS-", "iOS ").replace("-", ".")
-    print(f"{label}|{selected[chr(39) + 'name' + chr(39)]}|{selected[chr(39) + 'udid' + chr(39)]}|{runtime_label}")
+    print("{}|{}|{}|{}".format(label, selected["name"], selected["udid"], runtime_label))
 
 choose(
     "compact",
@@ -86,12 +86,12 @@ choose(
     lambda name: "Pro Max" in name or "Plus" in name,
 )
 '
-)
+)"
 
 echo "Selected device test matrix:"
-printf '  %s\n' "${SELECTED[@]}"
+printf '%s\n' "$SELECTED" | sed 's/^/  /'
 
-for entry in "${SELECTED[@]}"; do
+while IFS='|' read -r PROFILE NAME UDID RUNTIME; do
   IFS='|' read -r PROFILE NAME UDID RUNTIME <<< "$entry"
   RESULT_PATH="TestResults/${PROFILE}.xcresult"
 
@@ -114,7 +114,7 @@ for entry in "${SELECTED[@]}"; do
     test
 
   xcrun simctl shutdown "$UDID" >/dev/null 2>&1 || true
-done
+done <<< "$SELECTED"
 
 echo
 echo "Device UI matrix passed on all selected iPhone profiles."
