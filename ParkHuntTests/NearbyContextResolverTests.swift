@@ -73,6 +73,17 @@ final class NearbyContextResolverTests: XCTestCase {
         )
     }
 
+    func testDistanceCalculationMatchesOneDegreeAtEquator() {
+        let distance = NearbyContextResolver.distanceMeters(
+            fromLatitude: 0,
+            longitude: 0,
+            toLatitude: 0,
+            longitude: 1
+        )
+
+        XCTAssertEqual(distance, 111_195, accuracy: 200)
+    }
+
     private func makeSnapshot() -> ContentSnapshot {
         let land = Land(
             id: "new-orleans-square",

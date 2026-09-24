@@ -68,6 +68,10 @@ The batch is source-vetted but intentionally marked `needsRecheck` until each de
 
 Research provenance for the batch lives in `ContentAdmin/SOURCES.md`.
 
+### #32 Internal testing
+
+The existing XCTest coverage is now a required CI gate instead of dormant project coverage. Focused regression cases cover discovery selection fallbacks/exclusions, progressive hint restoration and ordering, progress persistence/reset behavior, geographic distance math, and loading the real New Orleans Square field-test catalog.
+
 ## Verification
 
 CI now runs:
@@ -80,9 +84,10 @@ Self-test content validator
 → Verify image assets
 → Verify privacy boundaries
 → Generate Xcode project
+→ Run unit tests
 → Build for iOS Simulator
 ```
 
 ## Next effort
 
-**#32 Internal testing:** add focused unit coverage for discovery selection, hint progression, progress state, location calculations, and content loading.
+**#33 UI testing:** automate the main user flows: first launch, denied location, hunt start, progressive help, found state, and return/restoration.

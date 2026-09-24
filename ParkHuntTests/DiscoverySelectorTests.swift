@@ -121,6 +121,42 @@ final class DiscoverySelectorTests: XCTestCase {
         XCTAssertEqual(selected?.discovery.id, "second")
     }
 
+    func testCompletedFallbackStillHonorsCurrentAndExcludedDiscoveries() {
+        let results = [
+            makeResult(id: "current", isFound: true),
+            makeResult(id: "excluded", isFound: true),
+            makeResult(id: "eligible", isFound: true)
+        ]
+
+        let selected = DiscoverySelector.select(
+            from: results,
+            request: DiscoverySelectionRequest(
+                currentDiscoveryID: "current",
+                excludedDiscoveryIDs: ["excluded"],
+                completedPolicy: .includeIfNeeded
+            )
+        )
+
+        XCTAssertEqual(selected?.discovery.id, "eligible")
+    }
+
+    func testSelectionReturnsNilWhenEveryCandidateIsExcluded() {
+        let results = [
+            makeResult(id: "one", isFound: false),
+            makeResult(id: "two", isFound: false)
+        ]
+
+        let selected = DiscoverySelector.select(
+            from: results,
+            request: DiscoverySelectionRequest(
+                excludedDiscoveryIDs: ["one", "two"],
+                completedPolicy: .includeIfNeeded
+            )
+        )
+
+        XCTAssertNil(selected)
+    }
+
     private func makeResult(
         id: String,
         isFound: Bool

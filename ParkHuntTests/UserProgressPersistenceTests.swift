@@ -92,4 +92,42 @@ final class UserProgressPersistenceTests: XCTestCase {
 
         XCTAssertEqual(store.load(), UserProgress())
     }
+    func testFoundPreservesEarlierHintAndRevealProgress() {
+        let first = Date(timeIntervalSince1970: 1_700_000_000)
+        let second = first.addingTimeInterval(60)
+        let third = second.addingTimeInterval(60)
+        var progress = UserProgress()
+
+        progress.recordHintViewed(
+            discoveryID: "secret",
+            order: 3,
+            at: first
+        )
+        progress.recordRevealViewed(
+            discoveryID: "secret",
+            at: second
+        )
+        progress.recordFound(
+            discoveryID: "secret",
+            at: third
+        )
+
+        let saved = progress.progress(for: "secret")
+
+        XCTAssertEqual(saved.highestHintOrderViewed, 3)
+        XCTAssertTrue(saved.didRevealLocation)
+        XCTAssertEqual(saved.foundAt, third)
+        XCTAssertEqual(saved.lastViewedAt, third)
+    }
+
+    func testMemoryStoreResetClearsProgress() {
+        let store = MemoryUserProgressStore()
+        var progress = UserProgress()
+        progress.recordFound(discoveryID: "secret")
+        store.save(progress)
+
+        store.reset()
+
+        XCTAssertEqual(store.load(), UserProgress())
+    }
 }

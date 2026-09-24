@@ -117,6 +117,19 @@ final class ContentLoaderTests: XCTestCase {
         XCTAssertFalse(snapshot.discoveries.isEmpty)
     }
 
+    func testBundledCatalogContainsNewOrleansSquareFieldTestContent() throws {
+        let snapshot = try ContentLoader().load()
+        let discoveries = snapshot.discoveries(inLand: "new-orleans-square")
+        let ids = Set(discoveries.map(\.id))
+
+        XCTAssertGreaterThanOrEqual(discoveries.count, 18)
+        XCTAssertTrue(ids.contains("royal-street-louisiana-flag"))
+        XCTAssertTrue(ids.contains("riverfront-1764-mark"))
+        XCTAssertTrue(ids.contains("mansion-greenhouse-strange-plants"))
+        XCTAssertFalse(ids.contains("prototype-secret-001"))
+        XCTAssertTrue(discoveries.allSatisfy { $0.sortedHints.count >= 3 })
+    }
+
     private func makeCatalog(discoveryID: String) -> ContentCatalog {
         makeCatalog(discoveries: [makeDiscovery(id: discoveryID)])
     }

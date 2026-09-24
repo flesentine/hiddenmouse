@@ -131,6 +131,48 @@ final class HuntProgressionTests: XCTestCase {
         XCTAssertEqual(hint.resolvedKind, .clue)
     }
 
+    func testSavedOrderBelowFirstHintStillShowsFirstHint() {
+        let discovery = makeDiscovery(
+            hints: [
+                Hint(id: "h10", order: 10, text: "First"),
+                Hint(id: "h20", order: 20, text: "Second"),
+                Hint(id: "h30", order: 30, text: "Detailed", kind: .detailed)
+            ]
+        )
+
+        let state = HuntProgressionState.make(
+            discovery: discovery,
+            progress: DiscoveryProgress(
+                discoveryID: discovery.id,
+                highestHintOrderViewed: 1
+            )
+        )
+
+        XCTAssertEqual(state.visibleHints.map(\.id), ["h10"])
+        XCTAssertEqual(state.nextAction, .revealHint(discovery.sortedHints[1]))
+    }
+
+    func testUnsortedHintsArePresentedInHintOrder() {
+        let discovery = makeDiscovery(
+            hints: [
+                Hint(id: "h3", order: 3, text: "Detailed", kind: .detailed),
+                Hint(id: "h1", order: 1, text: "First"),
+                Hint(id: "h2", order: 2, text: "Second")
+            ]
+        )
+
+        let state = HuntProgressionState.make(
+            discovery: discovery,
+            progress: DiscoveryProgress(
+                discoveryID: discovery.id,
+                highestHintOrderViewed: 2
+            )
+        )
+
+        XCTAssertEqual(state.visibleHints.map(\.id), ["h1", "h2"])
+        XCTAssertEqual(state.nextAction, .revealHint(discovery.sortedHints[2]))
+    }
+
     private func makeDiscovery(
         hints: [Hint]? = nil
     ) -> Discovery {
