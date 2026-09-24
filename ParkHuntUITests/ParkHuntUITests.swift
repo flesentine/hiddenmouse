@@ -5,29 +5,38 @@ final class ParkHuntUITests: XCTestCase {
 
     override func setUpWithError() throws {
         continueAfterFailure = false
-        app = XCUIApplication()
     }
 
+    @MainActor
     func testFirstLaunchShowsPrimaryHunt() {
         launch()
 
-        XCTAssertTrue(
-            app.navigationBars["Park Hunt"].waitForExistence(timeout: 8)
+        assertExists(
+            app.navigationBars["Park Hunt"],
+            timeout: 8,
+            message: "Park Hunt navigation bar did not appear"
         )
-        XCTAssertTrue(
-            app.buttons["home.start-hunt"].waitForExistence(timeout: 8)
+        assertExists(
+            app.buttons["home.start-hunt"],
+            timeout: 8,
+            message: "Primary Start Hunt button did not appear"
         )
-        XCTAssertTrue(
-            element("home.primary-title").exists
+        assertExists(
+            element("home.primary-title"),
+            timeout: 2,
+            message: "Primary discovery title did not appear"
         )
     }
 
+    @MainActor
     func testDeniedLocationCanBrowseManuallyAndStartHunt() {
         launch(locationDenied: true)
 
         tapButton("home.nearby")
-        XCTAssertTrue(
-            element("nearby.location-denied").waitForExistence(timeout: 5)
+        assertExists(
+            element("nearby.location-denied"),
+            timeout: 5,
+            message: "Denied-location state did not appear"
         )
 
         tapButton("nearby.browse-by-area")
@@ -35,81 +44,110 @@ final class ParkHuntUITests: XCTestCase {
         tapButton("manual.land.new-orleans-square")
         tapButton("manual.start-suggested")
 
-        XCTAssertTrue(
-            element("hunt.title").waitForExistence(timeout: 8)
+        assertExists(
+            element("hunt.title"),
+            timeout: 8,
+            message: "Manual browsing did not open a hunt"
         )
-        XCTAssertTrue(
-            element("hunt.hint.1").waitForExistence(timeout: 5)
+        assertExists(
+            element("hunt.hint.1"),
+            timeout: 5,
+            message: "First clue did not appear"
         )
     }
 
+    @MainActor
     func testProgressiveHelpReachesFullReveal() {
         launch()
         startPrimaryHunt()
 
-        XCTAssertTrue(
-            element("hunt.hint.1").waitForExistence(timeout: 5)
+        assertExists(
+            element("hunt.hint.1"),
+            timeout: 5,
+            message: "First clue did not appear"
         )
 
         tapButton("hunt.assist.hint.2")
-        XCTAssertTrue(
-            element("hunt.hint.2").waitForExistence(timeout: 5)
+        assertExists(
+            element("hunt.hint.2"),
+            timeout: 5,
+            message: "Second clue did not appear"
         )
 
         tapButton("hunt.assist.hint.3")
-        XCTAssertTrue(
-            element("hunt.hint.3").waitForExistence(timeout: 5)
+        assertExists(
+            element("hunt.hint.3"),
+            timeout: 5,
+            message: "Detailed hint did not appear"
         )
 
         tapButton("hunt.assist.reveal")
 
-        XCTAssertTrue(
-            element("reveal.title").waitForExistence(timeout: 8)
+        assertExists(
+            element("reveal.title"),
+            timeout: 8,
+            message: "Reveal screen did not appear"
         )
-        XCTAssertTrue(
-            element("reveal.exact-location").waitForExistence(timeout: 5)
+        assertExists(
+            element("reveal.exact-location"),
+            timeout: 5,
+            message: "Exact location card did not appear"
         )
     }
 
+    @MainActor
     func testFoundFlowOffersAnotherHunt() {
         launch()
         startPrimaryHunt()
 
         tapButton("hunt.found")
 
-        XCTAssertTrue(
-            element("hunt.found-success").waitForExistence(timeout: 5)
+        assertExists(
+            element("hunt.found-success"),
+            timeout: 5,
+            message: "Found success state did not appear"
         )
-        XCTAssertTrue(
-            app.buttons["hunt.find-another"].waitForExistence(timeout: 5)
+        assertExists(
+            app.buttons["hunt.find-another"],
+            timeout: 5,
+            message: "Find Another was not offered"
         )
     }
 
+    @MainActor
     func testUnfinishedHuntRestoresAfterRelaunch() {
         launch()
         startPrimaryHunt()
 
         tapButton("hunt.assist.hint.2")
-        XCTAssertTrue(
-            element("hunt.hint.2").waitForExistence(timeout: 5)
+        assertExists(
+            element("hunt.hint.2"),
+            timeout: 5,
+            message: "Second clue did not appear before relaunch"
         )
 
         app.terminate()
         app.launchArguments = ["--ui-testing"]
         app.launch()
 
-        XCTAssertTrue(
-            element("hunt.title").waitForExistence(timeout: 8)
+        assertExists(
+            element("hunt.title"),
+            timeout: 8,
+            message: "Active hunt was not restored"
         )
-        XCTAssertTrue(
-            element("hunt.hint.2").waitForExistence(timeout: 5)
+        assertExists(
+            element("hunt.hint.2"),
+            timeout: 5,
+            message: "Restored hunt lost its clue progress"
         )
     }
 
+    @MainActor
     private func launch(
         resetState: Bool = true,
         locationDenied: Bool = false
     ) {
+        app = XCUIApplication()
         var arguments = ["--ui-testing"]
 
         if resetState {
@@ -124,25 +162,44 @@ final class ParkHuntUITests: XCTestCase {
         app.launch()
     }
 
+    @MainActor
     private func startPrimaryHunt() {
         tapButton("home.start-hunt")
-        XCTAssertTrue(
-            element("hunt.title").waitForExistence(timeout: 8)
+        assertExists(
+            element("hunt.title"),
+            timeout: 8,
+            message: "Primary hunt did not open"
         )
     }
 
+    @MainActor
     private func tapButton(
         _ identifier: String,
         timeout: TimeInterval = 8
     ) {
         let button = app.buttons[identifier]
+        let exists = button.waitForExistence(timeout: timeout)
         XCTAssertTrue(
-            button.waitForExistence(timeout: timeout),
+            exists,
             "Missing button: \(identifier)"
         )
-        button.tap()
+
+        if exists {
+            button.tap()
+        }
     }
 
+    @MainActor
+    private func assertExists(
+        _ element: XCUIElement,
+        timeout: TimeInterval,
+        message: String
+    ) {
+        let exists = element.waitForExistence(timeout: timeout)
+        XCTAssertTrue(exists, message)
+    }
+
+    @MainActor
     private func element(
         _ identifier: String
     ) -> XCUIElement {
