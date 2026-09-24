@@ -46,24 +46,12 @@ struct ContentSnapshot: Sendable {
             grouping: catalog.discoveries,
             by: \.landID
         )
-        self.availableDiscoveriesByAreaID = Dictionary(
-            grouping: availableDiscoveries.compactMap { discovery in
-                discovery.areaID.map { ($0, discovery) }
-            },
-            by: \.0
+        self.availableDiscoveriesByAreaID = Self.groupByArea(
+            availableDiscoveries
         )
-        .mapValues { values in
-            values.map(\.1)
-        }
-        self.allDiscoveriesByAreaID = Dictionary(
-            grouping: catalog.discoveries.compactMap { discovery in
-                discovery.areaID.map { ($0, discovery) }
-            },
-            by: \.0
+        self.allDiscoveriesByAreaID = Self.groupByArea(
+            catalog.discoveries
         )
-        .mapValues { values in
-            values.map(\.1)
-        }
         self.availableDiscoveriesByCategory = Dictionary(
             grouping: availableDiscoveries,
             by: \.category
@@ -168,6 +156,22 @@ struct ContentSnapshot: Sendable {
         }
 
         return lhs.sortOrder < rhs.sortOrder
+    }
+
+    private static func groupByArea(
+        _ discoveries: [Discovery]
+    ) -> [String: [Discovery]] {
+        var result: [String: [Discovery]] = [:]
+
+        for discovery in discoveries {
+            guard let areaID = discovery.areaID else {
+                continue
+            }
+
+            result[areaID, default: []].append(discovery)
+        }
+
+        return result
     }
 
     private static func index<T>(

@@ -165,7 +165,8 @@ final class PerformanceBudgetTests: XCTestCase {
 
         let discoveries = (0 ..< discoveryCount).map { index in
             let landIndex = index % landCount
-            let areaIndex = index % areas.count
+            let areaIndex = landIndex * areasPerLand
+                + (index / landCount) % areasPerLand
 
             return Discovery(
                 id: "discovery-\(index)",
