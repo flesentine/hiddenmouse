@@ -72,6 +72,12 @@ Research provenance for the batch lives in `ContentAdmin/SOURCES.md`.
 
 The existing XCTest coverage is now a required CI gate instead of dormant project coverage. Focused regression cases cover discovery selection fallbacks/exclusions, progressive hint restoration and ordering, progress persistence/reset behavior, geographic distance math, and loading the real New Orleans Square field-test catalog.
 
+### #33 UI testing
+
+A dedicated XCUITest target now exercises the real SwiftUI app on an iOS Simulator. The suite covers clean first launch, location-denied manual browsing, progressive clue/help/reveal flow, marking a hunt found and offering the next hunt, and restoring an unfinished hunt after termination/relaunch.
+
+The only test hook is an explicit `--ui-location-denied` launch argument used to make Core Location deterministic under XCUITest. It is ignored during normal app launches.
+
 ## Verification
 
 CI now runs:
@@ -85,9 +91,10 @@ Self-test content validator
 → Verify privacy boundaries
 → Generate Xcode project
 → Run unit tests
+→ Run UI tests
 → Build for iOS Simulator
 ```
 
 ## Next effort
 
-**#33 UI testing:** automate the main user flows: first launch, denied location, hunt start, progressive help, found state, and return/restoration.
+**#34 Device testing:** verify the app across several iPhone screen sizes, especially compact layouts and the oldest supported simulator/device class.

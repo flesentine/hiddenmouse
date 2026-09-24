@@ -331,6 +331,7 @@ struct NearbyPermissionView: View {
         permissionCard {
             Label("Location Access Off", systemImage: "location.slash")
                 .font(.headline)
+                .accessibilityIdentifier("nearby.location-denied")
 
             Text(
                 "Browse by park and land without location, or enable access later in Settings."
@@ -380,6 +381,7 @@ struct NearbyPermissionView: View {
                 .frame(maxWidth: .infinity, minHeight: 48)
         }
         .buttonStyle(.bordered)
+        .accessibilityIdentifier("nearby.browse-by-area")
     }
 
     private var privacyNote: some View {

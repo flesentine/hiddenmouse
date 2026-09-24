@@ -82,6 +82,7 @@ struct ManualLandBrowseView: View {
                                 )
                                 .font(.headline)
                             }
+                            .accessibilityIdentifier("manual.start-suggested")
                             .accessibilityHint(
                                 "Starts the highest-ranked unfinished hunt"
                             )

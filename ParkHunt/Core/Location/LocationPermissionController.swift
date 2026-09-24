@@ -17,19 +17,27 @@ final class LocationPermissionController: NSObject, ObservableObject {
     @Published private(set) var state: LocationAuthorizationState
 
     private let manager: CLLocationManager
+    private let isAuthorizationForced: Bool
 
     override init() {
         let manager = CLLocationManager()
+        let forcedState = UITestSupport.forcedLocationAuthorizationState
+
         self.manager = manager
-        self.state = Self.authorizationState(for: manager.authorizationStatus)
+        self.isAuthorizationForced = forcedState != nil
+        self.state = forcedState
+            ?? Self.authorizationState(for: manager.authorizationStatus)
 
         super.init()
 
-        manager.delegate = self
+        if forcedState == nil {
+            manager.delegate = self
+        }
     }
 
     func requestWhenInUse() {
-        guard state == .notDetermined else {
+        guard !isAuthorizationForced,
+              state == .notDetermined else {
             return
         }
 

@@ -35,6 +35,7 @@ targets:
       gatherCoverageData: true
       testTargets:
         - ParkHuntTests
+        - ParkHuntUITests
   ParkHuntTests:
     type: bundle.unit-test
     platform: iOS
@@ -46,3 +47,15 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.flesentine.parkhunt.tests
         GENERATE_INFOPLIST_FILE: YES
+  ParkHuntUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources:
+      - path: ParkHuntUITests
+    dependencies:
+      - target: ParkHunt
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.flesentine.parkhunt.uitests
+        GENERATE_INFOPLIST_FILE: YES
+        TEST_TARGET_NAME: ParkHunt

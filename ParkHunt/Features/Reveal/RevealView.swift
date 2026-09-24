@@ -46,6 +46,7 @@ struct RevealView: View {
 
                     Text(presentation.discovery.title)
                         .font(.largeTitle.bold())
+                        .accessibilityIdentifier("reveal.title")
                         .fixedSize(horizontal: false, vertical: true)
                         .accessibilityAddTraits(.isHeader)
 
@@ -81,6 +82,7 @@ struct RevealView: View {
         .padding(20)
         .background(.background, in: RoundedRectangle(cornerRadius: 22))
         .accessibilityElement(children: .combine)
+        .accessibilityIdentifier("reveal.exact-location")
     }
 
     @ViewBuilder

@@ -58,6 +58,7 @@ struct ManualLandSelectionView: View {
                         }
                         .padding(.vertical, 4)
                     }
+                    .accessibilityIdentifier("manual.land.\(land.id)")
                 }
                 .listStyle(.insetGrouped)
             }

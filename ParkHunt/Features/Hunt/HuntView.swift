@@ -157,6 +157,7 @@ struct HuntView: View {
 
             Text(presentation.discovery.title)
                 .font(.largeTitle.bold())
+                .accessibilityIdentifier("hunt.title")
                 .fixedSize(horizontal: false, vertical: true)
                 .accessibilityAddTraits(.isHeader)
 
@@ -231,6 +232,7 @@ struct HuntView: View {
                 .fixedSize(horizontal: false, vertical: true)
         }
         .accessibilityElement(children: .ignore)
+        .accessibilityIdentifier("hunt.hint.\(hint.order)")
         .accessibilityLabel(
             ParkHuntAccessibility.hint(
                 title: hintTitle(hint, visibleIndex: visibleIndex),
@@ -322,6 +324,7 @@ struct HuntView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(20)
         .background(.background, in: RoundedRectangle(cornerRadius: 22))
+        .accessibilityIdentifier("hunt.found-success")
     }
 
     private var instructionCard: some View {
@@ -405,6 +408,7 @@ struct HuntView: View {
                         .frame(maxWidth: .infinity, minHeight: 54)
                     }
                     .buttonStyle(.borderedProminent)
+                    .accessibilityIdentifier("hunt.find-another")
                     .accessibilityLabel(
                         nextDiscoveryTitle.map {
                             "Find Another. Next hunt: \($0)"
@@ -442,6 +446,7 @@ struct HuntView: View {
                 .frame(maxWidth: .infinity, minHeight: 54)
         }
         .buttonStyle(.borderedProminent)
+        .accessibilityIdentifier("hunt.found")
         .accessibilityHint(
             "Marks this discovery as found and saves it to your progress"
         )
@@ -460,6 +465,9 @@ struct HuntView: View {
             .frame(maxWidth: .infinity, minHeight: 54)
         }
         .buttonStyle(.bordered)
+        .accessibilityIdentifier(
+            accessibilityIdentifier(for: action)
+        )
         .accessibilityHint(
             accessibilityHint(for: action)
         )
@@ -622,6 +630,17 @@ struct HuntView: View {
         }
 
         return action.buttonTitle
+    }
+
+    private func accessibilityIdentifier(
+        for action: HuntProgressionAction
+    ) -> String {
+        switch action {
+        case let .revealHint(hint):
+            return "hunt.assist.hint.\(hint.order)"
+        case .revealLocation:
+            return "hunt.assist.reveal"
+        }
     }
 
     private func accessibilityHint(

@@ -14,6 +14,8 @@ struct ParkHuntApp: App {
         UserDefaultsAnalyticsRecorder
 
     init() {
+        UITestSupport.prepareLaunch()
+
         let preferenceStore =
             UserDefaultsAnalyticsPreferenceStore()
         analyticsPreferenceStore = preferenceStore

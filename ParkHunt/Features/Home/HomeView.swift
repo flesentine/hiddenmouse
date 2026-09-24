@@ -121,6 +121,7 @@ struct HomeView: View {
             .background(.background, in: RoundedRectangle(cornerRadius: 20))
         }
         .buttonStyle(.plain)
+        .accessibilityIdentifier("home.nearby")
         .accessibilityHint("Choose whether to use your location for Nearby")
     }
 
@@ -257,6 +258,7 @@ struct HomeView: View {
 
             Text(title)
                 .font(.title3.weight(.semibold))
+                .accessibilityIdentifier("home.primary-title")
 
             if let difficulty {
                 Label(
@@ -278,6 +280,7 @@ struct HomeView: View {
                 .padding(.horizontal, 16)
             }
             .buttonStyle(.borderedProminent)
+            .accessibilityIdentifier("home.start-hunt")
             .accessibilityHint("Opens this discovery")
         }
         .frame(maxWidth: .infinity, alignment: .leading)
