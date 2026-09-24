@@ -78,6 +78,18 @@ A dedicated XCUITest target now exercises the real SwiftUI app on an iOS Simulat
 
 The only test hook is an explicit `--ui-location-denied` launch argument used to make Core Location deterministic under XCUITest. It is ignored during normal app launches.
 
+### #34 Device testing
+
+The XCUITest suite now runs as a three-profile iPhone matrix on every push and pull request:
+
+- **compact / older-size** — prefers iPhone SE (3rd generation), iPhone 13 mini, then iPhone 16e,
+- **standard** — prefers iPhone 16, then iPhone 15/14,
+- **large** — prefers iPhone 16 Pro Max, then equivalent Pro Max/Plus devices.
+
+The matrix resolves only simulators actually installed on the GitHub macOS runner and logs the selected model and iOS runtime. The compact profile prefers the oldest installed runtime when multiple runtimes are available. A dedicated UI assertion also verifies the primary hunt, assist, and Found controls remain hittable at the current device size.
+
+Failed device runs retain their `.xcresult` bundles as a GitHub Actions artifact for diagnosis.
+
 ## Verification
 
 CI now runs:
@@ -91,10 +103,10 @@ Self-test content validator
 → Verify privacy boundaries
 → Generate Xcode project
 → Run unit tests
-→ Run UI tests
+→ Run UI tests across compact / standard / large iPhones
 → Build for iOS Simulator
 ```
 
 ## Next effort
 
-**#34 Device testing:** verify the app across several iPhone screen sizes, especially compact layouts and the oldest supported simulator/device class.
+**#35 Battery testing:** verify location work stops when it is no longer needed and protect the park-day flow from unnecessary background location or repeated GPS usage.

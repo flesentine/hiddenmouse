@@ -8,6 +8,46 @@ final class ParkHuntUITests: XCTestCase {
     }
 
     @MainActor
+    func testCriticalControlsAreHittableOnCurrentDevice() {
+        launch()
+
+        let start = app.buttons["home.start-hunt"]
+        assertExists(
+            start,
+            timeout: 8,
+            message: "Primary Start Hunt button did not appear"
+        )
+        XCTAssertTrue(
+            start.isHittable,
+            "Primary Start Hunt button is not hittable on this device size"
+        )
+
+        start.tap()
+
+        let found = app.buttons["hunt.found"]
+        assertExists(
+            found,
+            timeout: 8,
+            message: "Found control did not appear"
+        )
+        XCTAssertTrue(
+            found.isHittable,
+            "Found control is not hittable on this device size"
+        )
+
+        let assist = app.buttons["hunt.assist.hint.2"]
+        assertExists(
+            assist,
+            timeout: 5,
+            message: "Assist control did not appear"
+        )
+        XCTAssertTrue(
+            assist.isHittable,
+            "Assist control is not hittable on this device size"
+        )
+    }
+
+    @MainActor
     func testFirstLaunchShowsPrimaryHunt() {
         launch()
 
