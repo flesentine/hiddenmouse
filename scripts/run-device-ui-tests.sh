@@ -92,7 +92,6 @@ echo "Selected device test matrix:"
 printf '%s\n' "$SELECTED" | sed 's/^/  /'
 
 while IFS='|' read -r PROFILE NAME UDID RUNTIME; do
-  IFS='|' read -r PROFILE NAME UDID RUNTIME <<< "$entry"
   RESULT_PATH="TestResults/${PROFILE}.xcresult"
 
   echo
