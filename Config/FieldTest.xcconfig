@@ -1,0 +1,4 @@
+#include "Release.xcconfig"
+
+PARKHUNT_ENVIRONMENT = field-test
+SWIFT_ACTIVE_COMPILATION_CONDITIONS = $(inherited) PARKHUNT_FIELD_TEST

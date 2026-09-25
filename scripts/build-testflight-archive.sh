@@ -4,6 +4,7 @@ set -euo pipefail
 MODE="${1:-signed}"
 BUILD_NUMBER="${BUILD_NUMBER:-}"
 TEAM_ID="${TEAM_ID:-}"
+BUILD_CONFIGURATION="${BUILD_CONFIGURATION:-Release}"
 ARCHIVE_PATH="${ARCHIVE_PATH:-Build/TestFlight/ParkHunt.xcarchive}"
 EXPORT_PATH="${EXPORT_PATH:-Build/TestFlight/export}"
 
@@ -22,7 +23,7 @@ xcodegen generate
 COMMON_ARGS=(
   -project ParkHunt.xcodeproj
   -scheme ParkHunt
-  -configuration Release
+  -configuration "$BUILD_CONFIGURATION"
   -destination "generic/platform=iOS"
   -archivePath "$ARCHIVE_PATH"
 )
@@ -38,8 +39,14 @@ if [[ "$MODE" == "--ci-unsigned" ]]; then
     600 \
     xcodebuild "${COMMON_ARGS[@]}" CODE_SIGNING_ALLOWED=NO archive
   test -d "$ARCHIVE_PATH"
-  echo "Unsigned Release archive created at $ARCHIVE_PATH"
+  echo "Unsigned $BUILD_CONFIGURATION archive created at $ARCHIVE_PATH"
   exit 0
+fi
+
+if [[ "$BUILD_CONFIGURATION" == "Release" ]]; then
+  python3 scripts/validate-content-admin.py --shipping
+elif [[ "$BUILD_CONFIGURATION" == "FieldTest" ]]; then
+  python3 scripts/validate-content-admin.py --field-test
 fi
 
 if [[ -z "$TEAM_ID" ]]; then

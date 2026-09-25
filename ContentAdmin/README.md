@@ -51,23 +51,25 @@ python3 scripts/build-content-catalog.py
 python3 scripts/build-content-catalog.py --check
 ```
 
-## Shipping / field-test gate
+## Field-test and shipping gates
 
-Before a build is considered field-test or release content, run:
+For a Disneyland field-test build, run:
+
+```bash
+python3 scripts/validate-content-admin.py --field-test
+```
+
+Field-test mode rejects development-only content, development registry entries, placeholder text, and `unverified` discoveries. It **allows `needsRecheck`** because that status means the detail is source-vetted but still needs in-person confirmation—the purpose of the field test.
+
+For a production/App Store build, run:
 
 ```bash
 python3 scripts/validate-content-admin.py --shipping
 ```
 
-Shipping mode rejects:
+Shipping mode is stricter and rejects both `unverified` and `needsRecheck` discoveries.
 
-- any `_editorial.developmentOnly` discovery,
-- registry entries still in `development`,
-- placeholder/TODO/prototype text,
-- `unverified` discoveries,
-- `needsRecheck` discoveries.
-
-The first New Orleans Square field-test batch is intentionally marked `needsRecheck` until each discovery and its approximate location are confirmed in person. Normal development CI accepts this state; `--shipping` rejects it.
+The first New Orleans Square field-test batch is intentionally marked `needsRecheck` until each discovery and its approximate location are confirmed in person.
 
 ## ID registry
 

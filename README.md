@@ -52,13 +52,14 @@ The intentional prototype fixture is explicitly marked:
 
 Admin-only underscore fields are stripped from the generated app catalog.
 
-Normal development validation permits that explicit fixture with warnings. Field-test/release validation is stricter:
+Normal development validation permits that explicit fixture with warnings. Field-test and production validation are separate:
 
 ```bash
+python3 scripts/validate-content-admin.py --field-test
 python3 scripts/validate-content-admin.py --shipping
 ```
 
-Shipping mode rejects development-only content, placeholder text, and discoveries still marked `unverified` or `needsRecheck`.
+Field-test mode allows source-vetted `needsRecheck` discoveries so they can be confirmed in person, while still rejecting development-only, placeholder, and `unverified` content. Shipping mode also rejects `needsRecheck`.
 
 ### #31 Prototype content population
 
@@ -137,6 +138,20 @@ The repository now has a reproducible TestFlight Release path without storing Ap
 
 An actual TestFlight upload still requires an authorized Apple Developer/App Store Connect account. That credential boundary is documented in `docs/TESTFLIGHT.md`; credentials are intentionally not committed to the repository.
 
+### #38 Disneyland field-test build
+
+The first Disneyland beta channel is now packaged separately from production Release.
+
+- `FieldTest` is a Release-optimized Xcode configuration with a dedicated `PARKHUNT_FIELD_TEST` build condition.
+- The app visibly labels itself **Disneyland Field Test** in Settings and labels the Home area as a field-test area.
+- `--field-test` content validation allows the 18 source-vetted `needsRecheck` New Orleans Square hunts while still rejecting unverified/development content.
+- Production `--shipping` validation remains stricter and continues to reject `needsRecheck`.
+- `scripts/build-field-test.sh` validates the catalog and produces the exact field-test archive.
+- CI now archives both the structural production Release build and the Disneyland FieldTest build.
+- A 1024×1024 AppIcon asset is included and validated, closing the remaining App Store/TestFlight packaging warning from #37.
+
+The field-build workflow and signed-build command are documented in `docs/FIELD_TEST.md`.
+
 ## Verification
 
 CI now runs:
@@ -144,20 +159,23 @@ CI now runs:
 ```text
 Self-test content validator
 → Validate content admin
+→ Validate field-test content
 → Verify content admin catalog
 → Verify offline core
 → Verify image assets
 → Verify privacy boundaries
 → Verify battery boundaries
 → Verify TestFlight readiness
+→ Verify Disneyland field-test build
 → Generate Xcode project
 → Run unit tests
 → Run performance budget tests
 → Run UI tests across compact / standard / large iPhones
 → Build for iOS Simulator
 → Archive unsigned Release build
+→ Archive unsigned FieldTest build
 ```
 
 ## Next effort
 
-**#38 Disneyland field-test build:** package the current New Orleans Square hunt set into the first real-device beta build and close the remaining field-build blockers.
+**#39 Field-test instrumentation:** capture structured in-park verification feedback for hunt accuracy, clue quality, Nearby usefulness, and field-test issues without adding a backend dependency.

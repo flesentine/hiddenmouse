@@ -231,7 +231,10 @@ struct HomeView: View {
 
     private func areaCard(_ presentation: HomePresentation) -> some View {
         VStack(alignment: .leading, spacing: 10) {
-            Label("Prototype area", systemImage: "mappin.and.ellipse")
+            Label(
+                AppEnvironment.current.areaBadgeText,
+                systemImage: "mappin.and.ellipse"
+            )
                 .font(.caption.weight(.semibold))
                 .foregroundStyle(.secondary)
 

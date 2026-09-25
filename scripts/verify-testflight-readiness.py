@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
+import json
 import plistlib
 import re
+import struct
 import sys
 from pathlib import Path
 
@@ -12,8 +14,18 @@ version = Path("Config/Version.xcconfig")
 release = Path("Config/Release.xcconfig")
 export_options = Path("Config/ExportOptions-TestFlight.plist")
 archive_script = Path("scripts/build-testflight-archive.sh")
+app_icon_contents = Path("ParkHunt/Assets.xcassets/AppIcon.appiconset/Contents.json")
+app_icon_png = Path("ParkHunt/Assets.xcassets/AppIcon.appiconset/AppIcon-1024.png")
 
-required = [project, version, release, export_options, archive_script]
+required = [
+    project,
+    version,
+    release,
+    export_options,
+    archive_script,
+    app_icon_contents,
+    app_icon_png,
+]
 for path in required:
     if not path.exists():
         errors.append(f"{path}: missing")
@@ -42,6 +54,9 @@ if 'MODE="${1:-signed}"' not in archive_text:
 
 if "scripts/run-command-with-timeout.py" not in archive_text:
     errors.append("scripts/build-testflight-archive.sh: CI archive timeout guard is missing")
+
+if 'BUILD_CONFIGURATION="${BUILD_CONFIGURATION:-Release}"' not in archive_text:
+    errors.append("scripts/build-testflight-archive.sh: configurable archive build configuration is missing")
 
 if "CODE_SIGN_STYLE: Automatic" not in project_text:
     errors.append("project.yml: app target must use automatic signing for the documented TestFlight path")
@@ -99,11 +114,36 @@ if export_options.exists():
         if data.get("uploadSymbols") is not True:
             errors.append(f"{export_options}: uploadSymbols must be true")
 
-assets = list(Path("ParkHunt").rglob("*.xcassets"))
-if not assets:
-    warnings.append(
-        "No asset catalog is committed yet. A production App Store/TestFlight validation may require an AppIcon before upload."
-    )
+if app_icon_contents.exists():
+    try:
+        contents = json.loads(app_icon_contents.read_text(encoding="utf-8"))
+    except Exception as exc:
+        errors.append(f"{app_icon_contents}: invalid JSON ({exc})")
+    else:
+        filenames = {
+            image.get("filename")
+            for image in contents.get("images", [])
+            if isinstance(image, dict)
+        }
+        if "AppIcon-1024.png" not in filenames:
+            errors.append(
+                f"{app_icon_contents}: AppIcon-1024.png is not referenced"
+            )
+
+if app_icon_png.exists():
+    data = app_icon_png.read_bytes()
+    if len(data) < 24 or data[:8] != b"\x89PNG\r\n\x1a\n":
+        errors.append(f"{app_icon_png}: must be a PNG")
+    else:
+        width, height = struct.unpack(">II", data[16:24])
+        if (width, height) != (1024, 1024):
+            errors.append(
+                f"{app_icon_png}: expected 1024x1024, found "
+                f"{width}x{height}"
+            )
+
+if "ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon" not in project_text:
+    errors.append("project.yml: AppIcon asset catalog is not configured")
 
 if errors:
     print("TestFlight readiness verification failed:")

@@ -6,9 +6,11 @@ options:
     iOS: "17.0"
 configs:
   Debug: debug
+  FieldTest: release
   Release: release
 configFiles:
   Debug: Config/Debug.xcconfig
+  FieldTest: Config/FieldTest.xcconfig
   Release: Config/Release.xcconfig
 settings:
   base:
@@ -28,6 +30,7 @@ targets:
         INFOPLIST_KEY_CFBundleDisplayName: Park Hunt
         INFOPLIST_KEY_UILaunchScreen_Generation: YES
         INFOPLIST_KEY_NSLocationWhenInUseUsageDescription: Park Hunt uses your location only while you use Nearby to help show discoveries around you. Your location history is not stored.
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         CODE_SIGN_STYLE: Automatic
     scheme:
       gatherCoverageData: true

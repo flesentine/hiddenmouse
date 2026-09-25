@@ -264,6 +264,15 @@ struct SettingsView: View {
 
     private var aboutSection: some View {
         Section("About") {
+            if let buildChannelText = AppEnvironment.current.buildChannelText {
+                Label(
+                    buildChannelText,
+                    systemImage: "testtube.2"
+                )
+                .font(.subheadline.weight(.semibold))
+                .accessibilityIdentifier("settings.field-test")
+            }
+
             HStack {
                 Label("Park Hunt", systemImage: "scope")
 

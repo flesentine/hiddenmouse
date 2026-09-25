@@ -562,6 +562,7 @@ def validate_discoveries(
     registry,
     image_dir,
     shipping,
+    field_test,
     result,
 ):
     if not discoveries:
@@ -654,10 +655,11 @@ def validate_discoveries(
                     "an active discovery record."
                 )
 
-        if shipping and development_only:
+        if (shipping or field_test) and development_only:
+            mode = "--shipping" if shipping else "--field-test"
             result.error(
                 f"{label}: development-only content is forbidden in "
-                "--shipping mode."
+                f"{mode} mode."
             )
 
         if not nonempty_string(discovery.get("title")):
@@ -722,6 +724,13 @@ def validate_discoveries(
             result.error(
                 f"{label}: shipping content cannot have verificationStatus "
                 f"'{discovery.get('verificationStatus')}'."
+            )
+
+        if field_test and discovery.get("verificationStatus") == "unverified":
+            result.error(
+                f"{label}: field-test content cannot be unverified; "
+                "use needsRecheck for source-vetted details awaiting "
+                "in-person confirmation."
             )
 
         if discovery.get("verificationStatus") == "verified":
@@ -795,7 +804,7 @@ def validate_discoveries(
             message = (
                 f"{label}.{field}: placeholder/development text detected."
             )
-            if shipping or not development_only:
+            if shipping or field_test or not development_only:
                 result.error(message)
             else:
                 result.warn(
@@ -817,10 +826,11 @@ def validate_discoveries(
                 "as 'retired' instead."
             )
 
-        if shipping and state == "development" and registry_id in current_ids:
+        if (shipping or field_test) and state == "development" and registry_id in current_ids:
+            mode = "--shipping" if shipping else "--field-test"
             result.error(
                 f"registry['{registry_id}']: development ID is forbidden "
-                "in --shipping mode."
+                f"in {mode} mode."
             )
 
 
@@ -831,6 +841,7 @@ def validate_content(
     registry,
     image_dir,
     shipping=False,
+    field_test=False,
 ):
     result = ValidationResult()
     land_by_id = validate_lands(lands, result)
@@ -843,6 +854,7 @@ def validate_content(
         registry,
         image_dir,
         shipping,
+        field_test,
         result,
     )
     return result
@@ -1046,6 +1058,62 @@ def run_self_test():
             for error in shipping_result.errors
         ), shipping_result.errors
 
+        field_test_dev_result = validate_content(
+            lands,
+            areas,
+            [("010-dev-secret.json", development)],
+            development_registry,
+            image_dir,
+            field_test=True,
+        )
+        assert any(
+            "development-only content is forbidden" in error
+            for error in field_test_dev_result.errors
+        ), field_test_dev_result.errors
+
+        needs_recheck = copy.deepcopy(discovery)
+        needs_recheck["verificationStatus"] = "needsRecheck"
+        needs_recheck.pop("lastVerifiedAt", None)
+
+        field_test_result = validate_content(
+            lands,
+            areas,
+            [("010-secret.json", needs_recheck)],
+            registry,
+            image_dir,
+            field_test=True,
+        )
+        assert not field_test_result.errors, field_test_result.errors
+
+        shipping_needs_recheck = validate_content(
+            lands,
+            areas,
+            [("010-secret.json", needs_recheck)],
+            registry,
+            image_dir,
+            shipping=True,
+        )
+        assert any(
+            "shipping content cannot have verificationStatus 'needsRecheck'"
+            in error
+            for error in shipping_needs_recheck.errors
+        ), shipping_needs_recheck.errors
+
+        unverified = copy.deepcopy(needs_recheck)
+        unverified["verificationStatus"] = "unverified"
+        field_test_unverified = validate_content(
+            lands,
+            areas,
+            [("010-secret.json", unverified)],
+            registry,
+            image_dir,
+            field_test=True,
+        )
+        assert any(
+            "field-test content cannot be unverified" in error
+            for error in field_test_unverified.errors
+        ), field_test_unverified.errors
+
         for name, discoveries, case_registry, expected, shipping in cases:
             case_result = validate_content(
                 lands,
@@ -1075,11 +1143,21 @@ def main():
     parser = argparse.ArgumentParser(
         description="Validate Park Hunt ContentAdmin editorial source."
     )
-    parser.add_argument(
+    strict_group = parser.add_mutually_exclusive_group()
+    strict_group.add_argument(
+        "--field-test",
+        action="store_true",
+        help=(
+            "Apply field-test rules: reject development-only, placeholder, "
+            "and unverified content while allowing source-vetted "
+            "needsRecheck discoveries for in-person confirmation."
+        ),
+    )
+    strict_group.add_argument(
         "--shipping",
         action="store_true",
         help=(
-            "Apply release/field-test rules: reject development-only, "
+            "Apply production release rules: reject development-only, "
             "placeholder, unverified, and needs-recheck content."
         ),
     )
@@ -1102,6 +1180,7 @@ def main():
         registry,
         IMAGE_DIR,
         shipping=args.shipping,
+        field_test=args.field_test,
     )
     print_result(result)
 
