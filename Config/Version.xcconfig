@@ -1,0 +1,5 @@
+// App Store / TestFlight version metadata.
+// Increment MARKETING_VERSION for user-visible releases.
+// Increment CURRENT_PROJECT_VERSION for every uploaded build.
+MARKETING_VERSION = 0.1.0
+CURRENT_PROJECT_VERSION = 1

@@ -124,6 +124,19 @@ The CI budgets are intentionally generous enough to avoid noisy runner failures 
 
 Detailed rationale and reproduction guidance live in `docs/PERFORMANCE_TESTING.md`.
 
+### #37 TestFlight setup
+
+The repository now has a reproducible TestFlight Release path without storing Apple credentials in GitHub.
+
+- version/build metadata lives in `Config/Version.xcconfig`,
+- Release builds retain dSYMs and enable product validation,
+- `Config/ExportOptions-TestFlight.plist` defines App Store Connect export behavior,
+- `scripts/build-testflight-archive.sh` creates either a signed developer archive/export or an unsigned CI archive,
+- `scripts/verify-testflight-readiness.py` validates bundle/version/signing/export assumptions,
+- normal CI now proves a generic-device **Release archive** succeeds after all tests.
+
+An actual TestFlight upload still requires an authorized Apple Developer/App Store Connect account. That credential boundary is documented in `docs/TESTFLIGHT.md`; credentials are intentionally not committed to the repository.
+
 ## Verification
 
 CI now runs:
@@ -136,13 +149,15 @@ Self-test content validator
 → Verify image assets
 → Verify privacy boundaries
 → Verify battery boundaries
+→ Verify TestFlight readiness
 → Generate Xcode project
 → Run unit tests
 → Run performance budget tests
 → Run UI tests across compact / standard / large iPhones
 → Build for iOS Simulator
+→ Archive unsigned Release build
 ```
 
 ## Next effort
 
-**#37 TestFlight setup:** establish the signed beta-distribution path, build metadata, and release checklist needed to put the field-test build on real iPhones.
+**#38 Disneyland field-test build:** package the current New Orleans Square hunt set into the first real-device beta build and close the remaining field-build blockers.
