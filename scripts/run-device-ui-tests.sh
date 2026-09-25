@@ -102,9 +102,19 @@ while IFS='|' read -r PROFILE NAME UDID RUNTIME; do
   rm -rf "$RESULT_PATH"
   xcrun simctl shutdown "$UDID" >/dev/null 2>&1 || true
   xcrun simctl boot "$UDID" >/dev/null 2>&1 || true
-  xcrun simctl bootstatus "$UDID" -b
 
-  if xcodebuild \
+  if ! python3 scripts/run-command-with-timeout.py \
+    120 \
+    xcrun simctl bootstatus "$UDID" -b; then
+    echo "FAIL: ${PROFILE} — ${NAME} simulator boot timed out or failed"
+    FAILURES=$((FAILURES + 1))
+    xcrun simctl shutdown "$UDID" >/dev/null 2>&1 || true
+    continue
+  fi
+
+  if python3 scripts/run-command-with-timeout.py \
+    360 \
+    xcodebuild \
     -project ParkHunt.xcodeproj \
     -scheme ParkHunt \
     -configuration Debug \

@@ -19,7 +19,9 @@ Every normal CI run now:
 2. builds/tests the app as before,
 3. creates an **unsigned Release archive for a generic iOS device**.
 
-That archive step proves the Release configuration compiles for device architecture and produces an `.xcarchive`. It intentionally disables signing because repository CI does not contain Apple certificates or App Store Connect credentials.
+That archive step proves the Release configuration compiles for device architecture and produces an `.xcarchive`. It intentionally disables signing because repository CI does not contain Apple certificates or App Store Connect credentials. CI caps the archive command at 10 minutes so a toolchain stall cannot block the pipeline indefinitely.
+
+The device UI runner also caps simulator boot at 2 minutes and each device-class XCUITest run at 6 minutes. A stuck simulator is reported as a failed profile instead of holding the release pipeline open forever.
 
 ## Signed local archive
 

@@ -1,11 +1,11 @@
 #!/bin/bash
 set -euo pipefail
 
-MODE="\${1:-signed}"
-BUILD_NUMBER="\${BUILD_NUMBER:-}"
-TEAM_ID="\${TEAM_ID:-}"
-ARCHIVE_PATH="\${ARCHIVE_PATH:-Build/TestFlight/ParkHunt.xcarchive}"
-EXPORT_PATH="\${EXPORT_PATH:-Build/TestFlight/export}"
+MODE="${1:-signed}"
+BUILD_NUMBER="${BUILD_NUMBER:-}"
+TEAM_ID="${TEAM_ID:-}"
+ARCHIVE_PATH="${ARCHIVE_PATH:-Build/TestFlight/ParkHunt.xcarchive}"
+EXPORT_PATH="${EXPORT_PATH:-Build/TestFlight/export}"
 
 if [[ "$MODE" != "signed" && "$MODE" != "--ci-unsigned" ]]; then
   echo "Usage: $0 [signed|--ci-unsigned]"
@@ -34,7 +34,9 @@ fi
 rm -rf "$ARCHIVE_PATH"
 
 if [[ "$MODE" == "--ci-unsigned" ]]; then
-  xcodebuild "\${COMMON_ARGS[@]}" CODE_SIGNING_ALLOWED=NO archive
+  python3 scripts/run-command-with-timeout.py \
+    600 \
+    xcodebuild "${COMMON_ARGS[@]}" CODE_SIGNING_ALLOWED=NO archive
   test -d "$ARCHIVE_PATH"
   echo "Unsigned Release archive created at $ARCHIVE_PATH"
   exit 0
@@ -47,7 +49,7 @@ if [[ -z "$TEAM_ID" ]]; then
 fi
 
 xcodebuild \
-  "\${COMMON_ARGS[@]}" \
+  "${COMMON_ARGS[@]}" \
   DEVELOPMENT_TEAM="$TEAM_ID" \
   -allowProvisioningUpdates \
   archive

@@ -55,6 +55,8 @@ jobs:
             CODE_SIGNING_ALLOWED=NO \
             -only-testing:ParkHuntTests/PerformanceBudgetTests \
             test
+      - name: Archive unsigned Release build
+        run: ./scripts/build-testflight-archive.sh --ci-unsigned
       - name: Run UI tests across device classes
         run: ./scripts/run-device-ui-tests.sh
       - name: Upload device-test results on failure
@@ -74,5 +76,3 @@ jobs:
             -destination 'generic/platform=iOS Simulator' \
             CODE_SIGNING_ALLOWED=NO \
             build
-      - name: Archive unsigned Release build
-        run: ./scripts/build-testflight-archive.sh --ci-unsigned

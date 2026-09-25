@@ -24,6 +24,7 @@ def read(path):
 project_text = read(project)
 version_text = read(version)
 release_text = read(release)
+archive_text = read(archive_script)
 
 bundle_match = re.search(r"PRODUCT_BUNDLE_IDENTIFIER:\s*([^\s]+)", project_text)
 if not bundle_match:
@@ -32,6 +33,15 @@ else:
     bundle_id = bundle_match.group(1)
     if bundle_id in {"com.example.app", "com.yourcompany.app"}:
         errors.append(f"project.yml: placeholder bundle identifier '{bundle_id}' is not TestFlight-ready")
+
+if "\\${" in archive_text:
+    errors.append("scripts/build-testflight-archive.sh: shell parameter expansion is incorrectly escaped")
+
+if 'MODE="${1:-signed}"' not in archive_text:
+    errors.append("scripts/build-testflight-archive.sh: signed/CI mode parameter expansion is missing")
+
+if "scripts/run-command-with-timeout.py" not in archive_text:
+    errors.append("scripts/build-testflight-archive.sh: CI archive timeout guard is missing")
 
 if "CODE_SIGN_STYLE: Automatic" not in project_text:
     errors.append("project.yml: app target must use automatic signing for the documented TestFlight path")
