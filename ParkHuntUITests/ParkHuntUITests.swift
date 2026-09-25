@@ -81,13 +81,31 @@ final class ParkHuntUITests: XCTestCase {
         )
 
         tapButton("nearby.browse-by-area")
+        assertExists(
+            app.buttons["manual.park.disneyland"],
+            timeout: 8,
+            message: "Manual park selection did not appear"
+        )
+
         tapButton("manual.park.disneyland")
+        assertExists(
+            app.buttons["manual.land.new-orleans-square"],
+            timeout: 8,
+            message: "Manual land selection did not appear"
+        )
+
         tapButton("manual.land.new-orleans-square")
-        tapButton("manual.start-suggested")
+        assertExists(
+            app.buttons["manual.start-suggested"],
+            timeout: 8,
+            message: "Suggested manual hunt did not appear"
+        )
+
+        tapButton("manual.start-suggested", timeout: 12)
 
         assertExists(
             element("hunt.title"),
-            timeout: 8,
+            timeout: 15,
             message: "Manual browsing did not open a hunt"
         )
         assertExists(
@@ -226,7 +244,30 @@ final class ParkHuntUITests: XCTestCase {
         )
 
         if exists {
-            button.tap()
+            scrollIntoViewIfNeeded(
+                button,
+                maximumSwipes: 4
+            )
+
+            let hittable = XCTNSPredicateExpectation(
+                predicate: NSPredicate(
+                    format: "hittable == true"
+                ),
+                object: button
+            )
+            let result = XCTWaiter.wait(
+                for: [hittable],
+                timeout: timeout
+            )
+            XCTAssertEqual(
+                result,
+                .completed,
+                "Button was not hittable: \(identifier)"
+            )
+
+            if result == .completed {
+                button.tap()
+            }
         }
     }
 
