@@ -19,7 +19,7 @@ data = json.load(sys.stdin)
 
 devices = []
 for runtime, runtime_devices in data.get("devices", {}).items():
-    match = re.search(r"iOS-(\\d+)-(\\d+)", runtime)
+    match = re.search(r"iOS-(\d+)-(\d+)", runtime)
     version = (int(match.group(1)), int(match.group(2))) if match else (999, 999)
     for device in runtime_devices:
         name = device.get("name", "")
