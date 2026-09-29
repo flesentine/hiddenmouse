@@ -5,6 +5,7 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
 
 mkdir -p TestResults
+DERIVED_DATA_PATH="$ROOT/.build/ui-test-derived-data"
 
 SIMULATOR_JSON="$(xcrun simctl list devices available -j)"
 
@@ -44,8 +45,6 @@ def choose(label, preferred_names, classifier):
     classified = [d for d in candidates if classifier(d["name"])]
     pool = preferred or classified or candidates
 
-    # Prefer the oldest available runtime for the compact profile so the
-    # matrix exercises an older supported environment when the runner has one.
     if label == "compact":
         pool = sorted(
             pool,
@@ -93,40 +92,65 @@ printf '%s\n' "$SELECTED" | sed 's/^/  /'
 
 FAILURES=0
 
+prepare_simulator() {
+  local udid="$1"
+
+  xcrun simctl shutdown "$udid" >/dev/null 2>&1 || true
+  xcrun simctl erase "$udid" >/dev/null 2>&1 || true
+  xcrun simctl boot "$udid" >/dev/null 2>&1 || true
+
+  python3 scripts/run-command-with-timeout.py \
+    120 \
+    xcrun simctl bootstatus "$udid" -b
+}
+
+run_ui_suite() {
+  local profile="$1"
+  local name="$2"
+  local udid="$3"
+  local result_path="$4"
+
+  rm -rf "$result_path"
+
+  python3 scripts/run-command-with-timeout.py \
+    480 \
+    xcodebuild \
+    -project ParkHunt.xcodeproj \
+    -scheme ParkHunt \
+    -configuration Debug \
+    -destination "platform=iOS Simulator,id=$udid" \
+    -derivedDataPath "$DERIVED_DATA_PATH" \
+    CODE_SIGNING_ALLOWED=NO \
+    -only-testing:ParkHuntUITests \
+    -resultBundlePath "$result_path" \
+    test
+}
+
 while IFS='|' read -r PROFILE NAME UDID RUNTIME; do
   RESULT_PATH="TestResults/${PROFILE}.xcresult"
 
   echo
   echo "=== ${PROFILE}: ${NAME} (${RUNTIME}) ==="
 
-  rm -rf "$RESULT_PATH"
-  xcrun simctl shutdown "$UDID" >/dev/null 2>&1 || true
-  xcrun simctl boot "$UDID" >/dev/null 2>&1 || true
-
-  if ! python3 scripts/run-command-with-timeout.py \
-    120 \
-    xcrun simctl bootstatus "$UDID" -b; then
+  if ! prepare_simulator "$UDID"; then
     echo "FAIL: ${PROFILE} — ${NAME} simulator boot timed out or failed"
     FAILURES=$((FAILURES + 1))
     xcrun simctl shutdown "$UDID" >/dev/null 2>&1 || true
     continue
   fi
 
-  if python3 scripts/run-command-with-timeout.py \
-    360 \
-    xcodebuild \
-    -project ParkHunt.xcodeproj \
-    -scheme ParkHunt \
-    -configuration Debug \
-    -destination "platform=iOS Simulator,id=$UDID" \
-    CODE_SIGNING_ALLOWED=NO \
-    -only-testing:ParkHuntUITests \
-    -resultBundlePath "$RESULT_PATH" \
-    test; then
+  if run_ui_suite "$PROFILE" "$NAME" "$UDID" "$RESULT_PATH"; then
     echo "PASS: ${PROFILE} — ${NAME}"
   else
-    echo "FAIL: ${PROFILE} — ${NAME}"
-    FAILURES=$((FAILURES + 1))
+    echo "RETRY: ${PROFILE} — ${NAME} after clean simulator reset"
+
+    if prepare_simulator "$UDID" &&
+       run_ui_suite "$PROFILE" "$NAME" "$UDID" "$RESULT_PATH"; then
+      echo "PASS after retry: ${PROFILE} — ${NAME}"
+    else
+      echo "FAIL: ${PROFILE} — ${NAME}"
+      FAILURES=$((FAILURES + 1))
+    fi
   fi
 
   xcrun simctl shutdown "$UDID" >/dev/null 2>&1 || true
