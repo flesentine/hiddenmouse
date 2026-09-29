@@ -152,6 +152,20 @@ The first Disneyland beta channel is now packaged separately from production Rel
 
 The field-build workflow and signed-build command are documented in `docs/FIELD_TEST.md`.
 
+### #39 Field-test instrumentation
+
+The Disneyland FieldTest build now includes an offline, structured feedback loop directly from each hunt.
+
+- **Accuracy** records whether the physical target is wrong, close, or accurate.
+- **Clue quality** records confusing, workable, or clear.
+- **Nearby usefulness** records not used, poor, okay, or useful.
+- **Issue tags** cover wrong location, confusing clue, wrong reveal, poor Nearby ordering, inaccessible spots, suspected duplicates, and other issues.
+- Optional notes capture the tester's park observations.
+- Feedback is attached to the discovery ID/title automatically; precise coordinates are never stored.
+- Records stay only on the device in UserDefaults, capped at 500 entries.
+- Settings → **Field Test Feedback** shows the saved records, supports clearing them, and can share the full structured JSON for post-park review.
+- Production and normal development builds do not show the in-hunt field-feedback UI.
+
 ## Verification
 
 CI now runs:
@@ -178,4 +192,4 @@ Self-test content validator
 
 ## Next effort
 
-**#39 Field-test instrumentation:** capture structured in-park verification feedback for hunt accuracy, clue quality, Nearby usefulness, and field-test issues without adding a backend dependency.
+**#40 Post-test iteration:** use the first Disneyland field-test findings to correct content, tune clue/reveal quality, and fix any park-use UX problems.
