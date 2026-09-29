@@ -120,7 +120,6 @@ run_ui_suite() {
     -configuration Debug \
     -destination "platform=iOS Simulator,id=$udid" \
     -derivedDataPath "$DERIVED_DATA_PATH" \
-    -disable-concurrent-testing YES \
     CODE_SIGNING_ALLOWED=NO \
     -only-testing:ParkHuntUITests \
     -resultBundlePath "$result_path" \
