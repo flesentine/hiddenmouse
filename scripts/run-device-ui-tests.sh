@@ -5,7 +5,7 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
 
 mkdir -p TestResults
-DERIVED_DATA_PATH="$ROOT/TestResults/DerivedData"
+DERIVED_DATA_PATH="$ROOT/.build/ui-test-derived-data"
 
 SIMULATOR_JSON="$(xcrun simctl list devices available -j)"
 
