@@ -38,6 +38,7 @@ struct HuntView: View {
     @State private var spoilerPreference: SpoilerPreference = .normal
     @State private var loadState: LoadState = .loading
     @State private var isRevealPresented = false
+    @State private var isFieldTestFeedbackPresented = false
     @State private var didRecordHuntStart = false
 
     var body: some View {
@@ -63,6 +64,13 @@ struct HuntView: View {
                 discoveryID: discoveryID,
                 contentLoader: contentLoader
             )
+        }
+        .sheet(isPresented: $isFieldTestFeedbackPresented) {
+            if let discovery = presentation?.discovery {
+                NavigationStack {
+                    FieldTestFeedbackView(discovery: discovery)
+                }
+            }
         }
         .task {
             load()
@@ -120,6 +128,10 @@ struct HuntView: View {
                     revealViewedCard
                 } else if !isFound(presentation) {
                     instructionCard
+                }
+
+                if AppEnvironment.current == .fieldTest {
+                    fieldTestFeedbackCard
                 }
 
                 Spacer(minLength: 96)
@@ -244,6 +256,34 @@ struct HuntView: View {
                 text: hint.text
             )
         )
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(20)
+        .background(.background, in: RoundedRectangle(cornerRadius: 22))
+    }
+
+    private var fieldTestFeedbackCard: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Label("Field Test", systemImage: "testtube.2")
+                .font(.headline)
+
+            Text(
+                "Log hunt accuracy, clue quality, Nearby usefulness, or anything that needs a recheck."
+            )
+            .font(.subheadline)
+            .foregroundStyle(.secondary)
+
+            Button {
+                isFieldTestFeedbackPresented = true
+            } label: {
+                Label(
+                    "Record Field Feedback",
+                    systemImage: "square.and.pencil"
+                )
+                .frame(maxWidth: .infinity, minHeight: 48)
+            }
+            .buttonStyle(.bordered)
+            .accessibilityIdentifier("hunt.field-test-feedback")
+        }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(20)
         .background(.background, in: RoundedRectangle(cornerRadius: 22))
