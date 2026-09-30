@@ -4,5 +4,53 @@
     "parkID": "disneyland",
     "name": "New Orleans Square",
     "sortOrder": 1
+  },
+  {
+    "id": "main-street-usa",
+    "parkID": "disneyland",
+    "name": "Main Street, U.S.A.",
+    "sortOrder": 2
+  },
+  {
+    "id": "adventureland",
+    "parkID": "disneyland",
+    "name": "Adventureland",
+    "sortOrder": 3
+  },
+  {
+    "id": "frontierland",
+    "parkID": "disneyland",
+    "name": "Frontierland",
+    "sortOrder": 4
+  },
+  {
+    "id": "fantasyland",
+    "parkID": "disneyland",
+    "name": "Fantasyland",
+    "sortOrder": 5
+  },
+  {
+    "id": "tomorrowland",
+    "parkID": "disneyland",
+    "name": "Tomorrowland",
+    "sortOrder": 6
+  },
+  {
+    "id": "bayou-country",
+    "parkID": "disneyland",
+    "name": "Bayou Country",
+    "sortOrder": 7
+  },
+  {
+    "id": "mickeys-toontown",
+    "parkID": "disneyland",
+    "name": "Mickey's Toontown",
+    "sortOrder": 8
+  },
+  {
+    "id": "star-wars-galaxys-edge",
+    "parkID": "disneyland",
+    "name": "Star Wars: Galaxy's Edge",
+    "sortOrder": 9
   }
 ]
