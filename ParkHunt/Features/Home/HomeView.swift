@@ -21,6 +21,8 @@ struct HomeView: View {
 
                 nearbyCard
 
+                mapCard
+
                 collectionCard
 
                 if let progressSummary {
@@ -124,6 +126,43 @@ struct HomeView: View {
         .buttonStyle(.plain)
         .accessibilityIdentifier("home.nearby")
         .accessibilityHint("Choose whether to use your location for Nearby")
+    }
+
+    private var mapCard: some View {
+        NavigationLink {
+            ParkMapView(
+                contentLoader: contentLoader,
+                progressStore: progressStore
+            )
+        } label: {
+            HStack(spacing: 14) {
+                Image(systemName: "map.fill")
+                    .font(.title2)
+                    .accessibilityHidden(true)
+
+                VStack(alignment: .leading, spacing: 3) {
+                    Text("Map")
+                        .font(.headline)
+
+                    Text("Browse hunts with catalog map locations")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                }
+
+                Spacer()
+
+                Image(systemName: "chevron.right")
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(.secondary)
+                    .accessibilityHidden(true)
+            }
+            .frame(minHeight: 52)
+            .padding(18)
+            .background(.background, in: RoundedRectangle(cornerRadius: 20))
+        }
+        .buttonStyle(.plain)
+        .accessibilityIdentifier("home.map")
+        .accessibilityHint("Opens the park map")
     }
 
     private var collectionCard: some View {

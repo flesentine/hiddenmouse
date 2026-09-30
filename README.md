@@ -192,6 +192,19 @@ The Disneyland field-test catalog now contains **75 hunts across all 9 current D
 
 This is deliberately a **field-test scale catalog**, not a claim that all 75 hunts are release-ready. Efforts #39 and #40 provide the workflow for turning these source-vetted seeds into precise, verified hunts after in-park testing.
 
+### #42 Map feature
+
+Park Hunt now includes an in-app MapKit browsing screen.
+
+- Home has a dedicated **Map** entry point.
+- Only discoveries that already contain a real catalog location become map pins.
+- The 57 scale-batch hunts from effort #41 remain off the map until field testing supplies a location; the app does not fabricate coordinates.
+- Pins show found vs unfinished state and open the hunt directly.
+- The map automatically frames the currently mapped discovery set and includes compass/scale controls.
+- Browsing the map does not require live location permission because it displays catalog locations rather than tracking the guest.
+- A summary shows how many hunts are mapped and how many are still awaiting field-tested locations.
+- Unit coverage verifies pin eligibility, found state, and the current 18-mapped / 57-unmapped catalog split.
+
 ## Verification
 
 CI now runs:
@@ -218,4 +231,4 @@ Self-test content validator
 
 ## Next effort
 
-**#42 Map feature:** add an in-app map experience for browsing and orienting among verified discovery locations.
+**#43 Search/filtering:** add fast catalog search and filters for land, category, difficulty, and hunt status.
