@@ -1,0 +1,39 @@
+{
+  "id": "tomorrowland-disneyland-monorail",
+  "title": "Disneyland Monorail",
+  "parkID": "disneyland",
+  "landID": "tomorrowland",
+  "category": "historicalDetail",
+  "difficulty": "easy",
+  "hints": [
+    {
+      "id": "tomorrowland-disneyland-monorail-h1",
+      "order": 1,
+      "text": "Head into Tomorrowland and look for the guest-facing landmark or entrance associated with Disneyland Monorail.",
+      "kind": "clue"
+    },
+    {
+      "id": "tomorrowland-disneyland-monorail-h2",
+      "order": 2,
+      "text": "Slow down around Disneyland Monorail and use its name, architecture, and themed setting to confirm you have the right place.",
+      "kind": "clue"
+    },
+    {
+      "id": "tomorrowland-disneyland-monorail-h3",
+      "order": 3,
+      "text": "The target for this field-test hunt is Disneyland Monorail. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+      "kind": "detailed"
+    }
+  ],
+  "revealDescription": "You found Disneyland Monorail in Tomorrowland. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+  "verificationStatus": "needsRecheck",
+  "isIndoor": false,
+  "tags": [
+    "tomorrowland",
+    "field-test-batch",
+    "landmark"
+  ],
+  "_editorial": {
+    "notes": "Official Disneyland source confirms this current venue or experience; the exact guest-visible hunt detail still requires in-park confirmation."
+  }
+}
