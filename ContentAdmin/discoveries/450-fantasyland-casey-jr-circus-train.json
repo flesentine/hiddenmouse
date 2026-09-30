@@ -1,0 +1,39 @@
+{
+  "id": "fantasyland-casey-jr-circus-train",
+  "title": "Casey Jr. Circus Train",
+  "parkID": "disneyland",
+  "landID": "fantasyland",
+  "category": "movieReference",
+  "difficulty": "medium",
+  "hints": [
+    {
+      "id": "fantasyland-casey-jr-circus-train-h1",
+      "order": 1,
+      "text": "Head into Fantasyland and look for the guest-facing landmark or entrance associated with Casey Jr. Circus Train.",
+      "kind": "clue"
+    },
+    {
+      "id": "fantasyland-casey-jr-circus-train-h2",
+      "order": 2,
+      "text": "Slow down around Casey Jr. Circus Train and use its name, architecture, and themed setting to confirm you have the right place.",
+      "kind": "clue"
+    },
+    {
+      "id": "fantasyland-casey-jr-circus-train-h3",
+      "order": 3,
+      "text": "The target for this field-test hunt is Casey Jr. Circus Train. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+      "kind": "detailed"
+    }
+  ],
+  "revealDescription": "You found Casey Jr. Circus Train in Fantasyland. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+  "verificationStatus": "needsRecheck",
+  "isIndoor": false,
+  "tags": [
+    "fantasyland",
+    "field-test-batch",
+    "landmark"
+  ],
+  "_editorial": {
+    "notes": "Official Disneyland source confirms this current venue or experience; the exact guest-visible hunt detail still requires in-park confirmation."
+  }
+}
