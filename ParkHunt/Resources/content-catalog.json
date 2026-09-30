@@ -6,6 +6,54 @@
       "parkID": "disneyland",
       "name": "New Orleans Square",
       "sortOrder": 1
+    },
+    {
+      "id": "main-street-usa",
+      "parkID": "disneyland",
+      "name": "Main Street, U.S.A.",
+      "sortOrder": 2
+    },
+    {
+      "id": "adventureland",
+      "parkID": "disneyland",
+      "name": "Adventureland",
+      "sortOrder": 3
+    },
+    {
+      "id": "frontierland",
+      "parkID": "disneyland",
+      "name": "Frontierland",
+      "sortOrder": 4
+    },
+    {
+      "id": "fantasyland",
+      "parkID": "disneyland",
+      "name": "Fantasyland",
+      "sortOrder": 5
+    },
+    {
+      "id": "tomorrowland",
+      "parkID": "disneyland",
+      "name": "Tomorrowland",
+      "sortOrder": 6
+    },
+    {
+      "id": "bayou-country",
+      "parkID": "disneyland",
+      "name": "Bayou Country",
+      "sortOrder": 7
+    },
+    {
+      "id": "mickeys-toontown",
+      "parkID": "disneyland",
+      "name": "Mickey's Toontown",
+      "sortOrder": 8
+    },
+    {
+      "id": "star-wars-galaxys-edge",
+      "parkID": "disneyland",
+      "name": "Star Wars: Galaxy's Edge",
+      "sortOrder": 9
     }
   ],
   "areas": [
@@ -801,6 +849,2058 @@
         "haunted-mansion",
         "greenhouse",
         "plants"
+      ]
+    },
+    {
+      "id": "main-street-usa-disneyland-railroad-main-street",
+      "title": "Disneyland Railroad at Main Street",
+      "parkID": "disneyland",
+      "landID": "main-street-usa",
+      "category": "historicalDetail",
+      "difficulty": "easy",
+      "hints": [
+        {
+          "id": "main-street-usa-disneyland-railroad-main-street-h1",
+          "order": 1,
+          "text": "Head into Main Street, U.S.A. and look for the guest-facing landmark or entrance associated with Disneyland Railroad.",
+          "kind": "clue"
+        },
+        {
+          "id": "main-street-usa-disneyland-railroad-main-street-h2",
+          "order": 2,
+          "text": "Slow down around Disneyland Railroad and use its name, architecture, and themed setting to confirm you have the right place.",
+          "kind": "clue"
+        },
+        {
+          "id": "main-street-usa-disneyland-railroad-main-street-h3",
+          "order": 3,
+          "text": "The target for this field-test hunt is Disneyland Railroad. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found Disneyland Railroad in Main Street, U.S.A.. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": false,
+      "tags": [
+        "main-street-usa",
+        "field-test-batch",
+        "landmark"
+      ]
+    },
+    {
+      "id": "main-street-usa-main-street-cinema",
+      "title": "Main Street Cinema",
+      "parkID": "disneyland",
+      "landID": "main-street-usa",
+      "category": "historicalDetail",
+      "difficulty": "easy",
+      "hints": [
+        {
+          "id": "main-street-usa-main-street-cinema-h1",
+          "order": 1,
+          "text": "Head into Main Street, U.S.A. and look for the guest-facing landmark or entrance associated with Main Street Cinema.",
+          "kind": "clue"
+        },
+        {
+          "id": "main-street-usa-main-street-cinema-h2",
+          "order": 2,
+          "text": "Slow down around Main Street Cinema and use its name, architecture, and themed setting to confirm you have the right place.",
+          "kind": "clue"
+        },
+        {
+          "id": "main-street-usa-main-street-cinema-h3",
+          "order": 3,
+          "text": "The target for this field-test hunt is Main Street Cinema. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found Main Street Cinema in Main Street, U.S.A.. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": true,
+      "tags": [
+        "main-street-usa",
+        "field-test-batch",
+        "landmark"
+      ]
+    },
+    {
+      "id": "main-street-usa-disney-gallery",
+      "title": "The Disney Gallery",
+      "parkID": "disneyland",
+      "landID": "main-street-usa",
+      "category": "historicalDetail",
+      "difficulty": "easy",
+      "hints": [
+        {
+          "id": "main-street-usa-disney-gallery-h1",
+          "order": 1,
+          "text": "Head into Main Street, U.S.A. and look for the guest-facing landmark or entrance associated with The Disney Gallery.",
+          "kind": "clue"
+        },
+        {
+          "id": "main-street-usa-disney-gallery-h2",
+          "order": 2,
+          "text": "Slow down around The Disney Gallery and use its name, architecture, and themed setting to confirm you have the right place.",
+          "kind": "clue"
+        },
+        {
+          "id": "main-street-usa-disney-gallery-h3",
+          "order": 3,
+          "text": "The target for this field-test hunt is The Disney Gallery. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found The Disney Gallery in Main Street, U.S.A.. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": true,
+      "tags": [
+        "main-street-usa",
+        "field-test-batch",
+        "landmark"
+      ]
+    },
+    {
+      "id": "main-street-usa-walt-disney-magical-life",
+      "title": "Walt Disney – A Magical Life",
+      "parkID": "disneyland",
+      "landID": "main-street-usa",
+      "category": "historicalDetail",
+      "difficulty": "easy",
+      "hints": [
+        {
+          "id": "main-street-usa-walt-disney-magical-life-h1",
+          "order": 1,
+          "text": "Head into Main Street, U.S.A. and look for the guest-facing landmark or entrance associated with Walt Disney – A Magical Life.",
+          "kind": "clue"
+        },
+        {
+          "id": "main-street-usa-walt-disney-magical-life-h2",
+          "order": 2,
+          "text": "Slow down around Walt Disney – A Magical Life and use its name, architecture, and themed setting to confirm you have the right place.",
+          "kind": "clue"
+        },
+        {
+          "id": "main-street-usa-walt-disney-magical-life-h3",
+          "order": 3,
+          "text": "The target for this field-test hunt is Walt Disney – A Magical Life. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found Walt Disney – A Magical Life in Main Street, U.S.A.. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": true,
+      "tags": [
+        "main-street-usa",
+        "field-test-batch",
+        "landmark"
+      ]
+    },
+    {
+      "id": "main-street-usa-main-street-vehicles",
+      "title": "Main Street Vehicles",
+      "parkID": "disneyland",
+      "landID": "main-street-usa",
+      "category": "historicalDetail",
+      "difficulty": "easy",
+      "hints": [
+        {
+          "id": "main-street-usa-main-street-vehicles-h1",
+          "order": 1,
+          "text": "Head into Main Street, U.S.A. and look for the guest-facing landmark or entrance associated with Main Street Vehicles.",
+          "kind": "clue"
+        },
+        {
+          "id": "main-street-usa-main-street-vehicles-h2",
+          "order": 2,
+          "text": "Slow down around Main Street Vehicles and use its name, architecture, and themed setting to confirm you have the right place.",
+          "kind": "clue"
+        },
+        {
+          "id": "main-street-usa-main-street-vehicles-h3",
+          "order": 3,
+          "text": "The target for this field-test hunt is Main Street Vehicles. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found Main Street Vehicles in Main Street, U.S.A.. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": false,
+      "tags": [
+        "main-street-usa",
+        "field-test-batch",
+        "landmark"
+      ]
+    },
+    {
+      "id": "main-street-usa-disneyana-main-street",
+      "title": "Disneyana",
+      "parkID": "disneyland",
+      "landID": "main-street-usa",
+      "category": "historicalDetail",
+      "difficulty": "medium",
+      "hints": [
+        {
+          "id": "main-street-usa-disneyana-main-street-h1",
+          "order": 1,
+          "text": "Head into Main Street, U.S.A. and look for the guest-facing landmark or entrance associated with Disneyana.",
+          "kind": "clue"
+        },
+        {
+          "id": "main-street-usa-disneyana-main-street-h2",
+          "order": 2,
+          "text": "Slow down around Disneyana and use its name, architecture, and themed setting to confirm you have the right place.",
+          "kind": "clue"
+        },
+        {
+          "id": "main-street-usa-disneyana-main-street-h3",
+          "order": 3,
+          "text": "The target for this field-test hunt is Disneyana. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found Disneyana in Main Street, U.S.A.. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": true,
+      "tags": [
+        "main-street-usa",
+        "field-test-batch",
+        "landmark"
+      ]
+    },
+    {
+      "id": "main-street-usa-silhouette-studio-main-street",
+      "title": "Silhouette Studio",
+      "parkID": "disneyland",
+      "landID": "main-street-usa",
+      "category": "historicalDetail",
+      "difficulty": "medium",
+      "hints": [
+        {
+          "id": "main-street-usa-silhouette-studio-main-street-h1",
+          "order": 1,
+          "text": "Head into Main Street, U.S.A. and look for the guest-facing landmark or entrance associated with Silhouette Studio.",
+          "kind": "clue"
+        },
+        {
+          "id": "main-street-usa-silhouette-studio-main-street-h2",
+          "order": 2,
+          "text": "Slow down around Silhouette Studio and use its name, architecture, and themed setting to confirm you have the right place.",
+          "kind": "clue"
+        },
+        {
+          "id": "main-street-usa-silhouette-studio-main-street-h3",
+          "order": 3,
+          "text": "The target for this field-test hunt is Silhouette Studio. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found Silhouette Studio in Main Street, U.S.A.. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": true,
+      "tags": [
+        "main-street-usa",
+        "field-test-batch",
+        "landmark"
+      ]
+    },
+    {
+      "id": "adventureland-adventureland-treehouse",
+      "title": "Adventureland Treehouse",
+      "parkID": "disneyland",
+      "landID": "adventureland",
+      "category": "imagineeringDetail",
+      "difficulty": "easy",
+      "hints": [
+        {
+          "id": "adventureland-adventureland-treehouse-h1",
+          "order": 1,
+          "text": "Head into Adventureland and look for the guest-facing landmark or entrance associated with Adventureland Treehouse inspired by Walt Disney’s Swiss Family Robinson.",
+          "kind": "clue"
+        },
+        {
+          "id": "adventureland-adventureland-treehouse-h2",
+          "order": 2,
+          "text": "Slow down around Adventureland Treehouse inspired by Walt Disney’s Swiss Family Robinson and use its name, architecture, and themed setting to confirm you have the right place.",
+          "kind": "clue"
+        },
+        {
+          "id": "adventureland-adventureland-treehouse-h3",
+          "order": 3,
+          "text": "The target for this field-test hunt is Adventureland Treehouse inspired by Walt Disney’s Swiss Family Robinson. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found Adventureland Treehouse inspired by Walt Disney’s Swiss Family Robinson in Adventureland. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": false,
+      "tags": [
+        "adventureland",
+        "field-test-batch",
+        "landmark"
+      ]
+    },
+    {
+      "id": "adventureland-jungle-cruise",
+      "title": "Jungle Cruise",
+      "parkID": "disneyland",
+      "landID": "adventureland",
+      "category": "historicalDetail",
+      "difficulty": "easy",
+      "hints": [
+        {
+          "id": "adventureland-jungle-cruise-h1",
+          "order": 1,
+          "text": "Head into Adventureland and look for the guest-facing landmark or entrance associated with Jungle Cruise.",
+          "kind": "clue"
+        },
+        {
+          "id": "adventureland-jungle-cruise-h2",
+          "order": 2,
+          "text": "Slow down around Jungle Cruise and use its name, architecture, and themed setting to confirm you have the right place.",
+          "kind": "clue"
+        },
+        {
+          "id": "adventureland-jungle-cruise-h3",
+          "order": 3,
+          "text": "The target for this field-test hunt is Jungle Cruise. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found Jungle Cruise in Adventureland. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": false,
+      "tags": [
+        "adventureland",
+        "field-test-batch",
+        "landmark"
+      ]
+    },
+    {
+      "id": "adventureland-indiana-jones-adventure",
+      "title": "Indiana Jones Adventure",
+      "parkID": "disneyland",
+      "landID": "adventureland",
+      "category": "movieReference",
+      "difficulty": "easy",
+      "hints": [
+        {
+          "id": "adventureland-indiana-jones-adventure-h1",
+          "order": 1,
+          "text": "Head into Adventureland and look for the guest-facing landmark or entrance associated with Indiana Jones Adventure.",
+          "kind": "clue"
+        },
+        {
+          "id": "adventureland-indiana-jones-adventure-h2",
+          "order": 2,
+          "text": "Slow down around Indiana Jones Adventure and use its name, architecture, and themed setting to confirm you have the right place.",
+          "kind": "clue"
+        },
+        {
+          "id": "adventureland-indiana-jones-adventure-h3",
+          "order": 3,
+          "text": "The target for this field-test hunt is Indiana Jones Adventure. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found Indiana Jones Adventure in Adventureland. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": false,
+      "tags": [
+        "adventureland",
+        "field-test-batch",
+        "landmark"
+      ]
+    },
+    {
+      "id": "adventureland-enchanted-tiki-room",
+      "title": "Enchanted Tiki Room",
+      "parkID": "disneyland",
+      "landID": "adventureland",
+      "category": "historicalDetail",
+      "difficulty": "easy",
+      "hints": [
+        {
+          "id": "adventureland-enchanted-tiki-room-h1",
+          "order": 1,
+          "text": "Head into Adventureland and look for the guest-facing landmark or entrance associated with Walt Disney’s Enchanted Tiki Room.",
+          "kind": "clue"
+        },
+        {
+          "id": "adventureland-enchanted-tiki-room-h2",
+          "order": 2,
+          "text": "Slow down around Walt Disney’s Enchanted Tiki Room and use its name, architecture, and themed setting to confirm you have the right place.",
+          "kind": "clue"
+        },
+        {
+          "id": "adventureland-enchanted-tiki-room-h3",
+          "order": 3,
+          "text": "The target for this field-test hunt is Walt Disney’s Enchanted Tiki Room. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found Walt Disney’s Enchanted Tiki Room in Adventureland. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": true,
+      "tags": [
+        "adventureland",
+        "field-test-batch",
+        "landmark"
+      ]
+    },
+    {
+      "id": "adventureland-bengal-barbecue",
+      "title": "Bengal Barbecue",
+      "parkID": "disneyland",
+      "landID": "adventureland",
+      "category": "imagineeringDetail",
+      "difficulty": "medium",
+      "hints": [
+        {
+          "id": "adventureland-bengal-barbecue-h1",
+          "order": 1,
+          "text": "Head into Adventureland and look for the guest-facing landmark or entrance associated with Bengal Barbecue.",
+          "kind": "clue"
+        },
+        {
+          "id": "adventureland-bengal-barbecue-h2",
+          "order": 2,
+          "text": "Slow down around Bengal Barbecue and use its name, architecture, and themed setting to confirm you have the right place.",
+          "kind": "clue"
+        },
+        {
+          "id": "adventureland-bengal-barbecue-h3",
+          "order": 3,
+          "text": "The target for this field-test hunt is Bengal Barbecue. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found Bengal Barbecue in Adventureland. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": false,
+      "tags": [
+        "adventureland",
+        "field-test-batch",
+        "landmark"
+      ]
+    },
+    {
+      "id": "adventureland-tropical-hideaway",
+      "title": "The Tropical Hideaway",
+      "parkID": "disneyland",
+      "landID": "adventureland",
+      "category": "imagineeringDetail",
+      "difficulty": "medium",
+      "hints": [
+        {
+          "id": "adventureland-tropical-hideaway-h1",
+          "order": 1,
+          "text": "Head into Adventureland and look for the guest-facing landmark or entrance associated with The Tropical Hideaway.",
+          "kind": "clue"
+        },
+        {
+          "id": "adventureland-tropical-hideaway-h2",
+          "order": 2,
+          "text": "Slow down around The Tropical Hideaway and use its name, architecture, and themed setting to confirm you have the right place.",
+          "kind": "clue"
+        },
+        {
+          "id": "adventureland-tropical-hideaway-h3",
+          "order": 3,
+          "text": "The target for this field-test hunt is The Tropical Hideaway. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found The Tropical Hideaway in Adventureland. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": false,
+      "tags": [
+        "adventureland",
+        "field-test-batch",
+        "landmark"
+      ]
+    },
+    {
+      "id": "frontierland-big-thunder-mountain",
+      "title": "Big Thunder Mountain Railroad",
+      "parkID": "disneyland",
+      "landID": "frontierland",
+      "category": "imagineeringDetail",
+      "difficulty": "easy",
+      "hints": [
+        {
+          "id": "frontierland-big-thunder-mountain-h1",
+          "order": 1,
+          "text": "Head into Frontierland and look for the guest-facing landmark or entrance associated with Big Thunder Mountain Railroad.",
+          "kind": "clue"
+        },
+        {
+          "id": "frontierland-big-thunder-mountain-h2",
+          "order": 2,
+          "text": "Slow down around Big Thunder Mountain Railroad and use its name, architecture, and themed setting to confirm you have the right place.",
+          "kind": "clue"
+        },
+        {
+          "id": "frontierland-big-thunder-mountain-h3",
+          "order": 3,
+          "text": "The target for this field-test hunt is Big Thunder Mountain Railroad. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found Big Thunder Mountain Railroad in Frontierland. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": false,
+      "tags": [
+        "frontierland",
+        "field-test-batch",
+        "landmark"
+      ]
+    },
+    {
+      "id": "frontierland-pirates-lair-tom-sawyer-island",
+      "title": "Pirate’s Lair on Tom Sawyer Island",
+      "parkID": "disneyland",
+      "landID": "frontierland",
+      "category": "historicalDetail",
+      "difficulty": "easy",
+      "hints": [
+        {
+          "id": "frontierland-pirates-lair-tom-sawyer-island-h1",
+          "order": 1,
+          "text": "Head into Frontierland and look for the guest-facing landmark or entrance associated with Pirate’s Lair on Tom Sawyer Island.",
+          "kind": "clue"
+        },
+        {
+          "id": "frontierland-pirates-lair-tom-sawyer-island-h2",
+          "order": 2,
+          "text": "Slow down around Pirate’s Lair on Tom Sawyer Island and use its name, architecture, and themed setting to confirm you have the right place.",
+          "kind": "clue"
+        },
+        {
+          "id": "frontierland-pirates-lair-tom-sawyer-island-h3",
+          "order": 3,
+          "text": "The target for this field-test hunt is Pirate’s Lair on Tom Sawyer Island. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found Pirate’s Lair on Tom Sawyer Island in Frontierland. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": false,
+      "tags": [
+        "frontierland",
+        "field-test-batch",
+        "landmark"
+      ]
+    },
+    {
+      "id": "frontierland-mark-twain-riverboat",
+      "title": "Mark Twain Riverboat",
+      "parkID": "disneyland",
+      "landID": "frontierland",
+      "category": "historicalDetail",
+      "difficulty": "easy",
+      "hints": [
+        {
+          "id": "frontierland-mark-twain-riverboat-h1",
+          "order": 1,
+          "text": "Head into Frontierland and look for the guest-facing landmark or entrance associated with Mark Twain Riverboat.",
+          "kind": "clue"
+        },
+        {
+          "id": "frontierland-mark-twain-riverboat-h2",
+          "order": 2,
+          "text": "Slow down around Mark Twain Riverboat and use its name, architecture, and themed setting to confirm you have the right place.",
+          "kind": "clue"
+        },
+        {
+          "id": "frontierland-mark-twain-riverboat-h3",
+          "order": 3,
+          "text": "The target for this field-test hunt is Mark Twain Riverboat. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found Mark Twain Riverboat in Frontierland. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": false,
+      "tags": [
+        "frontierland",
+        "field-test-batch",
+        "landmark"
+      ]
+    },
+    {
+      "id": "frontierland-sailing-ship-columbia",
+      "title": "Sailing Ship Columbia",
+      "parkID": "disneyland",
+      "landID": "frontierland",
+      "category": "historicalDetail",
+      "difficulty": "easy",
+      "hints": [
+        {
+          "id": "frontierland-sailing-ship-columbia-h1",
+          "order": 1,
+          "text": "Head into Frontierland and look for the guest-facing landmark or entrance associated with Sailing Ship Columbia.",
+          "kind": "clue"
+        },
+        {
+          "id": "frontierland-sailing-ship-columbia-h2",
+          "order": 2,
+          "text": "Slow down around Sailing Ship Columbia and use its name, architecture, and themed setting to confirm you have the right place.",
+          "kind": "clue"
+        },
+        {
+          "id": "frontierland-sailing-ship-columbia-h3",
+          "order": 3,
+          "text": "The target for this field-test hunt is Sailing Ship Columbia. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found Sailing Ship Columbia in Frontierland. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": false,
+      "tags": [
+        "frontierland",
+        "field-test-batch",
+        "landmark"
+      ]
+    },
+    {
+      "id": "frontierland-frontierland-shootin-exposition",
+      "title": "Frontierland Shootin’ Exposition",
+      "parkID": "disneyland",
+      "landID": "frontierland",
+      "category": "historicalDetail",
+      "difficulty": "medium",
+      "hints": [
+        {
+          "id": "frontierland-frontierland-shootin-exposition-h1",
+          "order": 1,
+          "text": "Head into Frontierland and look for the guest-facing landmark or entrance associated with Frontierland Shootin’ Exposition.",
+          "kind": "clue"
+        },
+        {
+          "id": "frontierland-frontierland-shootin-exposition-h2",
+          "order": 2,
+          "text": "Slow down around Frontierland Shootin’ Exposition and use its name, architecture, and themed setting to confirm you have the right place.",
+          "kind": "clue"
+        },
+        {
+          "id": "frontierland-frontierland-shootin-exposition-h3",
+          "order": 3,
+          "text": "The target for this field-test hunt is Frontierland Shootin’ Exposition. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found Frontierland Shootin’ Exposition in Frontierland. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": false,
+      "tags": [
+        "frontierland",
+        "field-test-batch",
+        "landmark"
+      ]
+    },
+    {
+      "id": "frontierland-golden-horseshoe",
+      "title": "The Golden Horseshoe",
+      "parkID": "disneyland",
+      "landID": "frontierland",
+      "category": "historicalDetail",
+      "difficulty": "medium",
+      "hints": [
+        {
+          "id": "frontierland-golden-horseshoe-h1",
+          "order": 1,
+          "text": "Head into Frontierland and look for the guest-facing landmark or entrance associated with The Golden Horseshoe.",
+          "kind": "clue"
+        },
+        {
+          "id": "frontierland-golden-horseshoe-h2",
+          "order": 2,
+          "text": "Slow down around The Golden Horseshoe and use its name, architecture, and themed setting to confirm you have the right place.",
+          "kind": "clue"
+        },
+        {
+          "id": "frontierland-golden-horseshoe-h3",
+          "order": 3,
+          "text": "The target for this field-test hunt is The Golden Horseshoe. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found The Golden Horseshoe in Frontierland. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": true,
+      "tags": [
+        "frontierland",
+        "field-test-batch",
+        "landmark"
+      ]
+    },
+    {
+      "id": "fantasyland-sleeping-beauty-castle-walkthrough",
+      "title": "Sleeping Beauty Castle Walkthrough",
+      "parkID": "disneyland",
+      "landID": "fantasyland",
+      "category": "historicalDetail",
+      "difficulty": "easy",
+      "hints": [
+        {
+          "id": "fantasyland-sleeping-beauty-castle-walkthrough-h1",
+          "order": 1,
+          "text": "Head into Fantasyland and look for the guest-facing landmark or entrance associated with Sleeping Beauty Castle Walkthrough.",
+          "kind": "clue"
+        },
+        {
+          "id": "fantasyland-sleeping-beauty-castle-walkthrough-h2",
+          "order": 2,
+          "text": "Slow down around Sleeping Beauty Castle Walkthrough and use its name, architecture, and themed setting to confirm you have the right place.",
+          "kind": "clue"
+        },
+        {
+          "id": "fantasyland-sleeping-beauty-castle-walkthrough-h3",
+          "order": 3,
+          "text": "The target for this field-test hunt is Sleeping Beauty Castle Walkthrough. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found Sleeping Beauty Castle Walkthrough in Fantasyland. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": true,
+      "tags": [
+        "fantasyland",
+        "field-test-batch",
+        "landmark"
+      ]
+    },
+    {
+      "id": "fantasyland-peter-pans-flight",
+      "title": "Peter Pan’s Flight",
+      "parkID": "disneyland",
+      "landID": "fantasyland",
+      "category": "movieReference",
+      "difficulty": "easy",
+      "hints": [
+        {
+          "id": "fantasyland-peter-pans-flight-h1",
+          "order": 1,
+          "text": "Head into Fantasyland and look for the guest-facing landmark or entrance associated with Peter Pan’s Flight.",
+          "kind": "clue"
+        },
+        {
+          "id": "fantasyland-peter-pans-flight-h2",
+          "order": 2,
+          "text": "Slow down around Peter Pan’s Flight and use its name, architecture, and themed setting to confirm you have the right place.",
+          "kind": "clue"
+        },
+        {
+          "id": "fantasyland-peter-pans-flight-h3",
+          "order": 3,
+          "text": "The target for this field-test hunt is Peter Pan’s Flight. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found Peter Pan’s Flight in Fantasyland. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": true,
+      "tags": [
+        "fantasyland",
+        "field-test-batch",
+        "landmark"
+      ]
+    },
+    {
+      "id": "fantasyland-snow-whites-enchanted-wish",
+      "title": "Snow White’s Enchanted Wish",
+      "parkID": "disneyland",
+      "landID": "fantasyland",
+      "category": "movieReference",
+      "difficulty": "easy",
+      "hints": [
+        {
+          "id": "fantasyland-snow-whites-enchanted-wish-h1",
+          "order": 1,
+          "text": "Head into Fantasyland and look for the guest-facing landmark or entrance associated with Snow White’s Enchanted Wish.",
+          "kind": "clue"
+        },
+        {
+          "id": "fantasyland-snow-whites-enchanted-wish-h2",
+          "order": 2,
+          "text": "Slow down around Snow White’s Enchanted Wish and use its name, architecture, and themed setting to confirm you have the right place.",
+          "kind": "clue"
+        },
+        {
+          "id": "fantasyland-snow-whites-enchanted-wish-h3",
+          "order": 3,
+          "text": "The target for this field-test hunt is Snow White’s Enchanted Wish. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found Snow White’s Enchanted Wish in Fantasyland. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": true,
+      "tags": [
+        "fantasyland",
+        "field-test-batch",
+        "landmark"
+      ]
+    },
+    {
+      "id": "fantasyland-alice-in-wonderland",
+      "title": "Alice in Wonderland",
+      "parkID": "disneyland",
+      "landID": "fantasyland",
+      "category": "movieReference",
+      "difficulty": "easy",
+      "hints": [
+        {
+          "id": "fantasyland-alice-in-wonderland-h1",
+          "order": 1,
+          "text": "Head into Fantasyland and look for the guest-facing landmark or entrance associated with Alice in Wonderland.",
+          "kind": "clue"
+        },
+        {
+          "id": "fantasyland-alice-in-wonderland-h2",
+          "order": 2,
+          "text": "Slow down around Alice in Wonderland and use its name, architecture, and themed setting to confirm you have the right place.",
+          "kind": "clue"
+        },
+        {
+          "id": "fantasyland-alice-in-wonderland-h3",
+          "order": 3,
+          "text": "The target for this field-test hunt is Alice in Wonderland. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found Alice in Wonderland in Fantasyland. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": true,
+      "tags": [
+        "fantasyland",
+        "field-test-batch",
+        "landmark"
+      ]
+    },
+    {
+      "id": "fantasyland-dumbo-flying-elephant",
+      "title": "Dumbo the Flying Elephant",
+      "parkID": "disneyland",
+      "landID": "fantasyland",
+      "category": "movieReference",
+      "difficulty": "easy",
+      "hints": [
+        {
+          "id": "fantasyland-dumbo-flying-elephant-h1",
+          "order": 1,
+          "text": "Head into Fantasyland and look for the guest-facing landmark or entrance associated with Dumbo the Flying Elephant.",
+          "kind": "clue"
+        },
+        {
+          "id": "fantasyland-dumbo-flying-elephant-h2",
+          "order": 2,
+          "text": "Slow down around Dumbo the Flying Elephant and use its name, architecture, and themed setting to confirm you have the right place.",
+          "kind": "clue"
+        },
+        {
+          "id": "fantasyland-dumbo-flying-elephant-h3",
+          "order": 3,
+          "text": "The target for this field-test hunt is Dumbo the Flying Elephant. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found Dumbo the Flying Elephant in Fantasyland. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": false,
+      "tags": [
+        "fantasyland",
+        "field-test-batch",
+        "landmark"
+      ]
+    },
+    {
+      "id": "fantasyland-king-arthur-carrousel",
+      "title": "King Arthur Carrousel",
+      "parkID": "disneyland",
+      "landID": "fantasyland",
+      "category": "historicalDetail",
+      "difficulty": "easy",
+      "hints": [
+        {
+          "id": "fantasyland-king-arthur-carrousel-h1",
+          "order": 1,
+          "text": "Head into Fantasyland and look for the guest-facing landmark or entrance associated with King Arthur Carrousel.",
+          "kind": "clue"
+        },
+        {
+          "id": "fantasyland-king-arthur-carrousel-h2",
+          "order": 2,
+          "text": "Slow down around King Arthur Carrousel and use its name, architecture, and themed setting to confirm you have the right place.",
+          "kind": "clue"
+        },
+        {
+          "id": "fantasyland-king-arthur-carrousel-h3",
+          "order": 3,
+          "text": "The target for this field-test hunt is King Arthur Carrousel. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found King Arthur Carrousel in Fantasyland. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": false,
+      "tags": [
+        "fantasyland",
+        "field-test-batch",
+        "landmark"
+      ]
+    },
+    {
+      "id": "fantasyland-storybook-land-canal-boats",
+      "title": "Storybook Land Canal Boats",
+      "parkID": "disneyland",
+      "landID": "fantasyland",
+      "category": "imagineeringDetail",
+      "difficulty": "medium",
+      "hints": [
+        {
+          "id": "fantasyland-storybook-land-canal-boats-h1",
+          "order": 1,
+          "text": "Head into Fantasyland and look for the guest-facing landmark or entrance associated with Storybook Land Canal Boats.",
+          "kind": "clue"
+        },
+        {
+          "id": "fantasyland-storybook-land-canal-boats-h2",
+          "order": 2,
+          "text": "Slow down around Storybook Land Canal Boats and use its name, architecture, and themed setting to confirm you have the right place.",
+          "kind": "clue"
+        },
+        {
+          "id": "fantasyland-storybook-land-canal-boats-h3",
+          "order": 3,
+          "text": "The target for this field-test hunt is Storybook Land Canal Boats. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found Storybook Land Canal Boats in Fantasyland. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": false,
+      "tags": [
+        "fantasyland",
+        "field-test-batch",
+        "landmark"
+      ]
+    },
+    {
+      "id": "fantasyland-casey-jr-circus-train",
+      "title": "Casey Jr. Circus Train",
+      "parkID": "disneyland",
+      "landID": "fantasyland",
+      "category": "movieReference",
+      "difficulty": "medium",
+      "hints": [
+        {
+          "id": "fantasyland-casey-jr-circus-train-h1",
+          "order": 1,
+          "text": "Head into Fantasyland and look for the guest-facing landmark or entrance associated with Casey Jr. Circus Train.",
+          "kind": "clue"
+        },
+        {
+          "id": "fantasyland-casey-jr-circus-train-h2",
+          "order": 2,
+          "text": "Slow down around Casey Jr. Circus Train and use its name, architecture, and themed setting to confirm you have the right place.",
+          "kind": "clue"
+        },
+        {
+          "id": "fantasyland-casey-jr-circus-train-h3",
+          "order": 3,
+          "text": "The target for this field-test hunt is Casey Jr. Circus Train. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found Casey Jr. Circus Train in Fantasyland. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": false,
+      "tags": [
+        "fantasyland",
+        "field-test-batch",
+        "landmark"
+      ]
+    },
+    {
+      "id": "fantasyland-matterhorn-bobsleds",
+      "title": "Matterhorn Bobsleds",
+      "parkID": "disneyland",
+      "landID": "fantasyland",
+      "category": "historicalDetail",
+      "difficulty": "easy",
+      "hints": [
+        {
+          "id": "fantasyland-matterhorn-bobsleds-h1",
+          "order": 1,
+          "text": "Head into Fantasyland and look for the guest-facing landmark or entrance associated with Matterhorn Bobsleds.",
+          "kind": "clue"
+        },
+        {
+          "id": "fantasyland-matterhorn-bobsleds-h2",
+          "order": 2,
+          "text": "Slow down around Matterhorn Bobsleds and use its name, architecture, and themed setting to confirm you have the right place.",
+          "kind": "clue"
+        },
+        {
+          "id": "fantasyland-matterhorn-bobsleds-h3",
+          "order": 3,
+          "text": "The target for this field-test hunt is Matterhorn Bobsleds. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found Matterhorn Bobsleds in Fantasyland. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": false,
+      "tags": [
+        "fantasyland",
+        "field-test-batch",
+        "landmark"
+      ]
+    },
+    {
+      "id": "fantasyland-its-a-small-world",
+      "title": "it’s a small world",
+      "parkID": "disneyland",
+      "landID": "fantasyland",
+      "category": "historicalDetail",
+      "difficulty": "easy",
+      "hints": [
+        {
+          "id": "fantasyland-its-a-small-world-h1",
+          "order": 1,
+          "text": "Head into Fantasyland and look for the guest-facing landmark or entrance associated with “it’s a small world”.",
+          "kind": "clue"
+        },
+        {
+          "id": "fantasyland-its-a-small-world-h2",
+          "order": 2,
+          "text": "Slow down around “it’s a small world” and use its name, architecture, and themed setting to confirm you have the right place.",
+          "kind": "clue"
+        },
+        {
+          "id": "fantasyland-its-a-small-world-h3",
+          "order": 3,
+          "text": "The target for this field-test hunt is “it’s a small world”. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found “it’s a small world” in Fantasyland. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": true,
+      "tags": [
+        "fantasyland",
+        "field-test-batch",
+        "landmark"
+      ]
+    },
+    {
+      "id": "tomorrowland-space-mountain",
+      "title": "Space Mountain",
+      "parkID": "disneyland",
+      "landID": "tomorrowland",
+      "category": "imagineeringDetail",
+      "difficulty": "easy",
+      "hints": [
+        {
+          "id": "tomorrowland-space-mountain-h1",
+          "order": 1,
+          "text": "Head into Tomorrowland and look for the guest-facing landmark or entrance associated with Space Mountain.",
+          "kind": "clue"
+        },
+        {
+          "id": "tomorrowland-space-mountain-h2",
+          "order": 2,
+          "text": "Slow down around Space Mountain and use its name, architecture, and themed setting to confirm you have the right place.",
+          "kind": "clue"
+        },
+        {
+          "id": "tomorrowland-space-mountain-h3",
+          "order": 3,
+          "text": "The target for this field-test hunt is Space Mountain. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found Space Mountain in Tomorrowland. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": true,
+      "tags": [
+        "tomorrowland",
+        "field-test-batch",
+        "landmark"
+      ]
+    },
+    {
+      "id": "tomorrowland-star-tours",
+      "title": "Star Tours – The Adventures Continue",
+      "parkID": "disneyland",
+      "landID": "tomorrowland",
+      "category": "movieReference",
+      "difficulty": "easy",
+      "hints": [
+        {
+          "id": "tomorrowland-star-tours-h1",
+          "order": 1,
+          "text": "Head into Tomorrowland and look for the guest-facing landmark or entrance associated with Star Tours – The Adventures Continue.",
+          "kind": "clue"
+        },
+        {
+          "id": "tomorrowland-star-tours-h2",
+          "order": 2,
+          "text": "Slow down around Star Tours – The Adventures Continue and use its name, architecture, and themed setting to confirm you have the right place.",
+          "kind": "clue"
+        },
+        {
+          "id": "tomorrowland-star-tours-h3",
+          "order": 3,
+          "text": "The target for this field-test hunt is Star Tours – The Adventures Continue. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found Star Tours – The Adventures Continue in Tomorrowland. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": true,
+      "tags": [
+        "tomorrowland",
+        "field-test-batch",
+        "landmark"
+      ]
+    },
+    {
+      "id": "tomorrowland-autopia",
+      "title": "Autopia",
+      "parkID": "disneyland",
+      "landID": "tomorrowland",
+      "category": "historicalDetail",
+      "difficulty": "easy",
+      "hints": [
+        {
+          "id": "tomorrowland-autopia-h1",
+          "order": 1,
+          "text": "Head into Tomorrowland and look for the guest-facing landmark or entrance associated with Autopia.",
+          "kind": "clue"
+        },
+        {
+          "id": "tomorrowland-autopia-h2",
+          "order": 2,
+          "text": "Slow down around Autopia and use its name, architecture, and themed setting to confirm you have the right place.",
+          "kind": "clue"
+        },
+        {
+          "id": "tomorrowland-autopia-h3",
+          "order": 3,
+          "text": "The target for this field-test hunt is Autopia. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found Autopia in Tomorrowland. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": false,
+      "tags": [
+        "tomorrowland",
+        "field-test-batch",
+        "landmark"
+      ]
+    },
+    {
+      "id": "tomorrowland-disneyland-monorail",
+      "title": "Disneyland Monorail",
+      "parkID": "disneyland",
+      "landID": "tomorrowland",
+      "category": "historicalDetail",
+      "difficulty": "easy",
+      "hints": [
+        {
+          "id": "tomorrowland-disneyland-monorail-h1",
+          "order": 1,
+          "text": "Head into Tomorrowland and look for the guest-facing landmark or entrance associated with Disneyland Monorail.",
+          "kind": "clue"
+        },
+        {
+          "id": "tomorrowland-disneyland-monorail-h2",
+          "order": 2,
+          "text": "Slow down around Disneyland Monorail and use its name, architecture, and themed setting to confirm you have the right place.",
+          "kind": "clue"
+        },
+        {
+          "id": "tomorrowland-disneyland-monorail-h3",
+          "order": 3,
+          "text": "The target for this field-test hunt is Disneyland Monorail. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found Disneyland Monorail in Tomorrowland. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": false,
+      "tags": [
+        "tomorrowland",
+        "field-test-batch",
+        "landmark"
+      ]
+    },
+    {
+      "id": "tomorrowland-astro-orbitor",
+      "title": "Astro Orbitor",
+      "parkID": "disneyland",
+      "landID": "tomorrowland",
+      "category": "imagineeringDetail",
+      "difficulty": "easy",
+      "hints": [
+        {
+          "id": "tomorrowland-astro-orbitor-h1",
+          "order": 1,
+          "text": "Head into Tomorrowland and look for the guest-facing landmark or entrance associated with Astro Orbitor.",
+          "kind": "clue"
+        },
+        {
+          "id": "tomorrowland-astro-orbitor-h2",
+          "order": 2,
+          "text": "Slow down around Astro Orbitor and use its name, architecture, and themed setting to confirm you have the right place.",
+          "kind": "clue"
+        },
+        {
+          "id": "tomorrowland-astro-orbitor-h3",
+          "order": 3,
+          "text": "The target for this field-test hunt is Astro Orbitor. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found Astro Orbitor in Tomorrowland. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": false,
+      "tags": [
+        "tomorrowland",
+        "field-test-batch",
+        "landmark"
+      ]
+    },
+    {
+      "id": "tomorrowland-finding-nemo-submarine",
+      "title": "Finding Nemo Submarine Voyage",
+      "parkID": "disneyland",
+      "landID": "tomorrowland",
+      "category": "movieReference",
+      "difficulty": "easy",
+      "hints": [
+        {
+          "id": "tomorrowland-finding-nemo-submarine-h1",
+          "order": 1,
+          "text": "Head into Tomorrowland and look for the guest-facing landmark or entrance associated with Finding Nemo Submarine Voyage.",
+          "kind": "clue"
+        },
+        {
+          "id": "tomorrowland-finding-nemo-submarine-h2",
+          "order": 2,
+          "text": "Slow down around Finding Nemo Submarine Voyage and use its name, architecture, and themed setting to confirm you have the right place.",
+          "kind": "clue"
+        },
+        {
+          "id": "tomorrowland-finding-nemo-submarine-h3",
+          "order": 3,
+          "text": "The target for this field-test hunt is Finding Nemo Submarine Voyage. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found Finding Nemo Submarine Voyage in Tomorrowland. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": true,
+      "tags": [
+        "tomorrowland",
+        "field-test-batch",
+        "landmark"
+      ]
+    },
+    {
+      "id": "bayou-country-tianas-bayou-adventure",
+      "title": "Tiana’s Bayou Adventure",
+      "parkID": "disneyland",
+      "landID": "bayou-country",
+      "category": "movieReference",
+      "difficulty": "easy",
+      "hints": [
+        {
+          "id": "bayou-country-tianas-bayou-adventure-h1",
+          "order": 1,
+          "text": "Head into Bayou Country and look for the guest-facing landmark or entrance associated with Tiana’s Bayou Adventure.",
+          "kind": "clue"
+        },
+        {
+          "id": "bayou-country-tianas-bayou-adventure-h2",
+          "order": 2,
+          "text": "Slow down around Tiana’s Bayou Adventure and use its name, architecture, and themed setting to confirm you have the right place.",
+          "kind": "clue"
+        },
+        {
+          "id": "bayou-country-tianas-bayou-adventure-h3",
+          "order": 3,
+          "text": "The target for this field-test hunt is Tiana’s Bayou Adventure. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found Tiana’s Bayou Adventure in Bayou Country. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": false,
+      "tags": [
+        "bayou-country",
+        "field-test-batch",
+        "landmark"
+      ]
+    },
+    {
+      "id": "bayou-country-winnie-the-pooh-adventure",
+      "title": "The Many Adventures of Winnie the Pooh",
+      "parkID": "disneyland",
+      "landID": "bayou-country",
+      "category": "movieReference",
+      "difficulty": "easy",
+      "hints": [
+        {
+          "id": "bayou-country-winnie-the-pooh-adventure-h1",
+          "order": 1,
+          "text": "Head into Bayou Country and look for the guest-facing landmark or entrance associated with The Many Adventures of Winnie the Pooh.",
+          "kind": "clue"
+        },
+        {
+          "id": "bayou-country-winnie-the-pooh-adventure-h2",
+          "order": 2,
+          "text": "Slow down around The Many Adventures of Winnie the Pooh and use its name, architecture, and themed setting to confirm you have the right place.",
+          "kind": "clue"
+        },
+        {
+          "id": "bayou-country-winnie-the-pooh-adventure-h3",
+          "order": 3,
+          "text": "The target for this field-test hunt is The Many Adventures of Winnie the Pooh. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found The Many Adventures of Winnie the Pooh in Bayou Country. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": true,
+      "tags": [
+        "bayou-country",
+        "field-test-batch",
+        "landmark"
+      ]
+    },
+    {
+      "id": "bayou-country-davy-crockett-canoes",
+      "title": "Davy Crockett’s Explorer Canoes",
+      "parkID": "disneyland",
+      "landID": "bayou-country",
+      "category": "historicalDetail",
+      "difficulty": "medium",
+      "hints": [
+        {
+          "id": "bayou-country-davy-crockett-canoes-h1",
+          "order": 1,
+          "text": "Head into Bayou Country and look for the guest-facing landmark or entrance associated with Davy Crockett’s Explorer Canoes.",
+          "kind": "clue"
+        },
+        {
+          "id": "bayou-country-davy-crockett-canoes-h2",
+          "order": 2,
+          "text": "Slow down around Davy Crockett’s Explorer Canoes and use its name, architecture, and themed setting to confirm you have the right place.",
+          "kind": "clue"
+        },
+        {
+          "id": "bayou-country-davy-crockett-canoes-h3",
+          "order": 3,
+          "text": "The target for this field-test hunt is Davy Crockett’s Explorer Canoes. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found Davy Crockett’s Explorer Canoes in Bayou Country. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": false,
+      "tags": [
+        "bayou-country",
+        "field-test-batch",
+        "landmark"
+      ]
+    },
+    {
+      "id": "bayou-country-hungry-bear-jamboree",
+      "title": "Hungry Bear Barbecue Jamboree",
+      "parkID": "disneyland",
+      "landID": "bayou-country",
+      "category": "imagineeringDetail",
+      "difficulty": "medium",
+      "hints": [
+        {
+          "id": "bayou-country-hungry-bear-jamboree-h1",
+          "order": 1,
+          "text": "Head into Bayou Country and look for the guest-facing landmark or entrance associated with Hungry Bear Barbecue Jamboree.",
+          "kind": "clue"
+        },
+        {
+          "id": "bayou-country-hungry-bear-jamboree-h2",
+          "order": 2,
+          "text": "Slow down around Hungry Bear Barbecue Jamboree and use its name, architecture, and themed setting to confirm you have the right place.",
+          "kind": "clue"
+        },
+        {
+          "id": "bayou-country-hungry-bear-jamboree-h3",
+          "order": 3,
+          "text": "The target for this field-test hunt is Hungry Bear Barbecue Jamboree. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found Hungry Bear Barbecue Jamboree in Bayou Country. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": false,
+      "tags": [
+        "bayou-country",
+        "field-test-batch",
+        "landmark"
+      ]
+    },
+    {
+      "id": "mickeys-toontown-runaway-railway",
+      "title": "Mickey & Minnie’s Runaway Railway",
+      "parkID": "disneyland",
+      "landID": "mickeys-toontown",
+      "category": "movieReference",
+      "difficulty": "easy",
+      "hints": [
+        {
+          "id": "mickeys-toontown-runaway-railway-h1",
+          "order": 1,
+          "text": "Head into Mickey’s Toontown and look for the guest-facing landmark or entrance associated with Mickey & Minnie’s Runaway Railway.",
+          "kind": "clue"
+        },
+        {
+          "id": "mickeys-toontown-runaway-railway-h2",
+          "order": 2,
+          "text": "Slow down around Mickey & Minnie’s Runaway Railway and use its name, architecture, and themed setting to confirm you have the right place.",
+          "kind": "clue"
+        },
+        {
+          "id": "mickeys-toontown-runaway-railway-h3",
+          "order": 3,
+          "text": "The target for this field-test hunt is Mickey & Minnie’s Runaway Railway. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found Mickey & Minnie’s Runaway Railway in Mickey’s Toontown. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": true,
+      "tags": [
+        "mickeys-toontown",
+        "field-test-batch",
+        "landmark"
+      ]
+    },
+    {
+      "id": "mickeys-toontown-centoonial-park",
+      "title": "CenTOONial Park",
+      "parkID": "disneyland",
+      "landID": "mickeys-toontown",
+      "category": "imagineeringDetail",
+      "difficulty": "easy",
+      "hints": [
+        {
+          "id": "mickeys-toontown-centoonial-park-h1",
+          "order": 1,
+          "text": "Head into Mickey’s Toontown and look for the guest-facing landmark or entrance associated with CenTOONial Park.",
+          "kind": "clue"
+        },
+        {
+          "id": "mickeys-toontown-centoonial-park-h2",
+          "order": 2,
+          "text": "Slow down around CenTOONial Park and use its name, architecture, and themed setting to confirm you have the right place.",
+          "kind": "clue"
+        },
+        {
+          "id": "mickeys-toontown-centoonial-park-h3",
+          "order": 3,
+          "text": "The target for this field-test hunt is CenTOONial Park. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found CenTOONial Park in Mickey’s Toontown. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": false,
+      "tags": [
+        "mickeys-toontown",
+        "field-test-batch",
+        "landmark"
+      ]
+    },
+    {
+      "id": "mickeys-toontown-gadgetcoaster",
+      "title": "Chip ’n’ Dale’s GADGETcoaster",
+      "parkID": "disneyland",
+      "landID": "mickeys-toontown",
+      "category": "movieReference",
+      "difficulty": "easy",
+      "hints": [
+        {
+          "id": "mickeys-toontown-gadgetcoaster-h1",
+          "order": 1,
+          "text": "Head into Mickey’s Toontown and look for the guest-facing landmark or entrance associated with Chip ’n’ Dale’s GADGETcoaster.",
+          "kind": "clue"
+        },
+        {
+          "id": "mickeys-toontown-gadgetcoaster-h2",
+          "order": 2,
+          "text": "Slow down around Chip ’n’ Dale’s GADGETcoaster and use its name, architecture, and themed setting to confirm you have the right place.",
+          "kind": "clue"
+        },
+        {
+          "id": "mickeys-toontown-gadgetcoaster-h3",
+          "order": 3,
+          "text": "The target for this field-test hunt is Chip ’n’ Dale’s GADGETcoaster. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found Chip ’n’ Dale’s GADGETcoaster in Mickey’s Toontown. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": false,
+      "tags": [
+        "mickeys-toontown",
+        "field-test-batch",
+        "landmark"
+      ]
+    },
+    {
+      "id": "mickeys-toontown-roger-rabbit-car-toon-spin",
+      "title": "Roger Rabbit’s Car Toon Spin",
+      "parkID": "disneyland",
+      "landID": "mickeys-toontown",
+      "category": "movieReference",
+      "difficulty": "easy",
+      "hints": [
+        {
+          "id": "mickeys-toontown-roger-rabbit-car-toon-spin-h1",
+          "order": 1,
+          "text": "Head into Mickey’s Toontown and look for the guest-facing landmark or entrance associated with Roger Rabbit’s Car Toon Spin.",
+          "kind": "clue"
+        },
+        {
+          "id": "mickeys-toontown-roger-rabbit-car-toon-spin-h2",
+          "order": 2,
+          "text": "Slow down around Roger Rabbit’s Car Toon Spin and use its name, architecture, and themed setting to confirm you have the right place.",
+          "kind": "clue"
+        },
+        {
+          "id": "mickeys-toontown-roger-rabbit-car-toon-spin-h3",
+          "order": 3,
+          "text": "The target for this field-test hunt is Roger Rabbit’s Car Toon Spin. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found Roger Rabbit’s Car Toon Spin in Mickey’s Toontown. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": true,
+      "tags": [
+        "mickeys-toontown",
+        "field-test-batch",
+        "landmark"
+      ]
+    },
+    {
+      "id": "mickeys-toontown-mickeys-house",
+      "title": "Mickey’s House",
+      "parkID": "disneyland",
+      "landID": "mickeys-toontown",
+      "category": "movieReference",
+      "difficulty": "easy",
+      "hints": [
+        {
+          "id": "mickeys-toontown-mickeys-house-h1",
+          "order": 1,
+          "text": "Head into Mickey’s Toontown and look for the guest-facing landmark or entrance associated with Mickey’s House and Meet Mickey.",
+          "kind": "clue"
+        },
+        {
+          "id": "mickeys-toontown-mickeys-house-h2",
+          "order": 2,
+          "text": "Slow down around Mickey’s House and Meet Mickey and use its name, architecture, and themed setting to confirm you have the right place.",
+          "kind": "clue"
+        },
+        {
+          "id": "mickeys-toontown-mickeys-house-h3",
+          "order": 3,
+          "text": "The target for this field-test hunt is Mickey’s House and Meet Mickey. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found Mickey’s House and Meet Mickey in Mickey’s Toontown. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": true,
+      "tags": [
+        "mickeys-toontown",
+        "field-test-batch",
+        "landmark"
+      ]
+    },
+    {
+      "id": "mickeys-toontown-minnies-house",
+      "title": "Minnie’s House",
+      "parkID": "disneyland",
+      "landID": "mickeys-toontown",
+      "category": "movieReference",
+      "difficulty": "easy",
+      "hints": [
+        {
+          "id": "mickeys-toontown-minnies-house-h1",
+          "order": 1,
+          "text": "Head into Mickey’s Toontown and look for the guest-facing landmark or entrance associated with Minnie’s House.",
+          "kind": "clue"
+        },
+        {
+          "id": "mickeys-toontown-minnies-house-h2",
+          "order": 2,
+          "text": "Slow down around Minnie’s House and use its name, architecture, and themed setting to confirm you have the right place.",
+          "kind": "clue"
+        },
+        {
+          "id": "mickeys-toontown-minnies-house-h3",
+          "order": 3,
+          "text": "The target for this field-test hunt is Minnie’s House. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found Minnie’s House in Mickey’s Toontown. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": true,
+      "tags": [
+        "mickeys-toontown",
+        "field-test-batch",
+        "landmark"
+      ]
+    },
+    {
+      "id": "mickeys-toontown-donalds-duck-pond",
+      "title": "Donald’s Duck Pond",
+      "parkID": "disneyland",
+      "landID": "mickeys-toontown",
+      "category": "movieReference",
+      "difficulty": "easy",
+      "hints": [
+        {
+          "id": "mickeys-toontown-donalds-duck-pond-h1",
+          "order": 1,
+          "text": "Head into Mickey’s Toontown and look for the guest-facing landmark or entrance associated with Donald’s Duck Pond.",
+          "kind": "clue"
+        },
+        {
+          "id": "mickeys-toontown-donalds-duck-pond-h2",
+          "order": 2,
+          "text": "Slow down around Donald’s Duck Pond and use its name, architecture, and themed setting to confirm you have the right place.",
+          "kind": "clue"
+        },
+        {
+          "id": "mickeys-toontown-donalds-duck-pond-h3",
+          "order": 3,
+          "text": "The target for this field-test hunt is Donald’s Duck Pond. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found Donald’s Duck Pond in Mickey’s Toontown. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": false,
+      "tags": [
+        "mickeys-toontown",
+        "field-test-batch",
+        "landmark"
+      ]
+    },
+    {
+      "id": "mickeys-toontown-goofys-how-to-play-yard",
+      "title": "Goofy’s How-To-Play Yard",
+      "parkID": "disneyland",
+      "landID": "mickeys-toontown",
+      "category": "movieReference",
+      "difficulty": "easy",
+      "hints": [
+        {
+          "id": "mickeys-toontown-goofys-how-to-play-yard-h1",
+          "order": 1,
+          "text": "Head into Mickey’s Toontown and look for the guest-facing landmark or entrance associated with Goofy’s How-To-Play Yard.",
+          "kind": "clue"
+        },
+        {
+          "id": "mickeys-toontown-goofys-how-to-play-yard-h2",
+          "order": 2,
+          "text": "Slow down around Goofy’s How-To-Play Yard and use its name, architecture, and themed setting to confirm you have the right place.",
+          "kind": "clue"
+        },
+        {
+          "id": "mickeys-toontown-goofys-how-to-play-yard-h3",
+          "order": 3,
+          "text": "The target for this field-test hunt is Goofy’s How-To-Play Yard. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found Goofy’s How-To-Play Yard in Mickey’s Toontown. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": false,
+      "tags": [
+        "mickeys-toontown",
+        "field-test-batch",
+        "landmark"
+      ]
+    },
+    {
+      "id": "star-wars-galaxys-edge-millennium-falcon-smugglers-run",
+      "title": "Millennium Falcon: Smugglers Run",
+      "parkID": "disneyland",
+      "landID": "star-wars-galaxys-edge",
+      "category": "movieReference",
+      "difficulty": "easy",
+      "hints": [
+        {
+          "id": "star-wars-galaxys-edge-millennium-falcon-smugglers-run-h1",
+          "order": 1,
+          "text": "Head into Star Wars: Galaxy’s Edge and look for the guest-facing landmark or entrance associated with Millennium Falcon: Smugglers Run.",
+          "kind": "clue"
+        },
+        {
+          "id": "star-wars-galaxys-edge-millennium-falcon-smugglers-run-h2",
+          "order": 2,
+          "text": "Slow down around Millennium Falcon: Smugglers Run and use its name, architecture, and themed setting to confirm you have the right place.",
+          "kind": "clue"
+        },
+        {
+          "id": "star-wars-galaxys-edge-millennium-falcon-smugglers-run-h3",
+          "order": 3,
+          "text": "The target for this field-test hunt is Millennium Falcon: Smugglers Run. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found Millennium Falcon: Smugglers Run in Star Wars: Galaxy’s Edge. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": true,
+      "tags": [
+        "star-wars-galaxys-edge",
+        "field-test-batch",
+        "landmark"
+      ]
+    },
+    {
+      "id": "star-wars-galaxys-edge-rise-of-resistance",
+      "title": "Star Wars: Rise of the Resistance",
+      "parkID": "disneyland",
+      "landID": "star-wars-galaxys-edge",
+      "category": "movieReference",
+      "difficulty": "easy",
+      "hints": [
+        {
+          "id": "star-wars-galaxys-edge-rise-of-resistance-h1",
+          "order": 1,
+          "text": "Head into Star Wars: Galaxy’s Edge and look for the guest-facing landmark or entrance associated with Star Wars: Rise of the Resistance.",
+          "kind": "clue"
+        },
+        {
+          "id": "star-wars-galaxys-edge-rise-of-resistance-h2",
+          "order": 2,
+          "text": "Slow down around Star Wars: Rise of the Resistance and use its name, architecture, and themed setting to confirm you have the right place.",
+          "kind": "clue"
+        },
+        {
+          "id": "star-wars-galaxys-edge-rise-of-resistance-h3",
+          "order": 3,
+          "text": "The target for this field-test hunt is Star Wars: Rise of the Resistance. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found Star Wars: Rise of the Resistance in Star Wars: Galaxy’s Edge. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": true,
+      "tags": [
+        "star-wars-galaxys-edge",
+        "field-test-batch",
+        "landmark"
+      ]
+    },
+    {
+      "id": "star-wars-galaxys-edge-fire-rising-moons",
+      "title": "Fire of the Rising Moons",
+      "parkID": "disneyland",
+      "landID": "star-wars-galaxys-edge",
+      "category": "movieReference",
+      "difficulty": "medium",
+      "hints": [
+        {
+          "id": "star-wars-galaxys-edge-fire-rising-moons-h1",
+          "order": 1,
+          "text": "Head into Star Wars: Galaxy’s Edge and look for the guest-facing landmark or entrance associated with Fire of the Rising Moons.",
+          "kind": "clue"
+        },
+        {
+          "id": "star-wars-galaxys-edge-fire-rising-moons-h2",
+          "order": 2,
+          "text": "Slow down around Fire of the Rising Moons and use its name, architecture, and themed setting to confirm you have the right place.",
+          "kind": "clue"
+        },
+        {
+          "id": "star-wars-galaxys-edge-fire-rising-moons-h3",
+          "order": 3,
+          "text": "The target for this field-test hunt is Fire of the Rising Moons. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found Fire of the Rising Moons in Star Wars: Galaxy’s Edge. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": false,
+      "tags": [
+        "star-wars-galaxys-edge",
+        "field-test-batch",
+        "landmark"
+      ]
+    },
+    {
+      "id": "star-wars-galaxys-edge-shadows-of-memory",
+      "title": "Shadows of Memory",
+      "parkID": "disneyland",
+      "landID": "star-wars-galaxys-edge",
+      "category": "movieReference",
+      "difficulty": "medium",
+      "hints": [
+        {
+          "id": "star-wars-galaxys-edge-shadows-of-memory-h1",
+          "order": 1,
+          "text": "Head into Star Wars: Galaxy’s Edge and look for the guest-facing landmark or entrance associated with Shadows of Memory: A Skywalker Saga.",
+          "kind": "clue"
+        },
+        {
+          "id": "star-wars-galaxys-edge-shadows-of-memory-h2",
+          "order": 2,
+          "text": "Slow down around Shadows of Memory: A Skywalker Saga and use its name, architecture, and themed setting to confirm you have the right place.",
+          "kind": "clue"
+        },
+        {
+          "id": "star-wars-galaxys-edge-shadows-of-memory-h3",
+          "order": 3,
+          "text": "The target for this field-test hunt is Shadows of Memory: A Skywalker Saga. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found Shadows of Memory: A Skywalker Saga in Star Wars: Galaxy’s Edge. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": false,
+      "tags": [
+        "star-wars-galaxys-edge",
+        "field-test-batch",
+        "landmark"
+      ]
+    },
+    {
+      "id": "star-wars-galaxys-edge-ogas-cantina",
+      "title": "Oga’s Cantina",
+      "parkID": "disneyland",
+      "landID": "star-wars-galaxys-edge",
+      "category": "movieReference",
+      "difficulty": "easy",
+      "hints": [
+        {
+          "id": "star-wars-galaxys-edge-ogas-cantina-h1",
+          "order": 1,
+          "text": "Head into Star Wars: Galaxy’s Edge and look for the guest-facing landmark or entrance associated with Oga’s Cantina.",
+          "kind": "clue"
+        },
+        {
+          "id": "star-wars-galaxys-edge-ogas-cantina-h2",
+          "order": 2,
+          "text": "Slow down around Oga’s Cantina and use its name, architecture, and themed setting to confirm you have the right place.",
+          "kind": "clue"
+        },
+        {
+          "id": "star-wars-galaxys-edge-ogas-cantina-h3",
+          "order": 3,
+          "text": "The target for this field-test hunt is Oga’s Cantina. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found Oga’s Cantina in Star Wars: Galaxy’s Edge. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": true,
+      "tags": [
+        "star-wars-galaxys-edge",
+        "field-test-batch",
+        "landmark"
+      ]
+    },
+    {
+      "id": "star-wars-galaxys-edge-ronto-roasters",
+      "title": "Ronto Roasters",
+      "parkID": "disneyland",
+      "landID": "star-wars-galaxys-edge",
+      "category": "movieReference",
+      "difficulty": "easy",
+      "hints": [
+        {
+          "id": "star-wars-galaxys-edge-ronto-roasters-h1",
+          "order": 1,
+          "text": "Head into Star Wars: Galaxy’s Edge and look for the guest-facing landmark or entrance associated with Ronto Roasters.",
+          "kind": "clue"
+        },
+        {
+          "id": "star-wars-galaxys-edge-ronto-roasters-h2",
+          "order": 2,
+          "text": "Slow down around Ronto Roasters and use its name, architecture, and themed setting to confirm you have the right place.",
+          "kind": "clue"
+        },
+        {
+          "id": "star-wars-galaxys-edge-ronto-roasters-h3",
+          "order": 3,
+          "text": "The target for this field-test hunt is Ronto Roasters. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found Ronto Roasters in Star Wars: Galaxy’s Edge. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": false,
+      "tags": [
+        "star-wars-galaxys-edge",
+        "field-test-batch",
+        "landmark"
+      ]
+    },
+    {
+      "id": "star-wars-galaxys-edge-milk-stand",
+      "title": "Milk Stand",
+      "parkID": "disneyland",
+      "landID": "star-wars-galaxys-edge",
+      "category": "movieReference",
+      "difficulty": "easy",
+      "hints": [
+        {
+          "id": "star-wars-galaxys-edge-milk-stand-h1",
+          "order": 1,
+          "text": "Head into Star Wars: Galaxy’s Edge and look for the guest-facing landmark or entrance associated with Milk Stand.",
+          "kind": "clue"
+        },
+        {
+          "id": "star-wars-galaxys-edge-milk-stand-h2",
+          "order": 2,
+          "text": "Slow down around Milk Stand and use its name, architecture, and themed setting to confirm you have the right place.",
+          "kind": "clue"
+        },
+        {
+          "id": "star-wars-galaxys-edge-milk-stand-h3",
+          "order": 3,
+          "text": "The target for this field-test hunt is Milk Stand. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found Milk Stand in Star Wars: Galaxy’s Edge. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": false,
+      "tags": [
+        "star-wars-galaxys-edge",
+        "field-test-batch",
+        "landmark"
+      ]
+    },
+    {
+      "id": "star-wars-galaxys-edge-savis-workshop",
+      "title": "Savi’s Workshop",
+      "parkID": "disneyland",
+      "landID": "star-wars-galaxys-edge",
+      "category": "movieReference",
+      "difficulty": "medium",
+      "hints": [
+        {
+          "id": "star-wars-galaxys-edge-savis-workshop-h1",
+          "order": 1,
+          "text": "Head into Star Wars: Galaxy’s Edge and look for the guest-facing landmark or entrance associated with Savi’s Workshop – Handbuilt Lightsabers.",
+          "kind": "clue"
+        },
+        {
+          "id": "star-wars-galaxys-edge-savis-workshop-h2",
+          "order": 2,
+          "text": "Slow down around Savi’s Workshop – Handbuilt Lightsabers and use its name, architecture, and themed setting to confirm you have the right place.",
+          "kind": "clue"
+        },
+        {
+          "id": "star-wars-galaxys-edge-savis-workshop-h3",
+          "order": 3,
+          "text": "The target for this field-test hunt is Savi’s Workshop – Handbuilt Lightsabers. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found Savi’s Workshop – Handbuilt Lightsabers in Star Wars: Galaxy’s Edge. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": true,
+      "tags": [
+        "star-wars-galaxys-edge",
+        "field-test-batch",
+        "landmark"
+      ]
+    },
+    {
+      "id": "star-wars-galaxys-edge-droid-depot",
+      "title": "Droid Depot",
+      "parkID": "disneyland",
+      "landID": "star-wars-galaxys-edge",
+      "category": "movieReference",
+      "difficulty": "medium",
+      "hints": [
+        {
+          "id": "star-wars-galaxys-edge-droid-depot-h1",
+          "order": 1,
+          "text": "Head into Star Wars: Galaxy’s Edge and look for the guest-facing landmark or entrance associated with Droid Depot.",
+          "kind": "clue"
+        },
+        {
+          "id": "star-wars-galaxys-edge-droid-depot-h2",
+          "order": 2,
+          "text": "Slow down around Droid Depot and use its name, architecture, and themed setting to confirm you have the right place.",
+          "kind": "clue"
+        },
+        {
+          "id": "star-wars-galaxys-edge-droid-depot-h3",
+          "order": 3,
+          "text": "The target for this field-test hunt is Droid Depot. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found Droid Depot in Star Wars: Galaxy’s Edge. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": true,
+      "tags": [
+        "star-wars-galaxys-edge",
+        "field-test-batch",
+        "landmark"
+      ]
+    },
+    {
+      "id": "star-wars-galaxys-edge-dok-ondars",
+      "title": "Dok-Ondar’s Den of Antiquities",
+      "parkID": "disneyland",
+      "landID": "star-wars-galaxys-edge",
+      "category": "movieReference",
+      "difficulty": "medium",
+      "hints": [
+        {
+          "id": "star-wars-galaxys-edge-dok-ondars-h1",
+          "order": 1,
+          "text": "Head into Star Wars: Galaxy’s Edge and look for the guest-facing landmark or entrance associated with Dok-Ondar’s Den of Antiquities.",
+          "kind": "clue"
+        },
+        {
+          "id": "star-wars-galaxys-edge-dok-ondars-h2",
+          "order": 2,
+          "text": "Slow down around Dok-Ondar’s Den of Antiquities and use its name, architecture, and themed setting to confirm you have the right place.",
+          "kind": "clue"
+        },
+        {
+          "id": "star-wars-galaxys-edge-dok-ondars-h3",
+          "order": 3,
+          "text": "The target for this field-test hunt is Dok-Ondar’s Den of Antiquities. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found Dok-Ondar’s Den of Antiquities in Star Wars: Galaxy’s Edge. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": true,
+      "tags": [
+        "star-wars-galaxys-edge",
+        "field-test-batch",
+        "landmark"
       ]
     }
   ]
