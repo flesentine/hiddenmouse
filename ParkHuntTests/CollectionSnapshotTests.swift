@@ -75,6 +75,57 @@ final class CollectionSnapshotTests: XCTestCase {
         )
     }
 
+    func testSearchMatchesTitleLandAndTags() {
+        let titleMatch = CollectionSnapshot.make(
+            snapshot: makeSnapshot(),
+            progress: makeProgress(),
+            filters: CollectionFilters(searchText: "started")
+        )
+        XCTAssertEqual(
+            titleMatch.items.map(\.discovery.id),
+            ["a-started"]
+        )
+
+        let landMatch = CollectionSnapshot.make(
+            snapshot: makeSnapshot(),
+            progress: makeProgress(),
+            filters: CollectionFilters(searchText: "land b")
+        )
+        XCTAssertEqual(
+            landMatch.items.map(\.discovery.id),
+            ["b-unstarted", "b-found"]
+        )
+    }
+
+    func testDifficultyFilterComposesWithStatusAndLand() {
+        let collection = CollectionSnapshot.make(
+            snapshot: makeSnapshot(),
+            progress: makeProgress(),
+            filters: CollectionFilters(
+                status: .unfound,
+                landID: "land-b",
+                difficulty: .hard
+            )
+        )
+
+        XCTAssertEqual(
+            collection.items.map(\.discovery.id),
+            ["b-unstarted"]
+        )
+    }
+
+    func testAvailableDifficultiesComeFromCurrentCatalog() {
+        let collection = CollectionSnapshot.make(
+            snapshot: makeSnapshot(),
+            progress: UserProgress()
+        )
+
+        XCTAssertEqual(
+            Set(collection.difficulties),
+            Set([.easy, .hard])
+        )
+    }
+
     func testCollectionStateCarriesFoundAndLastViewedDates() {
         let progress = makeProgress()
         let collection = CollectionSnapshot.make(
@@ -171,7 +222,8 @@ final class CollectionSnapshotTests: XCTestCase {
                         id: "b-unstarted",
                         title: "A Unstarted",
                         landID: "land-b",
-                        category: .hiddenMickey
+                        category: .hiddenMickey,
+                        difficulty: .hard
                     ),
                     makeDiscovery(
                         id: "b-found",
@@ -196,6 +248,7 @@ final class CollectionSnapshotTests: XCTestCase {
         title: String,
         landID: String,
         category: DiscoveryCategory,
+        difficulty: Difficulty = .easy,
         status: VerificationStatus = .verified
     ) -> Discovery {
         Discovery(
@@ -205,7 +258,7 @@ final class CollectionSnapshotTests: XCTestCase {
             landID: landID,
             areaID: nil,
             category: category,
-            difficulty: .easy,
+            difficulty: difficulty,
             location: nil,
             hints: [
                 Hint(id: "\(id)-h1", order: 1, text: "Look.")
