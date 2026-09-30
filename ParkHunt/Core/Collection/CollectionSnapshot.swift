@@ -35,24 +35,32 @@ enum CollectionStatusFilter: String, CaseIterable, Identifiable, Sendable {
 }
 
 struct CollectionFilters: Equatable, Sendable {
+    var searchText: String
     var status: CollectionStatusFilter
     var landID: String?
     var category: DiscoveryCategory?
+    var difficulty: Difficulty?
 
     init(
+        searchText: String = "",
         status: CollectionStatusFilter = .all,
         landID: String? = nil,
-        category: DiscoveryCategory? = nil
+        category: DiscoveryCategory? = nil,
+        difficulty: Difficulty? = nil
     ) {
+        self.searchText = searchText
         self.status = status
         self.landID = landID
         self.category = category
+        self.difficulty = difficulty
     }
 
     var isDefault: Bool {
-        status == .all
+        searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+            && status == .all
             && landID == nil
             && category == nil
+            && difficulty == nil
     }
 }
 
@@ -73,6 +81,7 @@ struct CollectionSnapshot: Equatable, Sendable {
     let items: [CollectionItem]
     let lands: [Land]
     let categories: [DiscoveryCategory]
+    let difficulties: [Difficulty]
 
     static func make(
         snapshot: ContentSnapshot,
@@ -86,6 +95,7 @@ struct CollectionSnapshot: Equatable, Sendable {
                 matches(
                     discovery: discovery,
                     progress: progress.progress(for: discovery.id),
+                    snapshot: snapshot,
                     filters: filters
                 )
             }
@@ -124,18 +134,49 @@ struct CollectionSnapshot: Equatable, Sendable {
             }
         }
 
+        let difficulties = Difficulty.allCases.filter { difficulty in
+            availableDiscoveries.contains {
+                $0.difficulty == difficulty
+            }
+        }
+
         return CollectionSnapshot(
             items: filteredItems,
             lands: lands,
-            categories: categories
+            categories: categories,
+            difficulties: difficulties
         )
     }
 
     private static func matches(
         discovery: Discovery,
         progress: DiscoveryProgress,
+        snapshot: ContentSnapshot,
         filters: CollectionFilters
     ) -> Bool {
+        let query = filters.searchText
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+            .lowercased()
+
+        if !query.isEmpty {
+            let landName = snapshot.land(id: discovery.landID)?.name ?? ""
+            let areaName = discovery.areaID
+                .flatMap { snapshot.area(id: $0)?.name } ?? ""
+            let searchable = [
+                discovery.title,
+                discovery.id,
+                landName,
+                areaName,
+                discovery.tags.joined(separator: " ")
+            ]
+            .joined(separator: " ")
+            .lowercased()
+
+            if !searchable.contains(query) {
+                return false
+            }
+        }
+
         if let landID = filters.landID,
            discovery.landID != landID {
             return false
@@ -143,6 +184,11 @@ struct CollectionSnapshot: Equatable, Sendable {
 
         if let category = filters.category,
            discovery.category != category {
+            return false
+        }
+
+        if let difficulty = filters.difficulty,
+           discovery.difficulty != difficulty {
             return false
         }
 
