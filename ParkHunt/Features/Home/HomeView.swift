@@ -144,7 +144,7 @@ struct HomeView: View {
                     Text("Map")
                         .font(.headline)
 
-                    Text("Browse hunts with confirmed map locations")
+                    Text("Browse hunts with catalog map locations")
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
                 }
