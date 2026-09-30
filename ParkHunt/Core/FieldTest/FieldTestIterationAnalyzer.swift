@@ -88,12 +88,15 @@ enum FieldTestIterationAnalyzer {
         let nearbyPoorCount = records.filter {
             $0.nearbyUsefulness == .poor || $0.issues.contains(.nearbyRanking)
         }.count
+        let otherIssueCount = records.filter {
+            $0.issues.contains(.other)
+        }.count
 
         if wrongLocationCount > 0 || revealWrongCount > 0 || inaccessibleCount > 0 {
             priority = .critical
         } else if duplicateCount > 0 || confusingClueCount >= 2 || nearbyPoorCount >= 2 {
             priority = .high
-        } else if confusingClueCount > 0 || nearbyPoorCount > 0 || closeLocationCount > 0 {
+        } else if confusingClueCount > 0 || nearbyPoorCount > 0 || closeLocationCount > 0 || otherIssueCount > 0 {
             priority = .medium
         }
 
@@ -130,6 +133,11 @@ enum FieldTestIterationAnalyzer {
         if nearbyPoorCount > 0 {
             reasons.append("\(nearbyPoorCount) poor-Nearby report\(nearbyPoorCount == 1 ? "" : "s")")
             actions.append("Review Nearby ordering, coordinate quality, and distance assumptions.")
+        }
+
+        if otherIssueCount > 0 {
+            reasons.append("\(otherIssueCount) other field issue\(otherIssueCount == 1 ? "" : "s") reported")
+            actions.append("Review the tester notes and decide whether content or UX needs a targeted fix.")
         }
 
         if reasons.isEmpty {
