@@ -205,6 +205,19 @@ Park Hunt now includes an in-app MapKit browsing screen.
 - A summary shows how many hunts are mapped and how many are still awaiting field-tested locations.
 - Unit coverage verifies pin eligibility, found state, and the current 18-mapped / 57-unmapped catalog split.
 
+### #43 Search/filtering
+
+The Collection screen now supports fast local search and composable filters across the 75-hunt catalog.
+
+- Search matches hunt title, stable discovery ID, land name, area name, and tags.
+- Existing progress-status filtering remains available for All, Found, Unfound, and Started.
+- Land and category filters continue to compose with search.
+- A new difficulty filter supports Easy, Medium, Hard, and Expert values present in the current catalog.
+- Search and every filter can be combined at the same time.
+- Clear resets the full query/filter state.
+- Filtering stays fully offline and operates on the already loaded ContentSnapshot.
+- Unit coverage verifies text search, difficulty filtering, composition with status/land, and available difficulty choices.
+
 ## Verification
 
 CI now runs:
@@ -231,4 +244,4 @@ Self-test content validator
 
 ## Next effort
 
-**#43 Search/filtering:** add fast catalog search and filters for land, category, difficulty, and hunt status.
+**#44 Badges/achievements:** add lightweight collection milestones and achievement feedback without turning the hunt into a grind.
