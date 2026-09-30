@@ -100,7 +100,7 @@ struct FieldTestFeedbackView: View {
                 .buttonStyle(.borderedProminent)
                 .accessibilityIdentifier("field-test.feedback.save")
             } footer: {
-                Text("Saved only on this device. No location coordinates are recorded.")
+                Text("Saved only on this device. No precise location is saved.")
             }
         }
         .navigationTitle("Field Feedback")
