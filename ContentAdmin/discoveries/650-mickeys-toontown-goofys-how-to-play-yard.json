@@ -1,0 +1,39 @@
+{
+  "id": "mickeys-toontown-goofys-how-to-play-yard",
+  "title": "Goofy’s How-To-Play Yard",
+  "parkID": "disneyland",
+  "landID": "mickeys-toontown",
+  "category": "movieReference",
+  "difficulty": "easy",
+  "hints": [
+    {
+      "id": "mickeys-toontown-goofys-how-to-play-yard-h1",
+      "order": 1,
+      "text": "Head into Mickey’s Toontown and look for the guest-facing landmark or entrance associated with Goofy’s How-To-Play Yard.",
+      "kind": "clue"
+    },
+    {
+      "id": "mickeys-toontown-goofys-how-to-play-yard-h2",
+      "order": 2,
+      "text": "Slow down around Goofy’s How-To-Play Yard and use its name, architecture, and themed setting to confirm you have the right place.",
+      "kind": "clue"
+    },
+    {
+      "id": "mickeys-toontown-goofys-how-to-play-yard-h3",
+      "order": 3,
+      "text": "The target for this field-test hunt is Goofy’s How-To-Play Yard. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+      "kind": "detailed"
+    }
+  ],
+  "revealDescription": "You found Goofy’s How-To-Play Yard in Mickey’s Toontown. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+  "verificationStatus": "needsRecheck",
+  "isIndoor": false,
+  "tags": [
+    "mickeys-toontown",
+    "field-test-batch",
+    "landmark"
+  ],
+  "_editorial": {
+    "notes": "Official Disneyland source confirms this current venue or experience; the exact guest-visible hunt detail still requires in-park confirmation."
+  }
+}
