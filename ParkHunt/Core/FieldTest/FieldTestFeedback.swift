@@ -134,10 +134,10 @@ final class UserDefaultsFieldTestFeedbackStore: FieldTestFeedbackStoring {
 
     func save(_ record: FieldTestFeedbackRecord) {
         var stored = records()
-        stored.append(record)
+        stored.insert(record, at: 0)
 
         if stored.count > maximumRecordCount {
-            stored = Array(stored.suffix(maximumRecordCount))
+            stored = Array(stored.prefix(maximumRecordCount))
         }
 
         guard let data = try? JSONEncoder().encode(stored) else {
