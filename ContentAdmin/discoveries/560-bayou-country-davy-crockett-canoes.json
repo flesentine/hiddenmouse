@@ -1,0 +1,39 @@
+{
+  "id": "bayou-country-davy-crockett-canoes",
+  "title": "Davy Crockett’s Explorer Canoes",
+  "parkID": "disneyland",
+  "landID": "bayou-country",
+  "category": "historicalDetail",
+  "difficulty": "medium",
+  "hints": [
+    {
+      "id": "bayou-country-davy-crockett-canoes-h1",
+      "order": 1,
+      "text": "Head into Bayou Country and look for the guest-facing landmark or entrance associated with Davy Crockett’s Explorer Canoes.",
+      "kind": "clue"
+    },
+    {
+      "id": "bayou-country-davy-crockett-canoes-h2",
+      "order": 2,
+      "text": "Slow down around Davy Crockett’s Explorer Canoes and use its name, architecture, and themed setting to confirm you have the right place.",
+      "kind": "clue"
+    },
+    {
+      "id": "bayou-country-davy-crockett-canoes-h3",
+      "order": 3,
+      "text": "The target for this field-test hunt is Davy Crockett’s Explorer Canoes. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+      "kind": "detailed"
+    }
+  ],
+  "revealDescription": "You found Davy Crockett’s Explorer Canoes in Bayou Country. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+  "verificationStatus": "needsRecheck",
+  "isIndoor": false,
+  "tags": [
+    "bayou-country",
+    "field-test-batch",
+    "landmark"
+  ],
+  "_editorial": {
+    "notes": "Official Disneyland source confirms this current venue or experience; the exact guest-visible hunt detail still requires in-park confirmation."
+  }
+}
