@@ -1,0 +1,39 @@
+{
+  "id": "frontierland-sailing-ship-columbia",
+  "title": "Sailing Ship Columbia",
+  "parkID": "disneyland",
+  "landID": "frontierland",
+  "category": "historicalDetail",
+  "difficulty": "easy",
+  "hints": [
+    {
+      "id": "frontierland-sailing-ship-columbia-h1",
+      "order": 1,
+      "text": "Head into Frontierland and look for the guest-facing landmark or entrance associated with Sailing Ship Columbia.",
+      "kind": "clue"
+    },
+    {
+      "id": "frontierland-sailing-ship-columbia-h2",
+      "order": 2,
+      "text": "Slow down around Sailing Ship Columbia and use its name, architecture, and themed setting to confirm you have the right place.",
+      "kind": "clue"
+    },
+    {
+      "id": "frontierland-sailing-ship-columbia-h3",
+      "order": 3,
+      "text": "The target for this field-test hunt is Sailing Ship Columbia. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+      "kind": "detailed"
+    }
+  ],
+  "revealDescription": "You found Sailing Ship Columbia in Frontierland. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+  "verificationStatus": "needsRecheck",
+  "isIndoor": false,
+  "tags": [
+    "frontierland",
+    "field-test-batch",
+    "landmark"
+  ],
+  "_editorial": {
+    "notes": "Official Disneyland source confirms this current venue or experience; the exact guest-visible hunt detail still requires in-park confirmation."
+  }
+}
