@@ -1,0 +1,39 @@
+{
+  "id": "adventureland-jungle-cruise",
+  "title": "Jungle Cruise",
+  "parkID": "disneyland",
+  "landID": "adventureland",
+  "category": "historicalDetail",
+  "difficulty": "easy",
+  "hints": [
+    {
+      "id": "adventureland-jungle-cruise-h1",
+      "order": 1,
+      "text": "Head into Adventureland and look for the guest-facing landmark or entrance associated with Jungle Cruise.",
+      "kind": "clue"
+    },
+    {
+      "id": "adventureland-jungle-cruise-h2",
+      "order": 2,
+      "text": "Slow down around Jungle Cruise and use its name, architecture, and themed setting to confirm you have the right place.",
+      "kind": "clue"
+    },
+    {
+      "id": "adventureland-jungle-cruise-h3",
+      "order": 3,
+      "text": "The target for this field-test hunt is Jungle Cruise. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+      "kind": "detailed"
+    }
+  ],
+  "revealDescription": "You found Jungle Cruise in Adventureland. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+  "verificationStatus": "needsRecheck",
+  "isIndoor": false,
+  "tags": [
+    "adventureland",
+    "field-test-batch",
+    "landmark"
+  ],
+  "_editorial": {
+    "notes": "Official Disneyland source confirms this current venue or experience; the exact guest-visible hunt detail still requires in-park confirmation."
+  }
+}
