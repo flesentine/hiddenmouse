@@ -1,0 +1,39 @@
+{
+  "id": "mickeys-toontown-roger-rabbit-car-toon-spin",
+  "title": "Roger Rabbit’s Car Toon Spin",
+  "parkID": "disneyland",
+  "landID": "mickeys-toontown",
+  "category": "movieReference",
+  "difficulty": "easy",
+  "hints": [
+    {
+      "id": "mickeys-toontown-roger-rabbit-car-toon-spin-h1",
+      "order": 1,
+      "text": "Head into Mickey’s Toontown and look for the guest-facing landmark or entrance associated with Roger Rabbit’s Car Toon Spin.",
+      "kind": "clue"
+    },
+    {
+      "id": "mickeys-toontown-roger-rabbit-car-toon-spin-h2",
+      "order": 2,
+      "text": "Slow down around Roger Rabbit’s Car Toon Spin and use its name, architecture, and themed setting to confirm you have the right place.",
+      "kind": "clue"
+    },
+    {
+      "id": "mickeys-toontown-roger-rabbit-car-toon-spin-h3",
+      "order": 3,
+      "text": "The target for this field-test hunt is Roger Rabbit’s Car Toon Spin. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+      "kind": "detailed"
+    }
+  ],
+  "revealDescription": "You found Roger Rabbit’s Car Toon Spin in Mickey’s Toontown. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+  "verificationStatus": "needsRecheck",
+  "isIndoor": true,
+  "tags": [
+    "mickeys-toontown",
+    "field-test-batch",
+    "landmark"
+  ],
+  "_editorial": {
+    "notes": "Official Disneyland source confirms this current venue or experience; the exact guest-visible hunt detail still requires in-park confirmation."
+  }
+}
