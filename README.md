@@ -166,6 +166,19 @@ The Disneyland FieldTest build now includes an offline, structured feedback loop
 - Settings → **Field Test Feedback** shows the saved records, supports clearing them, and can share the full structured JSON for post-park review.
 - Production and normal development builds do not show the in-hunt field-feedback UI.
 
+### #40 Post-test iteration
+
+Field-test feedback now turns into an actionable iteration queue instead of a raw log.
+
+- Feedback is grouped by discovery.
+- **Critical** priority is assigned to wrong-location, reveal-mismatch, or inaccessible-target reports.
+- **High** priority is assigned to suspected duplicates or repeated confusing-clue / poor-Nearby reports.
+- **Medium** priority covers single clue, Nearby, or close-location concerns.
+- Clean reports remain **Monitor** items rather than creating unnecessary work.
+- Each queue item includes report count, concrete reasons, and a suggested next action.
+- The queue is visible in Settings → Field Test Feedback and is sorted by severity, report volume, and recency.
+- Automated tests cover critical classification, repeated-problem escalation, and priority ordering.
+
 ## Verification
 
 CI now runs:
@@ -192,4 +205,4 @@ Self-test content validator
 
 ## Next effort
 
-**#40 Post-test iteration:** use the first Disneyland field-test findings to correct content, tune clue/reveal quality, and fix any park-use UX problems.
+**#41 Scale content to 75–100 discoveries:** expand the verified hunt catalog once the first field-test iteration pass is complete.

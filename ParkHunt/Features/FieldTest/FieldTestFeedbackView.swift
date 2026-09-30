@@ -153,6 +153,8 @@ struct FieldTestFeedbackLogView: View {
                     description: Text("Save feedback from a hunt during the Disneyland field test.")
                 )
             } else {
+                iterationQueueSection
+
                 Section {
                     ShareLink(
                         item: store.exportJSON(),
@@ -216,6 +218,46 @@ struct FieldTestFeedbackLogView: View {
             }
         } message: {
             Text("This permanently deletes the saved field-test feedback on this device.")
+        }
+    }
+
+    private var iterationQueueSection: some View {
+        let queue = FieldTestIterationAnalyzer.makeQueue(
+            records: records
+        )
+
+        return Section("Post-Test Iteration Queue") {
+            ForEach(queue) { item in
+                VStack(alignment: .leading, spacing: 7) {
+                    HStack {
+                        Text(item.discoveryTitle)
+                            .font(.headline)
+
+                        Spacer()
+
+                        Text(item.priority.displayName)
+                            .font(.caption.weight(.semibold))
+                    }
+
+                    Text(
+                        "\(item.reportCount) report\(item.reportCount == 1 ? "" : "s")"
+                    )
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+
+                    ForEach(item.reasons, id: \.self) { reason in
+                        Text("• \(reason)")
+                            .font(.subheadline)
+                    }
+
+                    if let action = item.suggestedActions.first {
+                        Text(action)
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                }
+                .padding(.vertical, 4)
+            }
         }
     }
 
