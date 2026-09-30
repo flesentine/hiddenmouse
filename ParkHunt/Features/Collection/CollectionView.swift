@@ -45,6 +45,11 @@ struct CollectionView: View {
         .background(Color(.systemGroupedBackground))
         .navigationTitle("Collection")
         .navigationBarTitleDisplayMode(.inline)
+        .searchable(
+            text: $filters.searchText,
+            placement: .navigationBarDrawer(displayMode: .always),
+            prompt: "Search hunts, lands, or tags"
+        )
         .onAppear {
             load()
         }
@@ -70,6 +75,7 @@ struct CollectionView: View {
                 statusMenu
                 landMenu(collection)
                 categoryMenu(collection)
+                difficultyMenu(collection)
 
                 if !filters.isDefault {
                     Button {
@@ -195,6 +201,47 @@ struct CollectionView: View {
         )
     }
 
+    private func difficultyMenu(
+        _ collection: CollectionSnapshot
+    ) -> some View {
+        Menu {
+            Button {
+                filters.difficulty = nil
+            } label: {
+                if filters.difficulty == nil {
+                    Label("All Difficulties", systemImage: "checkmark")
+                } else {
+                    Text("All Difficulties")
+                }
+            }
+
+            ForEach(collection.difficulties, id: \.rawValue) { difficulty in
+                Button {
+                    filters.difficulty = difficulty
+                } label: {
+                    if filters.difficulty == difficulty {
+                        Label(
+                            difficulty.displayName,
+                            systemImage: "checkmark"
+                        )
+                    } else {
+                        Text(difficulty.displayName)
+                    }
+                }
+            }
+        } label: {
+            Label(
+                filters.difficulty?.displayName ?? "All Difficulties",
+                systemImage: "sparkles"
+            )
+        }
+        .buttonStyle(.bordered)
+        .controlSize(.large)
+        .accessibilityLabel(
+            "Difficulty filter: \(filters.difficulty?.displayName ?? "All Difficulties")"
+        )
+    }
+
     private func collectionList(
         _ collection: CollectionSnapshot
     ) -> some View {
@@ -297,7 +344,7 @@ struct CollectionView: View {
             Text(
                 filters.isDefault
                     ? "There are no available discoveries in the current catalog."
-                    : "Try clearing or changing the collection filters."
+                    : "Try changing the search or clearing the filters."
             )
         } actions: {
             if !filters.isDefault {
