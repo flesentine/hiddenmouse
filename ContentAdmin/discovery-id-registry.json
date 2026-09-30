@@ -56,5 +56,176 @@
   },
   "mansion-greenhouse-strange-plants": {
     "state": "active"
+  },
+  "main-street-usa-disneyland-railroad-main-street": {
+    "state": "active"
+  },
+  "main-street-usa-main-street-cinema": {
+    "state": "active"
+  },
+  "main-street-usa-disney-gallery": {
+    "state": "active"
+  },
+  "main-street-usa-walt-disney-magical-life": {
+    "state": "active"
+  },
+  "main-street-usa-main-street-vehicles": {
+    "state": "active"
+  },
+  "main-street-usa-disneyana-main-street": {
+    "state": "active"
+  },
+  "main-street-usa-silhouette-studio-main-street": {
+    "state": "active"
+  },
+  "adventureland-adventureland-treehouse": {
+    "state": "active"
+  },
+  "adventureland-jungle-cruise": {
+    "state": "active"
+  },
+  "adventureland-indiana-jones-adventure": {
+    "state": "active"
+  },
+  "adventureland-enchanted-tiki-room": {
+    "state": "active"
+  },
+  "adventureland-bengal-barbecue": {
+    "state": "active"
+  },
+  "adventureland-tropical-hideaway": {
+    "state": "active"
+  },
+  "frontierland-big-thunder-mountain": {
+    "state": "active"
+  },
+  "frontierland-pirates-lair-tom-sawyer-island": {
+    "state": "active"
+  },
+  "frontierland-mark-twain-riverboat": {
+    "state": "active"
+  },
+  "frontierland-sailing-ship-columbia": {
+    "state": "active"
+  },
+  "frontierland-frontierland-shootin-exposition": {
+    "state": "active"
+  },
+  "frontierland-golden-horseshoe": {
+    "state": "active"
+  },
+  "fantasyland-sleeping-beauty-castle-walkthrough": {
+    "state": "active"
+  },
+  "fantasyland-peter-pans-flight": {
+    "state": "active"
+  },
+  "fantasyland-snow-whites-enchanted-wish": {
+    "state": "active"
+  },
+  "fantasyland-alice-in-wonderland": {
+    "state": "active"
+  },
+  "fantasyland-dumbo-flying-elephant": {
+    "state": "active"
+  },
+  "fantasyland-king-arthur-carrousel": {
+    "state": "active"
+  },
+  "fantasyland-storybook-land-canal-boats": {
+    "state": "active"
+  },
+  "fantasyland-casey-jr-circus-train": {
+    "state": "active"
+  },
+  "fantasyland-matterhorn-bobsleds": {
+    "state": "active"
+  },
+  "fantasyland-its-a-small-world": {
+    "state": "active"
+  },
+  "tomorrowland-space-mountain": {
+    "state": "active"
+  },
+  "tomorrowland-star-tours": {
+    "state": "active"
+  },
+  "tomorrowland-autopia": {
+    "state": "active"
+  },
+  "tomorrowland-disneyland-monorail": {
+    "state": "active"
+  },
+  "tomorrowland-astro-orbitor": {
+    "state": "active"
+  },
+  "tomorrowland-finding-nemo-submarine": {
+    "state": "active"
+  },
+  "bayou-country-tianas-bayou-adventure": {
+    "state": "active"
+  },
+  "bayou-country-winnie-the-pooh-adventure": {
+    "state": "active"
+  },
+  "bayou-country-davy-crockett-canoes": {
+    "state": "active"
+  },
+  "bayou-country-hungry-bear-jamboree": {
+    "state": "active"
+  },
+  "mickeys-toontown-runaway-railway": {
+    "state": "active"
+  },
+  "mickeys-toontown-centoonial-park": {
+    "state": "active"
+  },
+  "mickeys-toontown-gadgetcoaster": {
+    "state": "active"
+  },
+  "mickeys-toontown-roger-rabbit-car-toon-spin": {
+    "state": "active"
+  },
+  "mickeys-toontown-mickeys-house": {
+    "state": "active"
+  },
+  "mickeys-toontown-minnies-house": {
+    "state": "active"
+  },
+  "mickeys-toontown-donalds-duck-pond": {
+    "state": "active"
+  },
+  "mickeys-toontown-goofys-how-to-play-yard": {
+    "state": "active"
+  },
+  "star-wars-galaxys-edge-millennium-falcon-smugglers-run": {
+    "state": "active"
+  },
+  "star-wars-galaxys-edge-rise-of-resistance": {
+    "state": "active"
+  },
+  "star-wars-galaxys-edge-fire-rising-moons": {
+    "state": "active"
+  },
+  "star-wars-galaxys-edge-shadows-of-memory": {
+    "state": "active"
+  },
+  "star-wars-galaxys-edge-ogas-cantina": {
+    "state": "active"
+  },
+  "star-wars-galaxys-edge-ronto-roasters": {
+    "state": "active"
+  },
+  "star-wars-galaxys-edge-milk-stand": {
+    "state": "active"
+  },
+  "star-wars-galaxys-edge-savis-workshop": {
+    "state": "active"
+  },
+  "star-wars-galaxys-edge-droid-depot": {
+    "state": "active"
+  },
+  "star-wars-galaxys-edge-dok-ondars": {
+    "state": "active"
   }
 }
