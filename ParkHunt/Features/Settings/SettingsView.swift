@@ -17,6 +17,7 @@ struct SettingsView: View {
     @State private var hapticsEnabled = true
     @State private var localAnalyticsEnabled = true
     @State private var analyticsEventCount = 0
+    @State private var fieldFeedbackCount = 0
     @State private var showResetConfirmation = false
     @State private var showClearAnalyticsConfirmation = false
     @State private var didResetProgress = false
@@ -28,6 +29,11 @@ struct SettingsView: View {
         List {
             locationSection
             gameplaySection
+
+            if AppEnvironment.current == .fieldTest {
+                fieldTestSection
+            }
+
             privacySection
             dataSection
             aboutSection
@@ -39,6 +45,7 @@ struct SettingsView: View {
             hapticsEnabled = hapticPreferenceStore.load()
             localAnalyticsEnabled = analyticsPreferenceStore.load()
             refreshAnalyticsCount()
+            refreshFieldFeedbackCount()
         }
         .alert(
             "Reset Hunt Progress?",
@@ -167,6 +174,33 @@ struct SettingsView: View {
             }
             .accessibilityHint(
                 "Controls tactile feedback for clues, stronger help, full reveal, and found success"
+            )
+        }
+    }
+
+    private var fieldTestSection: some View {
+        Section {
+            NavigationLink {
+                FieldTestFeedbackLogView()
+            } label: {
+                HStack {
+                    Label(
+                        "Field Test Feedback",
+                        systemImage: "testtube.2"
+                    )
+
+                    Spacer()
+
+                    Text("\(fieldFeedbackCount)")
+                        .foregroundStyle(.secondary)
+                        .monospacedDigit()
+                }
+            }
+        } header: {
+            Text("Field Test")
+        } footer: {
+            Text(
+                "Feedback is stored only on this device and can be shared as structured JSON from the feedback screen."
             )
         }
     }
@@ -308,6 +342,10 @@ struct SettingsView: View {
 
     private func refreshAnalyticsCount() {
         analyticsEventCount = analyticsRecorder.events().count
+    }
+
+    private func refreshFieldFeedbackCount() {
+        fieldFeedbackCount = UserDefaultsFieldTestFeedbackStore().records().count
     }
 
     private func openSystemSettings() {
