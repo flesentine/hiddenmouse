@@ -8,6 +8,7 @@ struct ParkMapView: View {
     @State private var presentation: ParkMapPresentation?
     @State private var loadError: String?
     @State private var cameraPosition: MapCameraPosition = .automatic
+    @State private var selectedCluster: ParkMapCluster?
 
     var body: some View {
         Group {
@@ -28,6 +29,33 @@ struct ParkMapView: View {
         .task {
             load()
         }
+        .sheet(item: $selectedCluster) { cluster in
+            NavigationStack {
+                List(cluster.points) { point in
+                    NavigationLink(value: point.discoveryID) {
+                        HStack {
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(point.title)
+                                    .font(.headline)
+                                Text(point.landName)
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                            }
+
+                            Spacer()
+
+                            if point.isFound {
+                                Image(systemName: "checkmark.circle.fill")
+                                    .accessibilityLabel("Found")
+                            }
+                        }
+                    }
+                }
+                .navigationTitle("Hunts Here")
+                .navigationBarTitleDisplayMode(.inline)
+            }
+            .presentationDetents([.medium, .large])
+        }
     }
 
     @ViewBuilder
@@ -45,31 +73,46 @@ struct ParkMapView: View {
         } else {
             ZStack(alignment: .top) {
                 Map(position: $cameraPosition) {
-                    ForEach(presentation.points) { point in
+                    ForEach(presentation.clusters) { cluster in
                         Annotation(
-                            point.title,
+                            cluster.points.count == 1
+                                ? cluster.points[0].title
+                                : "\(cluster.points.count) hunts",
                             coordinate: CLLocationCoordinate2D(
-                                latitude: point.latitude,
-                                longitude: point.longitude
+                                latitude: cluster.latitude,
+                                longitude: cluster.longitude
                             ),
                             anchor: .bottom
                         ) {
-                            NavigationLink(value: point.discoveryID) {
-                                Image(
-                                    systemName: point.isFound
-                                        ? "checkmark.circle.fill"
-                                        : "mappin.circle.fill"
+                            if cluster.points.count == 1,
+                               let point = cluster.points.first {
+                                NavigationLink(value: point.discoveryID) {
+                                    mapPin(
+                                        foundCount: point.isFound ? 1 : 0,
+                                        totalCount: 1
+                                    )
+                                }
+                                .accessibilityLabel(
+                                    point.isFound
+                                        ? "\(point.title), found"
+                                        : point.title
                                 )
-                                .font(.title2)
-                                .padding(6)
-                                .background(.regularMaterial, in: Circle())
+                                .accessibilityHint("Opens this hunt")
+                            } else {
+                                Button {
+                                    selectedCluster = cluster
+                                } label: {
+                                    mapPin(
+                                        foundCount: cluster.points.filter(\.isFound).count,
+                                        totalCount: cluster.points.count
+                                    )
+                                }
+                                .buttonStyle(.plain)
+                                .accessibilityLabel(
+                                    "\(cluster.points.count) hunts at this map location"
+                                )
+                                .accessibilityHint("Shows the hunts at this location")
                             }
-                            .accessibilityLabel(
-                                point.isFound
-                                    ? "\(point.title), found"
-                                    : point.title
-                            )
-                            .accessibilityHint("Opens this hunt")
                         }
                     }
                 }
@@ -82,6 +125,30 @@ struct ParkMapView: View {
 
                 mapSummary(presentation)
                     .padding()
+            }
+        }
+    }
+
+    private func mapPin(
+        foundCount: Int,
+        totalCount: Int
+    ) -> some View {
+        ZStack {
+            Image(
+                systemName: foundCount == totalCount
+                    ? "checkmark.circle.fill"
+                    : "mappin.circle.fill"
+            )
+            .font(.title2)
+            .padding(6)
+            .background(.regularMaterial, in: Circle())
+
+            if totalCount > 1 {
+                Text("\(totalCount)")
+                    .font(.caption2.bold())
+                    .padding(4)
+                    .background(.background, in: Circle())
+                    .offset(x: 15, y: -15)
             }
         }
     }
