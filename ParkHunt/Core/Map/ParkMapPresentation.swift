@@ -11,8 +11,19 @@ struct ParkMapPoint: Equatable, Identifiable, Sendable {
     var id: String { discoveryID }
 }
 
+struct ParkMapCluster: Equatable, Identifiable, Sendable {
+    let latitude: Double
+    let longitude: Double
+    let points: [ParkMapPoint]
+
+    var id: String {
+        String(format: "%.6f,%.6f", latitude, longitude)
+    }
+}
+
 struct ParkMapPresentation: Equatable, Sendable {
     let points: [ParkMapPoint]
+    let clusters: [ParkMapCluster]
     let mappedCount: Int
     let unmappedCount: Int
 
@@ -51,10 +62,38 @@ struct ParkMapPresentation: Equatable, Sendable {
                 == .orderedAscending
         }
 
+        let grouped = Dictionary(
+            grouping: points,
+            by: { CoordinateKey(latitude: $0.latitude, longitude: $0.longitude) }
+        )
+
+        let clusters = grouped.map { key, groupedPoints in
+            ParkMapCluster(
+                latitude: key.latitude,
+                longitude: key.longitude,
+                points: groupedPoints.sorted {
+                    $0.title.localizedCaseInsensitiveCompare($1.title)
+                        == .orderedAscending
+                }
+            )
+        }
+        .sorted {
+            if $0.latitude == $1.latitude {
+                return $0.longitude < $1.longitude
+            }
+            return $0.latitude < $1.latitude
+        }
+
         return ParkMapPresentation(
             points: points,
+            clusters: clusters,
             mappedCount: points.count,
             unmappedCount: unmappedCount
         )
     }
+}
+
+private struct CoordinateKey: Hashable {
+    let latitude: Double
+    let longitude: Double
 }
