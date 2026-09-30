@@ -144,7 +144,11 @@ enum FieldTestIterationAnalyzer {
             reportCount: records.count,
             latestReportAt: latest.timestamp,
             reasons: reasons,
-            suggestedActions: Array(NSOrderedSet(array: actions)) as? [String] ?? actions
+            suggestedActions: actions.reduce(into: []) { result, action in
+                if !result.contains(action) {
+                    result.append(action)
+                }
+            }
         )
     }
 }
