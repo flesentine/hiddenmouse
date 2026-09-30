@@ -47,6 +47,40 @@ Discovery IDs:
 - `leota-oak-chimes-bells`
 - `mansion-greenhouse-strange-plants`
 
+## Effort #41 — Disneyland 75-hunt scale batch
+
+The scale batch adds 57 source-vetted **venue-level field-test hunts** across the other eight Disneyland lands. These entries intentionally avoid guessed GPS coordinates and remain `needsRecheck`. The field test should refine each venue-level target into a specific, repeatable visual detail before it is promoted to `verified`.
+
+Current official Disneyland references:
+
+- Disneyland Park lands and current offerings
+  https://disneyland.disney.go.com/destinations/disneyland/
+- Disneyland Park attractions directory
+  https://disneyland.disney.go.com/attractions/disneyland/
+- Main Street, U.S.A.
+  https://disneyland.disney.go.com/destinations/disneyland/main-street-usa/
+- Fantasyland
+  https://disneyland.disney.go.com/destinations/disneyland/fantasyland/
+- Tomorrowland
+  https://disneyland.disney.go.com/destinations/disneyland/tomorrowland/
+- Frontierland
+  https://disneyland.disney.go.com/attractions/disneyland/frontierland/
+- Bayou Country
+  https://disneyland.disney.go.com/destinations/disneyland/bayou-country/
+- Mickey's Toontown
+  https://disneyland.disney.go.com/destinations/disneyland/mickeys-toontown/
+- Star Wars: Galaxy's Edge
+  https://disneyland.disney.go.com/destinations/disneyland/star-wars-galaxys-edge/
+
+Adventureland entries are cross-checked against the current Disneyland attractions directory and park land listing.
+
+### Scale-batch verification policy
+
+- Current venue/experience existence is source-vetted.
+- Exact huntable visual detail is **not** considered field-verified yet.
+- No new approximate GPS coordinate is stored until it is checked in person.
+- Field testers should use effort #39 feedback and the effort #40 iteration queue to refine clue wording, reveal precision, indoor metadata, and Nearby coordinates.
+
 ## Verification policy
 
 Research provenance does **not** equal in-park verification. All effort #31 discoveries begin as `needsRecheck`. During field testing, confirm the detail, clue quality, reveal precision, approximate Nearby location, and area/indoor metadata before changing it to `verified` and adding `lastVerifiedAt`.

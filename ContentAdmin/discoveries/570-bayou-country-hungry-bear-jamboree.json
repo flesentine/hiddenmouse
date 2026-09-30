@@ -1,0 +1,39 @@
+{
+  "id": "bayou-country-hungry-bear-jamboree",
+  "title": "Hungry Bear Barbecue Jamboree",
+  "parkID": "disneyland",
+  "landID": "bayou-country",
+  "category": "imagineeringDetail",
+  "difficulty": "medium",
+  "hints": [
+    {
+      "id": "bayou-country-hungry-bear-jamboree-h1",
+      "order": 1,
+      "text": "Head into Bayou Country and look for the guest-facing landmark or entrance associated with Hungry Bear Barbecue Jamboree.",
+      "kind": "clue"
+    },
+    {
+      "id": "bayou-country-hungry-bear-jamboree-h2",
+      "order": 2,
+      "text": "Slow down around Hungry Bear Barbecue Jamboree and use its name, architecture, and themed setting to confirm you have the right place.",
+      "kind": "clue"
+    },
+    {
+      "id": "bayou-country-hungry-bear-jamboree-h3",
+      "order": 3,
+      "text": "The target for this field-test hunt is Hungry Bear Barbecue Jamboree. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+      "kind": "detailed"
+    }
+  ],
+  "revealDescription": "You found Hungry Bear Barbecue Jamboree in Bayou Country. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+  "verificationStatus": "needsRecheck",
+  "isIndoor": false,
+  "tags": [
+    "bayou-country",
+    "field-test-batch",
+    "landmark"
+  ],
+  "_editorial": {
+    "notes": "Official Disneyland source confirms this current venue or experience; the exact guest-visible hunt detail still requires in-park confirmation."
+  }
+}

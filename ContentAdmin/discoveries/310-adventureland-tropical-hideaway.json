@@ -1,0 +1,39 @@
+{
+  "id": "adventureland-tropical-hideaway",
+  "title": "The Tropical Hideaway",
+  "parkID": "disneyland",
+  "landID": "adventureland",
+  "category": "imagineeringDetail",
+  "difficulty": "medium",
+  "hints": [
+    {
+      "id": "adventureland-tropical-hideaway-h1",
+      "order": 1,
+      "text": "Head into Adventureland and look for the guest-facing landmark or entrance associated with The Tropical Hideaway.",
+      "kind": "clue"
+    },
+    {
+      "id": "adventureland-tropical-hideaway-h2",
+      "order": 2,
+      "text": "Slow down around The Tropical Hideaway and use its name, architecture, and themed setting to confirm you have the right place.",
+      "kind": "clue"
+    },
+    {
+      "id": "adventureland-tropical-hideaway-h3",
+      "order": 3,
+      "text": "The target for this field-test hunt is The Tropical Hideaway. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+      "kind": "detailed"
+    }
+  ],
+  "revealDescription": "You found The Tropical Hideaway in Adventureland. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+  "verificationStatus": "needsRecheck",
+  "isIndoor": false,
+  "tags": [
+    "adventureland",
+    "field-test-batch",
+    "landmark"
+  ],
+  "_editorial": {
+    "notes": "Official Disneyland source confirms this current venue or experience; the exact guest-visible hunt detail still requires in-park confirmation."
+  }
+}

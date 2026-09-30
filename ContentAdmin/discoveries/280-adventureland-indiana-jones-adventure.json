@@ -1,0 +1,39 @@
+{
+  "id": "adventureland-indiana-jones-adventure",
+  "title": "Indiana Jones Adventure",
+  "parkID": "disneyland",
+  "landID": "adventureland",
+  "category": "movieReference",
+  "difficulty": "easy",
+  "hints": [
+    {
+      "id": "adventureland-indiana-jones-adventure-h1",
+      "order": 1,
+      "text": "Head into Adventureland and look for the guest-facing landmark or entrance associated with Indiana Jones Adventure.",
+      "kind": "clue"
+    },
+    {
+      "id": "adventureland-indiana-jones-adventure-h2",
+      "order": 2,
+      "text": "Slow down around Indiana Jones Adventure and use its name, architecture, and themed setting to confirm you have the right place.",
+      "kind": "clue"
+    },
+    {
+      "id": "adventureland-indiana-jones-adventure-h3",
+      "order": 3,
+      "text": "The target for this field-test hunt is Indiana Jones Adventure. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+      "kind": "detailed"
+    }
+  ],
+  "revealDescription": "You found Indiana Jones Adventure in Adventureland. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+  "verificationStatus": "needsRecheck",
+  "isIndoor": false,
+  "tags": [
+    "adventureland",
+    "field-test-batch",
+    "landmark"
+  ],
+  "_editorial": {
+    "notes": "Official Disneyland source confirms this current venue or experience; the exact guest-visible hunt detail still requires in-park confirmation."
+  }
+}

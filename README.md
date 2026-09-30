@@ -179,6 +179,19 @@ Field-test feedback now turns into an actionable iteration queue instead of a ra
 - The queue is visible in Settings → Field Test Feedback and is sorted by severity, report volume, and recency.
 - Automated tests cover critical classification, repeated-problem escalation, and priority ordering.
 
+### #41 Scale content to 75 discoveries
+
+The Disneyland field-test catalog now contains **75 hunts across all 9 current Disneyland lands**: the 18 detailed New Orleans Square hunts plus 57 new source-vetted scale-batch hunts.
+
+- The 57 new entries are distributed across Main Street, U.S.A., Adventureland, Frontierland, Fantasyland, Tomorrowland, Bayou Country, Mickey's Toontown, and Star Wars: Galaxy's Edge.
+- Every scale-batch entry is `needsRecheck`; none is mislabeled as field-verified.
+- New scale-batch entries intentionally omit GPS coordinates until an in-park tester confirms a useful Nearby location.
+- Each entry has a three-stage hint progression and a stable registered discovery ID.
+- Editorial source notes identify the current official Disneyland references used to confirm each venue/experience is still part of the park.
+- A bundled-catalog regression test locks the target at 75 discoveries, 9 lands, and 57 scale-batch entries.
+
+This is deliberately a **field-test scale catalog**, not a claim that all 75 hunts are release-ready. Efforts #39 and #40 provide the workflow for turning these source-vetted seeds into precise, verified hunts after in-park testing.
+
 ## Verification
 
 CI now runs:
@@ -205,4 +218,4 @@ Self-test content validator
 
 ## Next effort
 
-**#41 Scale content to 75–100 discoveries:** expand the verified hunt catalog once the first field-test iteration pass is complete.
+**#42 Map feature:** add an in-app map experience for browsing and orienting among verified discovery locations.

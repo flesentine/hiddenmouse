@@ -1,0 +1,39 @@
+{
+  "id": "tomorrowland-star-tours",
+  "title": "Star Tours – The Adventures Continue",
+  "parkID": "disneyland",
+  "landID": "tomorrowland",
+  "category": "movieReference",
+  "difficulty": "easy",
+  "hints": [
+    {
+      "id": "tomorrowland-star-tours-h1",
+      "order": 1,
+      "text": "Head into Tomorrowland and look for the guest-facing landmark or entrance associated with Star Tours – The Adventures Continue.",
+      "kind": "clue"
+    },
+    {
+      "id": "tomorrowland-star-tours-h2",
+      "order": 2,
+      "text": "Slow down around Star Tours – The Adventures Continue and use its name, architecture, and themed setting to confirm you have the right place.",
+      "kind": "clue"
+    },
+    {
+      "id": "tomorrowland-star-tours-h3",
+      "order": 3,
+      "text": "The target for this field-test hunt is Star Tours – The Adventures Continue. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+      "kind": "detailed"
+    }
+  ],
+  "revealDescription": "You found Star Tours – The Adventures Continue in Tomorrowland. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+  "verificationStatus": "needsRecheck",
+  "isIndoor": true,
+  "tags": [
+    "tomorrowland",
+    "field-test-batch",
+    "landmark"
+  ],
+  "_editorial": {
+    "notes": "Official Disneyland source confirms this current venue or experience; the exact guest-visible hunt detail still requires in-park confirmation."
+  }
+}

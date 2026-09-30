@@ -1,0 +1,39 @@
+{
+  "id": "fantasyland-storybook-land-canal-boats",
+  "title": "Storybook Land Canal Boats",
+  "parkID": "disneyland",
+  "landID": "fantasyland",
+  "category": "imagineeringDetail",
+  "difficulty": "medium",
+  "hints": [
+    {
+      "id": "fantasyland-storybook-land-canal-boats-h1",
+      "order": 1,
+      "text": "Head into Fantasyland and look for the guest-facing landmark or entrance associated with Storybook Land Canal Boats.",
+      "kind": "clue"
+    },
+    {
+      "id": "fantasyland-storybook-land-canal-boats-h2",
+      "order": 2,
+      "text": "Slow down around Storybook Land Canal Boats and use its name, architecture, and themed setting to confirm you have the right place.",
+      "kind": "clue"
+    },
+    {
+      "id": "fantasyland-storybook-land-canal-boats-h3",
+      "order": 3,
+      "text": "The target for this field-test hunt is Storybook Land Canal Boats. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+      "kind": "detailed"
+    }
+  ],
+  "revealDescription": "You found Storybook Land Canal Boats in Fantasyland. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+  "verificationStatus": "needsRecheck",
+  "isIndoor": false,
+  "tags": [
+    "fantasyland",
+    "field-test-batch",
+    "landmark"
+  ],
+  "_editorial": {
+    "notes": "Official Disneyland source confirms this current venue or experience; the exact guest-visible hunt detail still requires in-park confirmation."
+  }
+}

@@ -130,6 +130,30 @@ final class ContentLoaderTests: XCTestCase {
         XCTAssertTrue(discoveries.allSatisfy { $0.sortedHints.count >= 3 })
     }
 
+    func testBundledCatalogScalesAcrossDisneyland() throws {
+        let snapshot = try ContentLoader().load()
+        let landIDs = Set(snapshot.lands.map(\.id))
+
+        XCTAssertEqual(snapshot.discoveries.count, 75)
+        XCTAssertEqual(snapshot.lands.count, 9)
+        XCTAssertTrue(landIDs.contains("main-street-usa"))
+        XCTAssertTrue(landIDs.contains("adventureland"))
+        XCTAssertTrue(landIDs.contains("frontierland"))
+        XCTAssertTrue(landIDs.contains("fantasyland"))
+        XCTAssertTrue(landIDs.contains("tomorrowland"))
+        XCTAssertTrue(landIDs.contains("bayou-country"))
+        XCTAssertTrue(landIDs.contains("mickeys-toontown"))
+        XCTAssertTrue(landIDs.contains("star-wars-galaxys-edge"))
+
+        let scaled = snapshot.discoveries.filter {
+            $0.tags.contains("field-test-batch")
+        }
+        XCTAssertEqual(scaled.count, 57)
+        XCTAssertTrue(scaled.allSatisfy { $0.verificationStatus == .needsRecheck })
+        XCTAssertTrue(scaled.allSatisfy { $0.location == nil })
+        XCTAssertTrue(scaled.allSatisfy { $0.sortedHints.count == 3 })
+    }
+
     private func makeCatalog(discoveryID: String) -> ContentCatalog {
         makeCatalog(discoveries: [makeDiscovery(id: discoveryID)])
     }

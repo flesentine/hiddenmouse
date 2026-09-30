@@ -1,0 +1,39 @@
+{
+  "id": "star-wars-galaxys-edge-millennium-falcon-smugglers-run",
+  "title": "Millennium Falcon: Smugglers Run",
+  "parkID": "disneyland",
+  "landID": "star-wars-galaxys-edge",
+  "category": "movieReference",
+  "difficulty": "easy",
+  "hints": [
+    {
+      "id": "star-wars-galaxys-edge-millennium-falcon-smugglers-run-h1",
+      "order": 1,
+      "text": "Head into Star Wars: Galaxy’s Edge and look for the guest-facing landmark or entrance associated with Millennium Falcon: Smugglers Run.",
+      "kind": "clue"
+    },
+    {
+      "id": "star-wars-galaxys-edge-millennium-falcon-smugglers-run-h2",
+      "order": 2,
+      "text": "Slow down around Millennium Falcon: Smugglers Run and use its name, architecture, and themed setting to confirm you have the right place.",
+      "kind": "clue"
+    },
+    {
+      "id": "star-wars-galaxys-edge-millennium-falcon-smugglers-run-h3",
+      "order": 3,
+      "text": "The target for this field-test hunt is Millennium Falcon: Smugglers Run. Confirm the best specific visual detail here before this discovery is promoted to verified.",
+      "kind": "detailed"
+    }
+  ],
+  "revealDescription": "You found Millennium Falcon: Smugglers Run in Star Wars: Galaxy’s Edge. During the field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+  "verificationStatus": "needsRecheck",
+  "isIndoor": true,
+  "tags": [
+    "star-wars-galaxys-edge",
+    "field-test-batch",
+    "landmark"
+  ],
+  "_editorial": {
+    "notes": "Official Disneyland source confirms this current venue or experience; the exact guest-visible hunt detail still requires in-park confirmation."
+  }
+}
