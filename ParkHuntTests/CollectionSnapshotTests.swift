@@ -79,7 +79,7 @@ final class CollectionSnapshotTests: XCTestCase {
         let titleMatch = CollectionSnapshot.make(
             snapshot: makeSnapshot(),
             progress: makeProgress(),
-            filters: CollectionFilters(searchText: "started")
+            filters: CollectionFilters(searchText: "b started")
         )
         XCTAssertEqual(
             titleMatch.items.map(\.discovery.id),
