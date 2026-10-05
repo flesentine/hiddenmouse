@@ -72,7 +72,7 @@ struct AchievementSummary: Equatable, Sendable {
                 }
         }
 
-        let foundCategories = Set(found.map(.category))
+        let foundCategories = Set(found.map(\.category))
 
         let achievements = [
             milestone(
@@ -109,7 +109,7 @@ struct AchievementSummary: Equatable, Sendable {
                 kind: .landComplete,
                 subtitle: completedLands.isEmpty
                     ? "Complete every hunt in one land."
-                    : "Completed (completedLands.count) land(completedLands.count == 1 ? "" : "s").",
+                    : "Completed \(completedLands.count) land\(completedLands.count == 1 ? "" : "s").",
                 current: completedLands.count,
                 target: 1,
                 isUnlocked: !completedLands.isEmpty
@@ -125,7 +125,7 @@ struct AchievementSummary: Equatable, Sendable {
 
         return AchievementSummary(
             achievements: achievements,
-            unlockedCount: achievements.filter(.isUnlocked).count
+            unlockedCount: achievements.filter(\.isUnlocked).count
         )
     }
 
