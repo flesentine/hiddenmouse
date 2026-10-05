@@ -5,6 +5,7 @@ struct ProgressOverviewView: View {
     let progressStore: any UserProgressStoring
 
     @State private var summary: ProgressSummary?
+    @State private var achievementSummary: AchievementSummary?
     @State private var loadFailed = false
     @State private var hasLoaded = false
 
@@ -25,6 +26,10 @@ struct ProgressOverviewView: View {
                         .padding(.vertical, 48)
                 } else if let summary {
                     overallCard(summary)
+
+                    if let achievementSummary {
+                        achievementsSection(achievementSummary)
+                    }
 
                     recentSection(summary)
 
@@ -144,6 +149,78 @@ struct ProgressOverviewView: View {
         }
         .padding(20)
         .background(.background, in: RoundedRectangle(cornerRadius: 22))
+    }
+
+    private func achievementsSection(
+        _ summary: AchievementSummary
+    ) -> some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack {
+                Label("Badges", systemImage: "rosette")
+                    .font(.headline)
+                    .accessibilityAddTraits(.isHeader)
+
+                Spacer()
+
+                Text("\(summary.unlockedCount) / \(summary.achievements.count)")
+                    .font(.subheadline.monospacedDigit())
+                    .foregroundStyle(.secondary)
+            }
+
+            LazyVGrid(
+                columns: [
+                    GridItem(.adaptive(minimum: 145), spacing: 12)
+                ],
+                spacing: 12
+            ) {
+                ForEach(summary.achievements) { achievement in
+                    VStack(alignment: .leading, spacing: 9) {
+                        HStack {
+                            Image(systemName: achievement.kind.systemImage)
+                                .font(.title3)
+
+                            Spacer()
+
+                            if achievement.isUnlocked {
+                                Image(systemName: "checkmark.circle.fill")
+                                    .accessibilityLabel("Unlocked")
+                            }
+                        }
+
+                        Text(achievement.kind.title)
+                            .font(.subheadline.weight(.semibold))
+
+                        Text(achievement.subtitle)
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+
+                        if !achievement.isUnlocked {
+                            ProgressView(value: achievement.fraction)
+                                .accessibilityLabel(
+                                    "\(achievement.kind.title) progress"
+                                )
+                                .accessibilityValue(
+                                    "\(achievement.current) of \(achievement.target)"
+                                )
+
+                            Text(
+                                "\(achievement.current) / \(achievement.target)"
+                            )
+                            .font(.caption2.monospacedDigit())
+                            .foregroundStyle(.secondary)
+                        }
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(14)
+                    .background(
+                        .background,
+                        in: RoundedRectangle(cornerRadius: 16)
+                    )
+                    .opacity(achievement.isUnlocked ? 1 : 0.72)
+                    .accessibilityElement(children: .combine)
+                }
+            }
+        }
     }
 
     @ViewBuilder
@@ -324,13 +401,19 @@ struct ProgressOverviewView: View {
     private func load() {
         do {
             let snapshot = try contentLoader.load()
+            let progress = progressStore.load()
             summary = ProgressSummary.make(
                 snapshot: snapshot,
-                progress: progressStore.load()
+                progress: progress
+            )
+            achievementSummary = AchievementSummary.make(
+                snapshot: snapshot,
+                progress: progress
             )
             loadFailed = false
         } catch {
             summary = nil
+            achievementSummary = nil
             loadFailed = true
         }
 

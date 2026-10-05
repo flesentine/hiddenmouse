@@ -218,6 +218,19 @@ The Collection screen now supports fast local search and composable filters acro
 - Filtering stays fully offline and operates on the already loaded ContentSnapshot.
 - Unit coverage verifies text search, difficulty filtering, composition with status/land, and available difficulty choices.
 
+### #44 Badges/achievements
+
+Progress now includes lightweight achievement badges based on real hunt completion rather than streaks or artificial engagement loops.
+
+- **First Find** unlocks on the first completed hunt.
+- **Getting Warm**, **Sharp Eyes**, **Detail Hunter**, and **Park Sleuth** unlock at 5, 10, 25, and 50 finds.
+- **Land Complete** unlocks after every currently available hunt in any one land is found.
+- **Curious Explorer** unlocks after finding hunts across 3 different discovery categories.
+- Locked badges show progress toward the next threshold.
+- The badge grid lives in the existing Progress screen and derives entirely from local hunt progress.
+- No daily streaks, timers, penalties, or separate achievement persistence are introduced.
+- Unit coverage verifies milestone thresholds, land completion, and category diversity.
+
 ## Verification
 
 CI now runs:
@@ -244,4 +257,4 @@ Self-test content validator
 
 ## Next effort
 
-**#44 Badges/achievements:** add lightweight collection milestones and achievement feedback without turning the hunt into a grind.
+**#45 Today’s Hunt / route builder:** add a lightweight way to choose a short sequence of hunts for the current visit.
