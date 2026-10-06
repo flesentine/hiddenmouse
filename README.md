@@ -231,6 +231,19 @@ Progress now includes lightweight achievement badges based on real hunt completi
 - No daily streaks, timers, penalties, or separate achievement persistence are introduced.
 - Unit coverage verifies milestone thresholds, land completion, and category diversity.
 
+### #45 Today’s Hunt / route builder
+
+Home now includes a **Today’s Hunt** route builder for a short park session.
+
+- Choose a 3-, 5-, or 8-hunt route.
+- The builder prefers unfinished discoveries.
+- When enough hunts are available, the route stays inside one land to reduce unnecessary walking.
+- When one land cannot satisfy the requested length, the route expands across lands in stable park order.
+- The builder does not require live GPS and works with coordinate-less field-test hunts.
+- If every available hunt is already found, it still produces a replay route instead of failing.
+- Each route item shows sequence, land, difficulty, and found state and opens the hunt directly.
+- Unit coverage verifies unfinished preference, single-land focus, multi-land fallback, and all-found replay behavior.
+
 ## Verification
 
 CI now runs:
@@ -257,4 +270,4 @@ Self-test content validator
 
 ## Next effort
 
-**#45 Today’s Hunt / route builder:** add a lightweight way to choose a short sequence of hunts for the current visit.
+**#46 Premium entitlement:** add a clean entitlement boundary for paid features without coupling gameplay to a specific payment provider.
