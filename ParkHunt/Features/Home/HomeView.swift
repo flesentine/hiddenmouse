@@ -19,6 +19,8 @@ struct HomeView: View {
             VStack(alignment: .leading, spacing: 24) {
                 header
 
+                todayHuntCard
+
                 nearbyCard
 
                 mapCard
@@ -88,6 +90,43 @@ struct HomeView: View {
                 .foregroundStyle(.secondary)
         }
         .accessibilityElement(children: .combine)
+    }
+
+    private var todayHuntCard: some View {
+        NavigationLink {
+            TodayHuntView(
+                contentLoader: contentLoader,
+                progressStore: progressStore
+            )
+        } label: {
+            HStack(spacing: 14) {
+                Image(systemName: "calendar")
+                    .font(.title2)
+                    .accessibilityHidden(true)
+
+                VStack(alignment: .leading, spacing: 3) {
+                    Text("Today’s Hunt")
+                        .font(.headline)
+
+                    Text("Build a short route for this visit")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                }
+
+                Spacer()
+
+                Image(systemName: "chevron.right")
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(.secondary)
+                    .accessibilityHidden(true)
+            }
+            .frame(minHeight: 52)
+            .padding(18)
+            .background(.background, in: RoundedRectangle(cornerRadius: 20))
+        }
+        .buttonStyle(.plain)
+        .accessibilityIdentifier("home.today-hunt")
+        .accessibilityHint("Builds a short route of hunts")
     }
 
     private var nearbyCard: some View {
