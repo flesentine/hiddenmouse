@@ -14,6 +14,15 @@ struct ParkHuntApp: App {
     private let analyticsRecorder:
         UserDefaultsAnalyticsRecorder
 
+    private var advertisingProvider: any AdvertisingProviding {
+        switch environment {
+        case .development, .fieldTest:
+            PreviewAdvertisingProvider()
+        case .production:
+            NoopAdvertisingProvider()
+        }
+    }
+
     init() {
         UITestSupport.prepareLaunch()
 
@@ -36,7 +45,8 @@ struct ParkHuntApp: App {
                 activeHuntStore: activeHuntStore,
                 analyticsRecorder: analyticsRecorder,
                 analyticsPreferenceStore: analyticsPreferenceStore,
-                premiumEntitlementStore: premiumEntitlementStore
+                premiumEntitlementStore: premiumEntitlementStore,
+                advertisingProvider: advertisingProvider
             )
         }
     }
