@@ -1,0 +1,39 @@
+{
+  "id": "dca-grizzly-peak-grizzly-river-run",
+  "title": "Grizzly River Run",
+  "parkID": "disney-california-adventure",
+  "landID": "dca-grizzly-peak",
+  "category": "imagineeringDetail",
+  "difficulty": "easy",
+  "hints": [
+    {
+      "id": "dca-grizzly-peak-grizzly-river-run-h1",
+      "order": 1,
+      "text": "Head into Grizzly Peak and locate Grizzly River Run.",
+      "kind": "clue"
+    },
+    {
+      "id": "dca-grizzly-peak-grizzly-river-run-h2",
+      "order": 2,
+      "text": "Slow down around Grizzly River Run and study the guest-visible architecture, props, signs, and themed details rather than rushing through.",
+      "kind": "clue"
+    },
+    {
+      "id": "dca-grizzly-peak-grizzly-river-run-h3",
+      "order": 3,
+      "text": "The field-test target is Grizzly River Run. Record the strongest repeatable hidden or Imagineering detail here before this discovery is promoted to verified.",
+      "kind": "detailed"
+    }
+  ],
+  "revealDescription": "You found Grizzly River Run in Grizzly Peak. During the DCA field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+  "verificationStatus": "needsRecheck",
+  "isIndoor": false,
+  "tags": [
+    "dca",
+    "field-test-batch",
+    "grizzly-peak"
+  ],
+  "_editorial": {
+    "notes": "Current DCA land/venue seed. Exact guest-visible hunt detail and map location require in-park confirmation before verification."
+  }
+}
