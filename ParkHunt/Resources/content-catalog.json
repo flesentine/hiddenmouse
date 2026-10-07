@@ -54,6 +54,54 @@
       "parkID": "disneyland",
       "name": "Star Wars: Galaxy's Edge",
       "sortOrder": 9
+    },
+    {
+      "id": "dca-avengers-campus",
+      "parkID": "disney-california-adventure",
+      "name": "Avengers Campus",
+      "sortOrder": 1
+    },
+    {
+      "id": "dca-cars-land",
+      "parkID": "disney-california-adventure",
+      "name": "Cars Land",
+      "sortOrder": 2
+    },
+    {
+      "id": "dca-pixar-pier",
+      "parkID": "disney-california-adventure",
+      "name": "Pixar Pier",
+      "sortOrder": 3
+    },
+    {
+      "id": "dca-san-fransokyo-square",
+      "parkID": "disney-california-adventure",
+      "name": "San Fransokyo Square",
+      "sortOrder": 4
+    },
+    {
+      "id": "dca-buena-vista-street",
+      "parkID": "disney-california-adventure",
+      "name": "Buena Vista Street",
+      "sortOrder": 5
+    },
+    {
+      "id": "dca-grizzly-peak",
+      "parkID": "disney-california-adventure",
+      "name": "Grizzly Peak",
+      "sortOrder": 6
+    },
+    {
+      "id": "dca-hollywood-land",
+      "parkID": "disney-california-adventure",
+      "name": "Hollywood Land",
+      "sortOrder": 7
+    },
+    {
+      "id": "dca-paradise-gardens-park",
+      "parkID": "disney-california-adventure",
+      "name": "Paradise Gardens Park",
+      "sortOrder": 8
     }
   ],
   "areas": [
@@ -2901,6 +2949,294 @@
         "star-wars-galaxys-edge",
         "field-test-batch",
         "landmark"
+      ]
+    },
+    {
+      "id": "dca-avengers-campus-web-slingers",
+      "title": "WEB SLINGERS: A Spider-Man Adventure",
+      "parkID": "disney-california-adventure",
+      "landID": "dca-avengers-campus",
+      "category": "imagineeringDetail",
+      "difficulty": "easy",
+      "hints": [
+        {
+          "id": "dca-avengers-campus-web-slingers-h1",
+          "order": 1,
+          "text": "Head into Avengers Campus and locate WEB SLINGERS: A Spider-Man Adventure.",
+          "kind": "clue"
+        },
+        {
+          "id": "dca-avengers-campus-web-slingers-h2",
+          "order": 2,
+          "text": "Slow down around WEB SLINGERS: A Spider-Man Adventure and study the guest-visible architecture, props, signs, and themed details rather than rushing through.",
+          "kind": "clue"
+        },
+        {
+          "id": "dca-avengers-campus-web-slingers-h3",
+          "order": 3,
+          "text": "The field-test target is WEB SLINGERS: A Spider-Man Adventure. Record the strongest repeatable hidden or Imagineering detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found WEB SLINGERS: A Spider-Man Adventure in Avengers Campus. During the DCA field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": true,
+      "tags": [
+        "dca",
+        "field-test-batch",
+        "avengers-campus"
+      ]
+    },
+    {
+      "id": "dca-cars-land-radiator-springs-racers",
+      "title": "Radiator Springs Racers",
+      "parkID": "disney-california-adventure",
+      "landID": "dca-cars-land",
+      "category": "imagineeringDetail",
+      "difficulty": "easy",
+      "hints": [
+        {
+          "id": "dca-cars-land-radiator-springs-racers-h1",
+          "order": 1,
+          "text": "Head into Cars Land and locate Radiator Springs Racers.",
+          "kind": "clue"
+        },
+        {
+          "id": "dca-cars-land-radiator-springs-racers-h2",
+          "order": 2,
+          "text": "Slow down around Radiator Springs Racers and study the guest-visible architecture, props, signs, and themed details rather than rushing through.",
+          "kind": "clue"
+        },
+        {
+          "id": "dca-cars-land-radiator-springs-racers-h3",
+          "order": 3,
+          "text": "The field-test target is Radiator Springs Racers. Record the strongest repeatable hidden or Imagineering detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found Radiator Springs Racers in Cars Land. During the DCA field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": false,
+      "tags": [
+        "dca",
+        "field-test-batch",
+        "cars-land"
+      ]
+    },
+    {
+      "id": "dca-pixar-pier-incredicoaster",
+      "title": "Incredicoaster",
+      "parkID": "disney-california-adventure",
+      "landID": "dca-pixar-pier",
+      "category": "imagineeringDetail",
+      "difficulty": "easy",
+      "hints": [
+        {
+          "id": "dca-pixar-pier-incredicoaster-h1",
+          "order": 1,
+          "text": "Head into Pixar Pier and locate Incredicoaster.",
+          "kind": "clue"
+        },
+        {
+          "id": "dca-pixar-pier-incredicoaster-h2",
+          "order": 2,
+          "text": "Slow down around Incredicoaster and study the guest-visible architecture, props, signs, and themed details rather than rushing through.",
+          "kind": "clue"
+        },
+        {
+          "id": "dca-pixar-pier-incredicoaster-h3",
+          "order": 3,
+          "text": "The field-test target is Incredicoaster. Record the strongest repeatable hidden or Imagineering detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found Incredicoaster in Pixar Pier. During the DCA field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": false,
+      "tags": [
+        "dca",
+        "field-test-batch",
+        "pixar-pier"
+      ]
+    },
+    {
+      "id": "dca-san-fransokyo-square-landmark",
+      "title": "San Fransokyo Square Landmark",
+      "parkID": "disney-california-adventure",
+      "landID": "dca-san-fransokyo-square",
+      "category": "imagineeringDetail",
+      "difficulty": "easy",
+      "hints": [
+        {
+          "id": "dca-san-fransokyo-square-landmark-h1",
+          "order": 1,
+          "text": "Head into San Fransokyo Square and locate San Fransokyo Square Landmark.",
+          "kind": "clue"
+        },
+        {
+          "id": "dca-san-fransokyo-square-landmark-h2",
+          "order": 2,
+          "text": "Slow down around San Fransokyo Square Landmark and study the guest-visible architecture, props, signs, and themed details rather than rushing through.",
+          "kind": "clue"
+        },
+        {
+          "id": "dca-san-fransokyo-square-landmark-h3",
+          "order": 3,
+          "text": "The field-test target is San Fransokyo Square Landmark. Record the strongest repeatable hidden or Imagineering detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found San Fransokyo Square Landmark in San Fransokyo Square. During the DCA field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": false,
+      "tags": [
+        "dca",
+        "field-test-batch",
+        "san-fransokyo-square"
+      ]
+    },
+    {
+      "id": "dca-buena-vista-street-carthay-circle",
+      "title": "Carthay Circle",
+      "parkID": "disney-california-adventure",
+      "landID": "dca-buena-vista-street",
+      "category": "imagineeringDetail",
+      "difficulty": "easy",
+      "hints": [
+        {
+          "id": "dca-buena-vista-street-carthay-circle-h1",
+          "order": 1,
+          "text": "Head into Buena Vista Street and locate Carthay Circle.",
+          "kind": "clue"
+        },
+        {
+          "id": "dca-buena-vista-street-carthay-circle-h2",
+          "order": 2,
+          "text": "Slow down around Carthay Circle and study the guest-visible architecture, props, signs, and themed details rather than rushing through.",
+          "kind": "clue"
+        },
+        {
+          "id": "dca-buena-vista-street-carthay-circle-h3",
+          "order": 3,
+          "text": "The field-test target is Carthay Circle. Record the strongest repeatable hidden or Imagineering detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found Carthay Circle in Buena Vista Street. During the DCA field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": false,
+      "tags": [
+        "dca",
+        "field-test-batch",
+        "buena-vista-street"
+      ]
+    },
+    {
+      "id": "dca-grizzly-peak-grizzly-river-run",
+      "title": "Grizzly River Run",
+      "parkID": "disney-california-adventure",
+      "landID": "dca-grizzly-peak",
+      "category": "imagineeringDetail",
+      "difficulty": "easy",
+      "hints": [
+        {
+          "id": "dca-grizzly-peak-grizzly-river-run-h1",
+          "order": 1,
+          "text": "Head into Grizzly Peak and locate Grizzly River Run.",
+          "kind": "clue"
+        },
+        {
+          "id": "dca-grizzly-peak-grizzly-river-run-h2",
+          "order": 2,
+          "text": "Slow down around Grizzly River Run and study the guest-visible architecture, props, signs, and themed details rather than rushing through.",
+          "kind": "clue"
+        },
+        {
+          "id": "dca-grizzly-peak-grizzly-river-run-h3",
+          "order": 3,
+          "text": "The field-test target is Grizzly River Run. Record the strongest repeatable hidden or Imagineering detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found Grizzly River Run in Grizzly Peak. During the DCA field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": false,
+      "tags": [
+        "dca",
+        "field-test-batch",
+        "grizzly-peak"
+      ]
+    },
+    {
+      "id": "dca-hollywood-land-monsters-inc",
+      "title": "Monsters, Inc. Mike & Sulley to the Rescue!",
+      "parkID": "disney-california-adventure",
+      "landID": "dca-hollywood-land",
+      "category": "imagineeringDetail",
+      "difficulty": "easy",
+      "hints": [
+        {
+          "id": "dca-hollywood-land-monsters-inc-h1",
+          "order": 1,
+          "text": "Head into Hollywood Land and locate Monsters, Inc. Mike & Sulley to the Rescue!.",
+          "kind": "clue"
+        },
+        {
+          "id": "dca-hollywood-land-monsters-inc-h2",
+          "order": 2,
+          "text": "Slow down around Monsters, Inc. Mike & Sulley to the Rescue! and study the guest-visible architecture, props, signs, and themed details rather than rushing through.",
+          "kind": "clue"
+        },
+        {
+          "id": "dca-hollywood-land-monsters-inc-h3",
+          "order": 3,
+          "text": "The field-test target is Monsters, Inc. Mike & Sulley to the Rescue!. Record the strongest repeatable hidden or Imagineering detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found Monsters, Inc. Mike & Sulley to the Rescue! in Hollywood Land. During the DCA field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": true,
+      "tags": [
+        "dca",
+        "field-test-batch",
+        "hollywood-land"
+      ]
+    },
+    {
+      "id": "dca-paradise-gardens-little-mermaid",
+      "title": "The Little Mermaid – Ariel’s Undersea Adventure",
+      "parkID": "disney-california-adventure",
+      "landID": "dca-paradise-gardens-park",
+      "category": "imagineeringDetail",
+      "difficulty": "easy",
+      "hints": [
+        {
+          "id": "dca-paradise-gardens-little-mermaid-h1",
+          "order": 1,
+          "text": "Head into Paradise Gardens Park and locate The Little Mermaid – Ariel’s Undersea Adventure.",
+          "kind": "clue"
+        },
+        {
+          "id": "dca-paradise-gardens-little-mermaid-h2",
+          "order": 2,
+          "text": "Slow down around The Little Mermaid – Ariel’s Undersea Adventure and study the guest-visible architecture, props, signs, and themed details rather than rushing through.",
+          "kind": "clue"
+        },
+        {
+          "id": "dca-paradise-gardens-little-mermaid-h3",
+          "order": 3,
+          "text": "The field-test target is The Little Mermaid – Ariel’s Undersea Adventure. Record the strongest repeatable hidden or Imagineering detail here before this discovery is promoted to verified.",
+          "kind": "detailed"
+        }
+      ],
+      "revealDescription": "You found The Little Mermaid – Ariel’s Undersea Adventure in Paradise Gardens Park. During the DCA field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+      "verificationStatus": "needsRecheck",
+      "isIndoor": true,
+      "tags": [
+        "dca",
+        "field-test-batch",
+        "paradise-gardens-park"
       ]
     }
   ]
