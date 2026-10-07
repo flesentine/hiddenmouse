@@ -52,5 +52,53 @@
     "parkID": "disneyland",
     "name": "Star Wars: Galaxy's Edge",
     "sortOrder": 9
+  },
+  {
+    "id": "dca-avengers-campus",
+    "parkID": "disney-california-adventure",
+    "name": "Avengers Campus",
+    "sortOrder": 1
+  },
+  {
+    "id": "dca-cars-land",
+    "parkID": "disney-california-adventure",
+    "name": "Cars Land",
+    "sortOrder": 2
+  },
+  {
+    "id": "dca-pixar-pier",
+    "parkID": "disney-california-adventure",
+    "name": "Pixar Pier",
+    "sortOrder": 3
+  },
+  {
+    "id": "dca-san-fransokyo-square",
+    "parkID": "disney-california-adventure",
+    "name": "San Fransokyo Square",
+    "sortOrder": 4
+  },
+  {
+    "id": "dca-buena-vista-street",
+    "parkID": "disney-california-adventure",
+    "name": "Buena Vista Street",
+    "sortOrder": 5
+  },
+  {
+    "id": "dca-grizzly-peak",
+    "parkID": "disney-california-adventure",
+    "name": "Grizzly Peak",
+    "sortOrder": 6
+  },
+  {
+    "id": "dca-hollywood-land",
+    "parkID": "disney-california-adventure",
+    "name": "Hollywood Land",
+    "sortOrder": 7
+  },
+  {
+    "id": "dca-paradise-gardens-park",
+    "parkID": "disney-california-adventure",
+    "name": "Paradise Gardens Park",
+    "sortOrder": 8
   }
 ]
