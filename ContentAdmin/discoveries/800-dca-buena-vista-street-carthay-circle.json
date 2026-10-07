@@ -1,0 +1,39 @@
+{
+  "id": "dca-buena-vista-street-carthay-circle",
+  "title": "Carthay Circle",
+  "parkID": "disney-california-adventure",
+  "landID": "dca-buena-vista-street",
+  "category": "imagineeringDetail",
+  "difficulty": "easy",
+  "hints": [
+    {
+      "id": "dca-buena-vista-street-carthay-circle-h1",
+      "order": 1,
+      "text": "Head into Buena Vista Street and locate Carthay Circle.",
+      "kind": "clue"
+    },
+    {
+      "id": "dca-buena-vista-street-carthay-circle-h2",
+      "order": 2,
+      "text": "Slow down around Carthay Circle and study the guest-visible architecture, props, signs, and themed details rather than rushing through.",
+      "kind": "clue"
+    },
+    {
+      "id": "dca-buena-vista-street-carthay-circle-h3",
+      "order": 3,
+      "text": "The field-test target is Carthay Circle. Record the strongest repeatable hidden or Imagineering detail here before this discovery is promoted to verified.",
+      "kind": "detailed"
+    }
+  ],
+  "revealDescription": "You found Carthay Circle in Buena Vista Street. During the DCA field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+  "verificationStatus": "needsRecheck",
+  "isIndoor": false,
+  "tags": [
+    "dca",
+    "field-test-batch",
+    "buena-vista-street"
+  ],
+  "_editorial": {
+    "notes": "Current DCA land/venue seed. Exact guest-visible hunt detail and map location require in-park confirmation before verification."
+  }
+}
