@@ -8,6 +8,7 @@ struct ParkHuntApp: App {
     private let spoilerPreferenceStore = UserDefaultsSpoilerPreferenceStore()
     private let hapticPreferenceStore = UserDefaultsHapticPreferenceStore()
     private let activeHuntStore = UserDefaultsActiveHuntStore()
+    private let premiumEntitlementStore = UserDefaultsPremiumEntitlementStore()
     private let analyticsPreferenceStore:
         UserDefaultsAnalyticsPreferenceStore
     private let analyticsRecorder:
@@ -34,7 +35,8 @@ struct ParkHuntApp: App {
                 hapticPreferenceStore: hapticPreferenceStore,
                 activeHuntStore: activeHuntStore,
                 analyticsRecorder: analyticsRecorder,
-                analyticsPreferenceStore: analyticsPreferenceStore
+                analyticsPreferenceStore: analyticsPreferenceStore,
+                premiumEntitlementStore: premiumEntitlementStore
             )
         }
     }
