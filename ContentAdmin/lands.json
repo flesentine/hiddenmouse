@@ -57,48 +57,48 @@
     "id": "dca-avengers-campus",
     "parkID": "disney-california-adventure",
     "name": "Avengers Campus",
-    "sortOrder": 1
+    "sortOrder": 101
   },
   {
     "id": "dca-cars-land",
     "parkID": "disney-california-adventure",
     "name": "Cars Land",
-    "sortOrder": 2
+    "sortOrder": 102
   },
   {
     "id": "dca-pixar-pier",
     "parkID": "disney-california-adventure",
     "name": "Pixar Pier",
-    "sortOrder": 3
+    "sortOrder": 103
   },
   {
     "id": "dca-san-fransokyo-square",
     "parkID": "disney-california-adventure",
     "name": "San Fransokyo Square",
-    "sortOrder": 4
+    "sortOrder": 104
   },
   {
     "id": "dca-buena-vista-street",
     "parkID": "disney-california-adventure",
     "name": "Buena Vista Street",
-    "sortOrder": 5
+    "sortOrder": 105
   },
   {
     "id": "dca-grizzly-peak",
     "parkID": "disney-california-adventure",
     "name": "Grizzly Peak",
-    "sortOrder": 6
+    "sortOrder": 106
   },
   {
     "id": "dca-hollywood-land",
     "parkID": "disney-california-adventure",
     "name": "Hollywood Land",
-    "sortOrder": 7
+    "sortOrder": 107
   },
   {
     "id": "dca-paradise-gardens-park",
     "parkID": "disney-california-adventure",
     "name": "Paradise Gardens Park",
-    "sortOrder": 8
+    "sortOrder": 108
   }
 ]
