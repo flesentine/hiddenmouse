@@ -9,6 +9,7 @@ struct HomeView: View {
     let analyticsRecorder: any AnalyticsRecording
     let analyticsPreferenceStore: any AnalyticsPreferenceStoring
     let premiumEntitlementStore: any PremiumEntitlementStoring
+    let advertisingProvider: any AdvertisingProviding
 
     @State private var presentation: HomePresentation?
     @State private var progressSummary: ProgressSummary?
@@ -27,6 +28,12 @@ struct HomeView: View {
                 mapCard
 
                 collectionCard
+
+                SponsoredCardView(
+                    placement: .home,
+                    entitlementStore: premiumEntitlementStore,
+                    provider: advertisingProvider
+                )
 
                 if let progressSummary {
                     progressCard(progressSummary)
@@ -211,7 +218,9 @@ struct HomeView: View {
         NavigationLink {
             CollectionView(
                 contentLoader: contentLoader,
-                progressStore: progressStore
+                progressStore: progressStore,
+                premiumEntitlementStore: premiumEntitlementStore,
+                advertisingProvider: advertisingProvider
             )
         } label: {
             HStack(spacing: 14) {
@@ -390,7 +399,9 @@ struct HomeView: View {
             NavigationLink {
                 CollectionView(
                     contentLoader: contentLoader,
-                    progressStore: progressStore
+                    progressStore: progressStore,
+                    premiumEntitlementStore: premiumEntitlementStore,
+                    advertisingProvider: advertisingProvider
                 )
             } label: {
                 Label(
@@ -512,7 +523,8 @@ struct HomeView: View {
             activeHuntStore: MemoryActiveHuntStore(),
             analyticsRecorder: MemoryAnalyticsRecorder(),
             analyticsPreferenceStore: MemoryAnalyticsPreferenceStore(),
-            premiumEntitlementStore: MemoryPremiumEntitlementStore()
+            premiumEntitlementStore: MemoryPremiumEntitlementStore(),
+            advertisingProvider: PreviewAdvertisingProvider()
         )
     }
 }
