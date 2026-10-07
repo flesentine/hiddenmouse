@@ -258,6 +258,20 @@ Park Hunt now has a provider-agnostic premium entitlement boundary.
 - Production does not expose that override.
 - Unit coverage verifies the free default, persistence behavior, and the extended-route gate.
 
+### #47 Advertising integration
+
+Park Hunt now has a provider-agnostic advertising boundary designed to keep ads passive and out of gameplay.
+
+- Ad placements are explicitly modeled for Home, Collection, Hunt, and Reveal.
+- Policy permits ads only on passive browsing surfaces: **Home** and **Collection**.
+- **Hunt** and **Reveal** are hard-blocked from advertising even for free users.
+- Premium suppresses all ad placements and is presented as ad-free browsing.
+- The advertising provider receives only the requested placement; this layer does not pass precise location, hunt history, progress, or analytics context.
+- Development and field-test builds use a clearly labeled sample sponsored creative for layout testing.
+- Production uses a no-op provider until a real ad network is intentionally connected.
+- Sponsored cards are visibly labeled **Sponsored** and identify the sponsor.
+- Unit coverage verifies premium suppression, passive free placements, active-gameplay blocking, and no-op provider behavior.
+
 ## Verification
 
 CI now runs:
@@ -284,4 +298,4 @@ Self-test content validator
 
 ## Next effort
 
-**#47 Advertising integration:** add an ad boundary that respects premium entitlement and keeps ads out of active hunt moments.
+**#48 DCA support:** extend the content model and browsing flows to Disney California Adventure while preserving park-specific filtering.
