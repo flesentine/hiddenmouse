@@ -37,6 +37,7 @@ enum CollectionStatusFilter: String, CaseIterable, Identifiable, Sendable {
 struct CollectionFilters: Equatable, Sendable {
     var searchText: String
     var status: CollectionStatusFilter
+    var parkID: String?
     var landID: String?
     var category: DiscoveryCategory?
     var difficulty: Difficulty?
@@ -44,12 +45,14 @@ struct CollectionFilters: Equatable, Sendable {
     init(
         searchText: String = "",
         status: CollectionStatusFilter = .all,
+        parkID: String? = nil,
         landID: String? = nil,
         category: DiscoveryCategory? = nil,
         difficulty: Difficulty? = nil
     ) {
         self.searchText = searchText
         self.status = status
+        self.parkID = parkID
         self.landID = landID
         self.category = category
         self.difficulty = difficulty
@@ -58,6 +61,7 @@ struct CollectionFilters: Equatable, Sendable {
     var isDefault: Bool {
         searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
             && status == .all
+            && parkID == nil
             && landID == nil
             && category == nil
             && difficulty == nil
@@ -79,6 +83,7 @@ struct CollectionItem: Equatable, Identifiable, Sendable {
 
 struct CollectionSnapshot: Equatable, Sendable {
     let items: [CollectionItem]
+    let parks: [ParkOption]
     let lands: [Land]
     let categories: [DiscoveryCategory]
     let difficulties: [Difficulty]
@@ -122,10 +127,13 @@ struct CollectionSnapshot: Equatable, Sendable {
                 )
             }
 
+        let parks = ParkCatalog.options(in: snapshot)
+
         let lands = snapshot.lands.filter { land in
-            availableDiscoveries.contains {
-                $0.landID == land.id
-            }
+            (filters.parkID == nil || land.parkID == filters.parkID)
+                && availableDiscoveries.contains {
+                    $0.landID == land.id
+                }
         }
 
         let categories = DiscoveryCategory.allCases.filter { category in
@@ -142,6 +150,7 @@ struct CollectionSnapshot: Equatable, Sendable {
 
         return CollectionSnapshot(
             items: filteredItems,
+            parks: parks,
             lands: lands,
             categories: categories,
             difficulties: difficulties
@@ -175,6 +184,11 @@ struct CollectionSnapshot: Equatable, Sendable {
             if !searchable.contains(query) {
                 return false
             }
+        }
+
+        if let parkID = filters.parkID,
+           discovery.parkID != parkID {
+            return false
         }
 
         if let landID = filters.landID,
