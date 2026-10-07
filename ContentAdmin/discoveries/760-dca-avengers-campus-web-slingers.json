@@ -1,0 +1,39 @@
+{
+  "id": "dca-avengers-campus-web-slingers",
+  "title": "WEB SLINGERS: A Spider-Man Adventure",
+  "parkID": "disney-california-adventure",
+  "landID": "dca-avengers-campus",
+  "category": "imagineeringDetail",
+  "difficulty": "easy",
+  "hints": [
+    {
+      "id": "dca-avengers-campus-web-slingers-h1",
+      "order": 1,
+      "text": "Head into Avengers Campus and locate WEB SLINGERS: A Spider-Man Adventure.",
+      "kind": "clue"
+    },
+    {
+      "id": "dca-avengers-campus-web-slingers-h2",
+      "order": 2,
+      "text": "Slow down around WEB SLINGERS: A Spider-Man Adventure and study the guest-visible architecture, props, signs, and themed details rather than rushing through.",
+      "kind": "clue"
+    },
+    {
+      "id": "dca-avengers-campus-web-slingers-h3",
+      "order": 3,
+      "text": "The field-test target is WEB SLINGERS: A Spider-Man Adventure. Record the strongest repeatable hidden or Imagineering detail here before this discovery is promoted to verified.",
+      "kind": "detailed"
+    }
+  ],
+  "revealDescription": "You found WEB SLINGERS: A Spider-Man Adventure in Avengers Campus. During the DCA field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+  "verificationStatus": "needsRecheck",
+  "isIndoor": true,
+  "tags": [
+    "dca",
+    "field-test-batch",
+    "avengers-campus"
+  ],
+  "_editorial": {
+    "notes": "Current DCA land/venue seed. Exact guest-visible hunt detail and map location require in-park confirmation before verification."
+  }
+}
