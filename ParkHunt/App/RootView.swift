@@ -9,6 +9,7 @@ struct RootView: View {
     let activeHuntStore: any ActiveHuntStoring
     let analyticsRecorder: any AnalyticsRecording
     let analyticsPreferenceStore: any AnalyticsPreferenceStoring
+    let premiumEntitlementStore: any PremiumEntitlementStoring
 
     @State private var restorationSession: ActiveHuntSession?
     @State private var isPresentingRestoredHunt = false
@@ -24,7 +25,8 @@ struct RootView: View {
                 hapticPreferenceStore: hapticPreferenceStore,
                 activeHuntStore: activeHuntStore,
                 analyticsRecorder: analyticsRecorder,
-                analyticsPreferenceStore: analyticsPreferenceStore
+                analyticsPreferenceStore: analyticsPreferenceStore,
+                premiumEntitlementStore: premiumEntitlementStore
             )
             .navigationDestination(for: String.self) { discoveryID in
                 HuntView(
@@ -122,6 +124,7 @@ struct RootView: View {
         hapticPreferenceStore: MemoryHapticPreferenceStore(),
         activeHuntStore: MemoryActiveHuntStore(),
         analyticsRecorder: MemoryAnalyticsRecorder(),
-        analyticsPreferenceStore: MemoryAnalyticsPreferenceStore()
+        analyticsPreferenceStore: MemoryAnalyticsPreferenceStore(),
+        premiumEntitlementStore: MemoryPremiumEntitlementStore()
     )
 }
