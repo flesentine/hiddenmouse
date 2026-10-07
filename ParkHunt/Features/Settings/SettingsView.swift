@@ -9,6 +9,7 @@ struct SettingsView: View {
     let activeHuntStore: any ActiveHuntStoring
     let analyticsRecorder: any AnalyticsRecording
     let analyticsPreferenceStore: any AnalyticsPreferenceStoring
+    let premiumEntitlementStore: any PremiumEntitlementStoring
 
     @StateObject private var locationPermission = LocationPermissionController()
     @Environment(\.openURL) private var openURL
@@ -18,6 +19,7 @@ struct SettingsView: View {
     @State private var localAnalyticsEnabled = true
     @State private var analyticsEventCount = 0
     @State private var fieldFeedbackCount = 0
+    @State private var premiumEntitlement: PremiumEntitlement = .free
     @State private var showResetConfirmation = false
     @State private var showClearAnalyticsConfirmation = false
     @State private var didResetProgress = false
@@ -29,6 +31,7 @@ struct SettingsView: View {
         List {
             locationSection
             gameplaySection
+            premiumSection
 
             if AppEnvironment.current == .fieldTest {
                 fieldTestSection
@@ -44,6 +47,7 @@ struct SettingsView: View {
             helpStyle = spoilerPreferenceStore.load()
             hapticsEnabled = hapticPreferenceStore.load()
             localAnalyticsEnabled = analyticsPreferenceStore.load()
+            premiumEntitlement = premiumEntitlementStore.load()
             refreshAnalyticsCount()
             refreshFieldFeedbackCount()
         }
@@ -174,6 +178,62 @@ struct SettingsView: View {
             }
             .accessibilityHint(
                 "Controls tactile feedback for clues, stronger help, full reveal, and found success"
+            )
+        }
+    }
+
+    private var premiumSection: some View {
+        Section {
+            NavigationLink {
+                PremiumUpgradeView(
+                    entitlementStore: premiumEntitlementStore
+                )
+            } label: {
+                HStack {
+                    Label(
+                        "Park Hunt Premium",
+                        systemImage: premiumEntitlement.isPremium
+                            ? "checkmark.seal.fill"
+                            : "star"
+                    )
+
+                    Spacer()
+
+                    Text(
+                        premiumEntitlement.isPremium
+                            ? "Active"
+                            : "Free"
+                    )
+                    .foregroundStyle(.secondary)
+                }
+            }
+
+            if AppEnvironment.current != .production {
+                Toggle(
+                    "Premium Test Override",
+                    isOn: Binding(
+                        get: { premiumEntitlement.isPremium },
+                        set: { enabled in
+                            premiumEntitlement = enabled
+                                ? .premium
+                                : .free
+                            premiumEntitlementStore.save(
+                                premiumEntitlement
+                            )
+                        }
+                    )
+                )
+                .accessibilityHint(
+                    "Development-only control for testing premium feature gates"
+                )
+            }
+        } header: {
+            Text("Premium")
+        } footer: {
+            Text(
+                AppEnvironment.current == .production
+                    ? "Premium access is controlled by the purchase entitlement provider."
+                    : "The test override is available only in development and field-test builds."
             )
         }
     }
@@ -372,7 +432,8 @@ struct SettingsView: View {
             analyticsRecorder: MemoryAnalyticsRecorder(
                 preferenceStore: analyticsPreference
             ),
-            analyticsPreferenceStore: analyticsPreference
+            analyticsPreferenceStore: analyticsPreference,
+            premiumEntitlementStore: MemoryPremiumEntitlementStore()
         )
     }
 }

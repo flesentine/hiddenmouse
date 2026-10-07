@@ -3,10 +3,12 @@ import SwiftUI
 struct TodayHuntView: View {
     let contentLoader: ContentLoader
     let progressStore: any UserProgressStoring
+    let premiumEntitlementStore: any PremiumEntitlementStoring
 
     @State private var snapshot: ContentSnapshot?
     @State private var progress = UserProgress()
-    @State private var selectedLength: TodayRouteLength = .medium
+    @State private var selectedLength: TodayRouteLength = .short
+    @State private var entitlement: PremiumEntitlement = .free
     @State private var loadFailed = false
 
     var body: some View {
@@ -32,6 +34,17 @@ struct TodayHuntView: View {
         }
     }
 
+    private var availableLengths: [TodayRouteLength] {
+        if PremiumAccess.canUse(
+            .extendedTodayRoutes,
+            entitlement: entitlement
+        ) {
+            return TodayRouteLength.allCases
+        }
+
+        return [.short]
+    }
+
     private var route: TodayRoute? {
         guard let snapshot else { return nil }
 
@@ -48,12 +61,28 @@ struct TodayHuntView: View {
         List {
             Section {
                 Picker("Route length", selection: $selectedLength) {
-                    ForEach(TodayRouteLength.allCases) { length in
+                    ForEach(availableLengths) { length in
                         Text(length.displayName).tag(length)
                     }
                 }
                 .pickerStyle(.segmented)
                 .accessibilityIdentifier("today-hunt.length")
+
+                if !PremiumAccess.canUse(
+                    .extendedTodayRoutes,
+                    entitlement: entitlement
+                ) {
+                    NavigationLink {
+                        PremiumUpgradeView(
+                            entitlementStore: premiumEntitlementStore
+                        )
+                    } label: {
+                        Label(
+                            "Unlock 5- and 8-hunt routes",
+                            systemImage: "lock.fill"
+                        )
+                    }
+                }
             } footer: {
                 Text(
                     "Routes prefer unfinished hunts and keep you in one land when enough hunts are available."
@@ -136,6 +165,12 @@ struct TodayHuntView: View {
         do {
             snapshot = try contentLoader.load()
             progress = progressStore.load()
+            entitlement = premiumEntitlementStore.load()
+
+            if !availableLengths.contains(selectedLength) {
+                selectedLength = .short
+            }
+
             loadFailed = false
         } catch {
             snapshot = nil
@@ -149,7 +184,8 @@ struct TodayHuntView: View {
     NavigationStack {
         TodayHuntView(
             contentLoader: ContentLoader(),
-            progressStore: MemoryUserProgressStore()
+            progressStore: MemoryUserProgressStore(),
+            premiumEntitlementStore: MemoryPremiumEntitlementStore(.premium)
         )
     }
 }

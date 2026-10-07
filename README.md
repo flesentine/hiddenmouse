@@ -244,6 +244,20 @@ Home now includes a **Today’s Hunt** route builder for a short park session.
 - Each route item shows sequence, land, difficulty, and found state and opens the hunt directly.
 - Unit coverage verifies unfinished preference, single-land focus, multi-land fallback, and all-found replay behavior.
 
+### #46 Premium entitlement
+
+Park Hunt now has a provider-agnostic premium entitlement boundary.
+
+- Free and Premium entitlement states are modeled independently of StoreKit or any payment vendor.
+- Feature access flows through a central `PremiumAccess` policy instead of scattered purchase checks.
+- The basic 3-hunt Today’s Hunt route remains free.
+- Premium unlocks the extended 5- and 8-hunt Today’s Hunt routes.
+- Settings shows the current plan and links to a Premium screen.
+- The Premium screen is intentionally a purchase placeholder until the payment provider is connected.
+- Development and field-test builds include a Premium Test Override so gated UX can be exercised without purchases.
+- Production does not expose that override.
+- Unit coverage verifies the free default, persistence behavior, and the extended-route gate.
+
 ## Verification
 
 CI now runs:
@@ -270,4 +284,4 @@ Self-test content validator
 
 ## Next effort
 
-**#46 Premium entitlement:** add a clean entitlement boundary for paid features without coupling gameplay to a specific payment provider.
+**#47 Advertising integration:** add an ad boundary that respects premium entitlement and keeps ads out of active hunt moments.
