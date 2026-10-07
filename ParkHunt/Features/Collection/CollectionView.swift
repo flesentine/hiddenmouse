@@ -3,6 +3,8 @@ import SwiftUI
 struct CollectionView: View {
     let contentLoader: ContentLoader
     let progressStore: any UserProgressStoring
+    let premiumEntitlementStore: any PremiumEntitlementStoring
+    let advertisingProvider: any AdvertisingProviding
 
     @State private var snapshot: ContentSnapshot?
     @State private var userProgress = UserProgress()
@@ -33,6 +35,14 @@ struct CollectionView: View {
             } else if let collection {
                 VStack(spacing: 0) {
                     filterBar(collection)
+
+                    SponsoredCardView(
+                        placement: .collection,
+                        entitlementStore: premiumEntitlementStore,
+                        provider: advertisingProvider
+                    )
+                    .padding(.horizontal, 16)
+                    .padding(.top, 10)
 
                     if collection.items.isEmpty {
                         emptyState
@@ -427,7 +437,9 @@ struct CollectionView: View {
     NavigationStack {
         CollectionView(
             contentLoader: ContentLoader(),
-            progressStore: MemoryUserProgressStore()
+            progressStore: MemoryUserProgressStore(),
+            premiumEntitlementStore: MemoryPremiumEntitlementStore(),
+            advertisingProvider: PreviewAdvertisingProvider()
         )
     }
 }
