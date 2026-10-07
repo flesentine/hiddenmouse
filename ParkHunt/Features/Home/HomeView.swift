@@ -8,6 +8,7 @@ struct HomeView: View {
     let activeHuntStore: any ActiveHuntStoring
     let analyticsRecorder: any AnalyticsRecording
     let analyticsPreferenceStore: any AnalyticsPreferenceStoring
+    let premiumEntitlementStore: any PremiumEntitlementStoring
 
     @State private var presentation: HomePresentation?
     @State private var progressSummary: ProgressSummary?
@@ -57,7 +58,8 @@ struct HomeView: View {
                         hapticPreferenceStore: hapticPreferenceStore,
                         activeHuntStore: activeHuntStore,
                         analyticsRecorder: analyticsRecorder,
-                        analyticsPreferenceStore: analyticsPreferenceStore
+                        analyticsPreferenceStore: analyticsPreferenceStore,
+                        premiumEntitlementStore: premiumEntitlementStore
                     )
                 } label: {
                     Image(systemName: "gearshape")
@@ -96,7 +98,8 @@ struct HomeView: View {
         NavigationLink {
             TodayHuntView(
                 contentLoader: contentLoader,
-                progressStore: progressStore
+                progressStore: progressStore,
+                premiumEntitlementStore: premiumEntitlementStore
             )
         } label: {
             HStack(spacing: 14) {
@@ -508,7 +511,8 @@ struct HomeView: View {
             hapticPreferenceStore: MemoryHapticPreferenceStore(),
             activeHuntStore: MemoryActiveHuntStore(),
             analyticsRecorder: MemoryAnalyticsRecorder(),
-            analyticsPreferenceStore: MemoryAnalyticsPreferenceStore()
+            analyticsPreferenceStore: MemoryAnalyticsPreferenceStore(),
+            premiumEntitlementStore: MemoryPremiumEntitlementStore()
         )
     }
 }
