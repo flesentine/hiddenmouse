@@ -23,6 +23,11 @@ struct PremiumUpgradeView: View {
                     "5- and 8-hunt Today’s Hunt routes",
                     systemImage: "point.topleft.down.curvedto.point.bottomright.up"
                 )
+
+                Label(
+                    "Ad-free browsing",
+                    systemImage: "rectangle.slash"
+                )
             }
 
             Section {
