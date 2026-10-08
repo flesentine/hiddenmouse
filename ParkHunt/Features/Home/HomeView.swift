@@ -10,6 +10,7 @@ struct HomeView: View {
     let analyticsPreferenceStore: any AnalyticsPreferenceStoring
     let premiumEntitlementStore: any PremiumEntitlementStoring
     let advertisingProvider: any AdvertisingProviding
+    let cloudSyncService: any CloudSyncServicing
 
     @State private var presentation: HomePresentation?
     @State private var progressSummary: ProgressSummary?
@@ -66,7 +67,8 @@ struct HomeView: View {
                         activeHuntStore: activeHuntStore,
                         analyticsRecorder: analyticsRecorder,
                         analyticsPreferenceStore: analyticsPreferenceStore,
-                        premiumEntitlementStore: premiumEntitlementStore
+                        premiumEntitlementStore: premiumEntitlementStore,
+                        cloudSyncService: cloudSyncService
                     )
                 } label: {
                     Image(systemName: "gearshape")
@@ -524,7 +526,12 @@ struct HomeView: View {
             analyticsRecorder: MemoryAnalyticsRecorder(),
             analyticsPreferenceStore: MemoryAnalyticsPreferenceStore(),
             premiumEntitlementStore: MemoryPremiumEntitlementStore(),
-            advertisingProvider: PreviewAdvertisingProvider()
+            advertisingProvider: PreviewAdvertisingProvider(),
+            cloudSyncService: CloudSyncService(
+                localStore: MemoryUserProgressStore(),
+                accountProvider: NoopCloudAccountProvider(),
+                cloudStore: NoopCloudProgressStore()
+            )
         )
     }
 }
