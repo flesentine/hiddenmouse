@@ -39,7 +39,8 @@ final class ParkMapPresentationTests: XCTestCase {
         let snapshot = try ContentLoader().load()
         let presentation = ParkMapPresentation.make(
             snapshot: snapshot,
-            progress: UserProgress()
+            progress: UserProgress(),
+            parkID: "disneyland"
         )
 
         XCTAssertEqual(presentation.mappedCount, 18)
