@@ -10,6 +10,7 @@ struct SettingsView: View {
     let analyticsRecorder: any AnalyticsRecording
     let analyticsPreferenceStore: any AnalyticsPreferenceStoring
     let premiumEntitlementStore: any PremiumEntitlementStoring
+    let cloudSyncService: any CloudSyncServicing
 
     @StateObject private var locationPermission = LocationPermissionController()
     @Environment(\.openURL) private var openURL
@@ -20,6 +21,8 @@ struct SettingsView: View {
     @State private var analyticsEventCount = 0
     @State private var fieldFeedbackCount = 0
     @State private var premiumEntitlement: PremiumEntitlement = .free
+    @State private var cloudSyncAvailability: CloudSyncAvailability = .unavailable
+    @State private var cloudSyncMessage: String?
     @State private var showResetConfirmation = false
     @State private var showClearAnalyticsConfirmation = false
     @State private var didResetProgress = false
@@ -32,6 +35,7 @@ struct SettingsView: View {
             locationSection
             gameplaySection
             premiumSection
+            cloudSyncSection
 
             if AppEnvironment.current == .fieldTest {
                 fieldTestSection
@@ -48,6 +52,7 @@ struct SettingsView: View {
             hapticsEnabled = hapticPreferenceStore.load()
             localAnalyticsEnabled = analyticsPreferenceStore.load()
             premiumEntitlement = premiumEntitlementStore.load()
+            cloudSyncAvailability = cloudSyncService.availability()
             refreshAnalyticsCount()
             refreshFieldFeedbackCount()
         }
@@ -238,6 +243,41 @@ struct SettingsView: View {
         }
     }
 
+    private var cloudSyncSection: some View {
+        Section {
+            HStack {
+                Label("Cloud Sync", systemImage: "icloud")
+
+                Spacer()
+
+                Text(cloudSyncStatusText)
+                    .foregroundStyle(.secondary)
+            }
+
+            if case .ready = cloudSyncAvailability {
+                Button {
+                    let result = cloudSyncService.sync()
+                    cloudSyncAvailability = cloudSyncService.availability()
+                    cloudSyncMessage = cloudSyncResultText(result)
+                } label: {
+                    Label("Sync Now", systemImage: "arrow.triangle.2.circlepath")
+                }
+            }
+
+            if let cloudSyncMessage {
+                Text(cloudSyncMessage)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+        } header: {
+            Text("Account & Sync")
+        } footer: {
+            Text(
+                "Cloud sync is optional. Park Hunt always saves progress locally and remains fully usable without an account or network connection."
+            )
+        }
+    }
+
     private var fieldTestSection: some View {
         Section {
             NavigationLink {
@@ -387,6 +427,32 @@ struct SettingsView: View {
         }
     }
 
+    private var cloudSyncStatusText: String {
+        switch cloudSyncAvailability {
+        case .unavailable:
+            "Not Connected"
+        case .signedOut:
+            "Signed Out"
+        case let .ready(account):
+            account.displayName ?? "Connected"
+        }
+    }
+
+    private func cloudSyncResultText(
+        _ result: CloudSyncResult
+    ) -> String {
+        switch result {
+        case .signedOut:
+            "Sign in to sync progress."
+        case .unavailable:
+            "Cloud sync provider is not available in this build."
+        case .uploaded:
+            "Local progress uploaded."
+        case .merged:
+            "Local and cloud progress merged."
+        }
+    }
+
     private var locationStatusText: String {
         switch locationPermission.state {
         case .notDetermined:
@@ -433,7 +499,12 @@ struct SettingsView: View {
                 preferenceStore: analyticsPreference
             ),
             analyticsPreferenceStore: analyticsPreference,
-            premiumEntitlementStore: MemoryPremiumEntitlementStore()
+            premiumEntitlementStore: MemoryPremiumEntitlementStore(),
+            cloudSyncService: CloudSyncService(
+                localStore: MemoryUserProgressStore(),
+                accountProvider: NoopCloudAccountProvider(),
+                cloudStore: NoopCloudProgressStore()
+            )
         )
     }
 }
