@@ -11,6 +11,7 @@ struct RootView: View {
     let analyticsPreferenceStore: any AnalyticsPreferenceStoring
     let premiumEntitlementStore: any PremiumEntitlementStoring
     let advertisingProvider: any AdvertisingProviding
+    let cloudSyncService: any CloudSyncServicing
 
     @State private var restorationSession: ActiveHuntSession?
     @State private var isPresentingRestoredHunt = false
@@ -28,7 +29,8 @@ struct RootView: View {
                 analyticsRecorder: analyticsRecorder,
                 analyticsPreferenceStore: analyticsPreferenceStore,
                 premiumEntitlementStore: premiumEntitlementStore,
-                advertisingProvider: advertisingProvider
+                advertisingProvider: advertisingProvider,
+                cloudSyncService: cloudSyncService
             )
             .navigationDestination(for: String.self) { discoveryID in
                 HuntView(
@@ -128,6 +130,11 @@ struct RootView: View {
         analyticsRecorder: MemoryAnalyticsRecorder(),
         analyticsPreferenceStore: MemoryAnalyticsPreferenceStore(),
         premiumEntitlementStore: MemoryPremiumEntitlementStore(),
-        advertisingProvider: PreviewAdvertisingProvider()
+        advertisingProvider: PreviewAdvertisingProvider(),
+        cloudSyncService: CloudSyncService(
+            localStore: MemoryUserProgressStore(),
+            accountProvider: NoopCloudAccountProvider(),
+            cloudStore: NoopCloudProgressStore()
+        )
     )
 }
