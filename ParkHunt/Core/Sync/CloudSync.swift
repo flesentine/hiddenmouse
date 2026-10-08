@@ -18,8 +18,14 @@ enum CloudSyncResult: Equatable, Sendable {
     case merged
 }
 
+enum CloudAccountError: Error {
+    case unavailable
+}
+
 protocol CloudAccountProviding: AnyObject {
     func currentAccount() -> CloudAccount?
+    func signIn() throws -> CloudAccount?
+    func signOut() throws
     var isAvailable: Bool { get }
 }
 
@@ -36,6 +42,14 @@ final class NoopCloudAccountProvider: CloudAccountProviding {
 
     func currentAccount() -> CloudAccount? {
         nil
+    }
+
+    func signIn() throws -> CloudAccount? {
+        throw CloudAccountError.unavailable
+    }
+
+    func signOut() throws {
+        throw CloudAccountError.unavailable
     }
 }
 
@@ -64,6 +78,14 @@ final class MemoryCloudAccountProvider: CloudAccountProviding {
 
     func currentAccount() -> CloudAccount? {
         account
+    }
+
+    func signIn() throws -> CloudAccount? {
+        account
+    }
+
+    func signOut() throws {
+        account = nil
     }
 }
 
