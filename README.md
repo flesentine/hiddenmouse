@@ -285,6 +285,20 @@ Park Hunt now treats Disneyland Park and Disney California Adventure as separate
 - DCA seeds intentionally have no guessed coordinates or claimed hidden-detail location; they require in-park confirmation before verification.
 - Multi-park tests verify park ordering, Collection isolation, Today route isolation, and Map isolation.
 
+### #49 Cloud sync and accounts
+
+Park Hunt now has an optional, provider-agnostic account and cloud-progress boundary while preserving local-first play.
+
+- Existing `UserProgressStoring` remains the primary local persistence path.
+- Cloud account and cloud progress providers are abstract protocols; gameplay does not depend on a specific identity or backend vendor.
+- A sync coordinator merges local and remote progress rather than replacing one side blindly.
+- Merge rules preserve the highest viewed hint, any reveal, the earliest found timestamp, and the latest activity timestamp.
+- First sync uploads local progress when no remote record exists.
+- Signed-out or unavailable cloud services never block local hunting or local saves.
+- Settings shows Account & Sync status and exposes Sync Now only when a provider reports a ready account.
+- Production currently uses a no-op provider until a real account/cloud backend is deliberately connected.
+- Unit tests cover merge behavior, initial upload, two-way merge, signed-out behavior, and fully offline local play.
+
 ## Verification
 
 CI now runs:
@@ -311,4 +325,4 @@ Self-test content validator
 
 ## Next effort
 
-**#49 Cloud sync/accounts:** add an account and sync boundary for progress without making local play dependent on sign-in.
+**#50 Family sharing:** add family/group progress sharing on top of individual local and cloud progress without weakening private play.
