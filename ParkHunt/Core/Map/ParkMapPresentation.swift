@@ -29,12 +29,14 @@ struct ParkMapPresentation: Equatable, Sendable {
 
     static func make(
         snapshot: ContentSnapshot,
-        progress: UserProgress
+        progress: UserProgress,
+        parkID: String? = nil
     ) -> ParkMapPresentation {
         var points: [ParkMapPoint] = []
         var unmappedCount = 0
 
-        for discovery in snapshot.discoveries {
+        for discovery in snapshot.discoveries
+        where parkID == nil || discovery.parkID == parkID {
             guard let location = discovery.location else {
                 unmappedCount += 1
                 continue

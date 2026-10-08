@@ -1,0 +1,39 @@
+{
+  "id": "dca-paradise-gardens-little-mermaid",
+  "title": "The Little Mermaid – Ariel’s Undersea Adventure",
+  "parkID": "disney-california-adventure",
+  "landID": "dca-paradise-gardens-park",
+  "category": "imagineeringDetail",
+  "difficulty": "easy",
+  "hints": [
+    {
+      "id": "dca-paradise-gardens-little-mermaid-h1",
+      "order": 1,
+      "text": "Head into Paradise Gardens Park and locate The Little Mermaid – Ariel’s Undersea Adventure.",
+      "kind": "clue"
+    },
+    {
+      "id": "dca-paradise-gardens-little-mermaid-h2",
+      "order": 2,
+      "text": "Slow down around The Little Mermaid – Ariel’s Undersea Adventure and study the guest-visible architecture, props, signs, and themed details rather than rushing through.",
+      "kind": "clue"
+    },
+    {
+      "id": "dca-paradise-gardens-little-mermaid-h3",
+      "order": 3,
+      "text": "The field-test target is The Little Mermaid – Ariel’s Undersea Adventure. Record the strongest repeatable hidden or Imagineering detail here before this discovery is promoted to verified.",
+      "kind": "detailed"
+    }
+  ],
+  "revealDescription": "You found The Little Mermaid – Ariel’s Undersea Adventure in Paradise Gardens Park. During the DCA field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+  "verificationStatus": "needsRecheck",
+  "isIndoor": true,
+  "tags": [
+    "dca",
+    "field-test-batch",
+    "paradise-gardens-park"
+  ],
+  "_editorial": {
+    "notes": "Current DCA land/venue seed. Exact guest-visible hunt detail and map location require in-park confirmation before verification."
+  }
+}

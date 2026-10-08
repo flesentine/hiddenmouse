@@ -39,9 +39,12 @@ enum TodayRouteBuilder {
     static func build(
         snapshot: ContentSnapshot,
         progress: UserProgress,
-        length: TodayRouteLength
+        length: TodayRouteLength,
+        parkID: String? = nil
     ) -> TodayRoute {
-        let available = snapshot.discoveries
+        let available = snapshot.discoveries.filter {
+            parkID == nil || $0.parkID == parkID
+        }
         let requested = length.rawValue
 
         let unfinished = available.filter {

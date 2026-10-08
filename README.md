@@ -272,6 +272,19 @@ Park Hunt now has a provider-agnostic advertising boundary designed to keep ads 
 - Sponsored cards are visibly labeled **Sponsored** and identify the sponsor.
 - Unit coverage verifies premium suppression, passive free placements, active-gameplay blocking, and no-op provider behavior.
 
+### #48 Disney California Adventure support
+
+Park Hunt now treats Disneyland Park and Disney California Adventure as separate first-class parks.
+
+- Added reusable park descriptors and park-scoped snapshot helpers.
+- Collection can filter by park, then land/category/difficulty/status.
+- Park Map can switch between Disneyland and DCA.
+- Today’s Hunt can build routes inside a selected park.
+- Added all 8 current DCA lands: Avengers Campus, Cars Land, Pixar Pier, San Fransokyo Square, Buena Vista Street, Grizzly Peak, Hollywood Land, and Paradise Gardens Park.
+- Added one cautious `needsRecheck` field-test seed per DCA land.
+- DCA seeds intentionally have no guessed coordinates or claimed hidden-detail location; they require in-park confirmation before verification.
+- Multi-park tests verify park ordering, Collection isolation, Today route isolation, and Map isolation.
+
 ## Verification
 
 CI now runs:
@@ -298,4 +311,4 @@ Self-test content validator
 
 ## Next effort
 
-**#48 DCA support:** extend the content model and browsing flows to Disney California Adventure while preserving park-specific filtering.
+**#49 Cloud sync/accounts:** add an account and sync boundary for progress without making local play dependent on sign-in.

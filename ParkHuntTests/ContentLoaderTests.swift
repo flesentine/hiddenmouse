@@ -132,10 +132,16 @@ final class ContentLoaderTests: XCTestCase {
 
     func testBundledCatalogScalesAcrossDisneyland() throws {
         let snapshot = try ContentLoader().load()
-        let landIDs = Set(snapshot.lands.map(\.id))
+        let disneylandDiscoveries = snapshot.discoveries(
+            inPark: "disneyland"
+        )
+        let disneylandLands = snapshot.lands(
+            inPark: "disneyland"
+        )
+        let landIDs = Set(disneylandLands.map(\.id))
 
-        XCTAssertEqual(snapshot.discoveries.count, 75)
-        XCTAssertEqual(snapshot.lands.count, 9)
+        XCTAssertEqual(disneylandDiscoveries.count, 75)
+        XCTAssertEqual(disneylandLands.count, 9)
         XCTAssertTrue(landIDs.contains("main-street-usa"))
         XCTAssertTrue(landIDs.contains("adventureland"))
         XCTAssertTrue(landIDs.contains("frontierland"))
@@ -145,7 +151,7 @@ final class ContentLoaderTests: XCTestCase {
         XCTAssertTrue(landIDs.contains("mickeys-toontown"))
         XCTAssertTrue(landIDs.contains("star-wars-galaxys-edge"))
 
-        let scaled = snapshot.discoveries.filter {
+        let scaled = disneylandDiscoveries.filter {
             $0.tags.contains("field-test-batch")
         }
         XCTAssertEqual(scaled.count, 57)

@@ -9,6 +9,8 @@ struct ParkMapView: View {
     @State private var loadError: String?
     @State private var cameraPosition: MapCameraPosition = .automatic
     @State private var selectedCluster: ParkMapCluster?
+    @State private var snapshot: ContentSnapshot?
+    @State private var selectedParkID = "disneyland"
 
     var body: some View {
         Group {
@@ -26,6 +28,29 @@ struct ParkMapView: View {
         }
         .navigationTitle("Park Map")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                if let snapshot {
+                    Menu {
+                        ForEach(ParkCatalog.options(in: snapshot)) { park in
+                            Button {
+                                selectedParkID = park.id
+                                rebuildPresentation()
+                            } label: {
+                                if selectedParkID == park.id {
+                                    Label(park.name, systemImage: "checkmark")
+                                } else {
+                                    Text(park.name)
+                                }
+                            }
+                        }
+                    } label: {
+                        Image(systemName: "building.2")
+                    }
+                    .accessibilityLabel("Choose park")
+                }
+            }
+        }
         .task {
             load()
         }
@@ -177,18 +202,29 @@ struct ParkMapView: View {
 
     private func load() {
         do {
-            let snapshot = try contentLoader.load()
-            let next = ParkMapPresentation.make(
-                snapshot: snapshot,
-                progress: progressStore.load()
-            )
-            presentation = next
+            let loadedSnapshot = try contentLoader.load()
+            snapshot = loadedSnapshot
+            if !ParkCatalog.options(in: loadedSnapshot).contains(where: { $0.id == selectedParkID }) {
+                selectedParkID = ParkCatalog.options(in: loadedSnapshot).first?.id ?? "disneyland"
+            }
+            rebuildPresentation()
             loadError = nil
-            cameraPosition = initialCamera(for: next.points)
         } catch {
             presentation = nil
             loadError = "The bundled discovery catalog couldn’t be opened."
         }
+    }
+
+    private func rebuildPresentation() {
+        guard let snapshot else { return }
+
+        let next = ParkMapPresentation.make(
+            snapshot: snapshot,
+            progress: progressStore.load(),
+            parkID: selectedParkID
+        )
+        presentation = next
+        cameraPosition = initialCamera(for: next.points)
     }
 
     private func initialCamera(

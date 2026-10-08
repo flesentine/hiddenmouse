@@ -1,0 +1,39 @@
+{
+  "id": "dca-san-fransokyo-square-landmark",
+  "title": "San Fransokyo Square Landmark",
+  "parkID": "disney-california-adventure",
+  "landID": "dca-san-fransokyo-square",
+  "category": "imagineeringDetail",
+  "difficulty": "easy",
+  "hints": [
+    {
+      "id": "dca-san-fransokyo-square-landmark-h1",
+      "order": 1,
+      "text": "Head into San Fransokyo Square and locate San Fransokyo Square Landmark.",
+      "kind": "clue"
+    },
+    {
+      "id": "dca-san-fransokyo-square-landmark-h2",
+      "order": 2,
+      "text": "Slow down around San Fransokyo Square Landmark and study the guest-visible architecture, props, signs, and themed details rather than rushing through.",
+      "kind": "clue"
+    },
+    {
+      "id": "dca-san-fransokyo-square-landmark-h3",
+      "order": 3,
+      "text": "The field-test target is San Fransokyo Square Landmark. Record the strongest repeatable hidden or Imagineering detail here before this discovery is promoted to verified.",
+      "kind": "detailed"
+    }
+  ],
+  "revealDescription": "You found San Fransokyo Square Landmark in San Fransokyo Square. During the DCA field test, record the strongest repeatable visual detail at this location so the hunt can be refined before release.",
+  "verificationStatus": "needsRecheck",
+  "isIndoor": false,
+  "tags": [
+    "dca",
+    "field-test-batch",
+    "san-fransokyo-square"
+  ],
+  "_editorial": {
+    "notes": "Current DCA land/venue seed. Exact guest-visible hunt detail and map location require in-park confirmation before verification."
+  }
+}

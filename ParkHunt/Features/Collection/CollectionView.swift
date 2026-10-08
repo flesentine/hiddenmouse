@@ -82,6 +82,7 @@ struct CollectionView: View {
     ) -> some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 10) {
+                parkMenu(collection)
                 statusMenu
                 landMenu(collection)
                 categoryMenu(collection)
@@ -101,6 +102,46 @@ struct CollectionView: View {
             .padding(.vertical, 10)
         }
         .background(.bar)
+    }
+
+    private func parkMenu(
+        _ collection: CollectionSnapshot
+    ) -> some View {
+        Menu {
+            Button {
+                filters.parkID = nil
+                filters.landID = nil
+            } label: {
+                if filters.parkID == nil {
+                    Label("All Parks", systemImage: "checkmark")
+                } else {
+                    Text("All Parks")
+                }
+            }
+
+            ForEach(collection.parks) { park in
+                Button {
+                    filters.parkID = park.id
+                    filters.landID = nil
+                } label: {
+                    if filters.parkID == park.id {
+                        Label(park.name, systemImage: "checkmark")
+                    } else {
+                        Text(park.name)
+                    }
+                }
+            }
+        } label: {
+            Label(
+                selectedParkName(collection),
+                systemImage: "building.2"
+            )
+        }
+        .buttonStyle(.bordered)
+        .controlSize(.large)
+        .accessibilityLabel(
+            "Park filter: \(selectedParkName(collection))"
+        )
     }
 
     private var statusMenu: some View {
@@ -365,6 +406,18 @@ struct CollectionView: View {
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+
+    private func selectedParkName(
+        _ collection: CollectionSnapshot
+    ) -> String {
+        guard let parkID = filters.parkID else {
+            return "All Parks"
+        }
+
+        return collection.parks.first {
+            $0.id == parkID
+        }?.name ?? "Park"
     }
 
     private func selectedLandName(

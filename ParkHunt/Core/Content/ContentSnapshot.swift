@@ -97,6 +97,20 @@ struct ContentSnapshot: Sendable {
         return nil
     }
 
+    func lands(inPark parkID: String) -> [Land] {
+        sortedLands.filter { $0.parkID == parkID }
+    }
+
+    func discoveries(
+        inPark parkID: String,
+        includeUnavailable: Bool = false
+    ) -> [Discovery] {
+        let source = includeUnavailable
+            ? catalog.discoveries
+            : availableDiscoveries
+        return source.filter { $0.parkID == parkID }
+    }
+
     func areas(inLand landID: String) -> [AttractionArea] {
         areasByLandID[landID] ?? []
     }

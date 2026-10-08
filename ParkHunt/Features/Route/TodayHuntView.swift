@@ -10,6 +10,7 @@ struct TodayHuntView: View {
     @State private var selectedLength: TodayRouteLength = .short
     @State private var entitlement: PremiumEntitlement = .free
     @State private var loadFailed = false
+    @State private var selectedParkID = "disneyland"
 
     var body: some View {
         Group {
@@ -51,7 +52,8 @@ struct TodayHuntView: View {
         return TodayRouteBuilder.build(
             snapshot: snapshot,
             progress: progress,
-            length: selectedLength
+            length: selectedLength,
+            parkID: selectedParkID
         )
     }
 
@@ -60,6 +62,14 @@ struct TodayHuntView: View {
     ) -> some View {
         List {
             Section {
+                if let snapshot {
+                    Picker("Park", selection: $selectedParkID) {
+                        ForEach(ParkCatalog.options(in: snapshot)) { park in
+                            Text(park.name).tag(park.id)
+                        }
+                    }
+                }
+
                 Picker("Route length", selection: $selectedLength) {
                     ForEach(availableLengths) { length in
                         Text(length.displayName).tag(length)
@@ -165,6 +175,10 @@ struct TodayHuntView: View {
         do {
             snapshot = try contentLoader.load()
             progress = progressStore.load()
+            if let snapshot,
+               !ParkCatalog.options(in: snapshot).contains(where: { $0.id == selectedParkID }) {
+                selectedParkID = ParkCatalog.options(in: snapshot).first?.id ?? "disneyland"
+            }
             entitlement = premiumEntitlementStore.load()
 
             if !availableLengths.contains(selectedLength) {
