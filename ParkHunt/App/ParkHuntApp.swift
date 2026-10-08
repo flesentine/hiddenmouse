@@ -14,6 +14,14 @@ struct ParkHuntApp: App {
     private let analyticsRecorder:
         UserDefaultsAnalyticsRecorder
 
+    private var cloudSyncService: any CloudSyncServicing {
+        CloudSyncService(
+            localStore: progressStore,
+            accountProvider: NoopCloudAccountProvider(),
+            cloudStore: NoopCloudProgressStore()
+        )
+    }
+
     private var advertisingProvider: any AdvertisingProviding {
         switch environment {
         case .development, .fieldTest:
@@ -46,7 +54,8 @@ struct ParkHuntApp: App {
                 analyticsRecorder: analyticsRecorder,
                 analyticsPreferenceStore: analyticsPreferenceStore,
                 premiumEntitlementStore: premiumEntitlementStore,
-                advertisingProvider: advertisingProvider
+                advertisingProvider: advertisingProvider,
+                cloudSyncService: cloudSyncService
             )
         }
     }
