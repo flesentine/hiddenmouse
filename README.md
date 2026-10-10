@@ -299,6 +299,21 @@ Park Hunt now has an optional, provider-agnostic account and cloud-progress boun
 - Production currently uses a no-op provider until a real account/cloud backend is deliberately connected.
 - Unit tests cover merge behavior, initial upload, two-way merge, signed-out behavior, and fully offline local play.
 
+### #50 Family sharing
+
+Park Hunt now has an optional family/group progress layer that stays separate from each person’s private hunt history.
+
+- Family membership and shared-progress storage are provider-agnostic boundaries.
+- Family sharing publishes only discovery IDs that a person has explicitly marked **Found**.
+- Clue history, reveal history, found timestamps, last-viewed timestamps, precise location, and local analytics are never included in the family projection.
+- Publishing family progress never mutates personal `UserProgress`.
+- Shared family finds are unioned across members rather than overwriting another person’s contribution.
+- Settings includes a Family entry with unavailable, no-group, and connected states.
+- The Family screen shows group members, aggregate shared finds, manual publish, and manual refresh actions.
+- Local/private play remains fully functional when family sharing is unavailable or unused.
+- Production currently uses a no-op family provider until a real group backend is deliberately connected.
+- Unit tests cover privacy projection, personal-progress isolation, union behavior, no-group behavior, and offline/unavailable behavior.
+
 ## Verification
 
 CI now runs:
@@ -325,4 +340,4 @@ Self-test content validator
 
 ## Next effort
 
-**#50 Family sharing:** add family/group progress sharing on top of individual local and cloud progress without weakening private play.
+**#51 Community submissions:** add a moderated submission boundary for user-contributed hunt candidates without allowing unverified content into the trusted catalog.
