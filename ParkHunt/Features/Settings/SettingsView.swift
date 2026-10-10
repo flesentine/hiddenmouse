@@ -11,6 +11,7 @@ struct SettingsView: View {
     let analyticsPreferenceStore: any AnalyticsPreferenceStoring
     let premiumEntitlementStore: any PremiumEntitlementStoring
     let cloudSyncService: any CloudSyncServicing
+    let familySharingService: any FamilySharingServicing
 
     @StateObject private var locationPermission = LocationPermissionController()
     @Environment(\.openURL) private var openURL
@@ -36,6 +37,7 @@ struct SettingsView: View {
             gameplaySection
             premiumSection
             cloudSyncSection
+            familySection
 
             if AppEnvironment.current == .fieldTest {
                 fieldTestSection
@@ -278,6 +280,32 @@ struct SettingsView: View {
         }
     }
 
+    private var familySection: some View {
+        Section {
+            NavigationLink {
+                FamilySharingView(
+                    contentLoader: contentLoader,
+                    service: familySharingService
+                )
+            } label: {
+                HStack {
+                    Label("Family", systemImage: "person.3")
+
+                    Spacer()
+
+                    Text(familyStatusText)
+                        .foregroundStyle(.secondary)
+                }
+            }
+        } header: {
+            Text("Family")
+        } footer: {
+            Text(
+                "Family sharing is optional and keeps personal clue, reveal, location, timestamp, and analytics data private."
+            )
+        }
+    }
+
     private var fieldTestSection: some View {
         Section {
             NavigationLink {
@@ -427,6 +455,17 @@ struct SettingsView: View {
         }
     }
 
+    private var familyStatusText: String {
+        switch familySharingService.availability() {
+        case .unavailable:
+            "Not Connected"
+        case .notMember:
+            "No Group"
+        case .ready:
+            "Connected"
+        }
+    }
+
     private var cloudSyncStatusText: String {
         switch cloudSyncAvailability {
         case .unavailable:
@@ -504,6 +543,10 @@ struct SettingsView: View {
                 localStore: MemoryUserProgressStore(),
                 accountProvider: NoopCloudAccountProvider(),
                 cloudStore: NoopCloudProgressStore()
+            ),
+            familySharingService: FamilySharingService(
+                personalProgressStore: MemoryUserProgressStore(),
+                provider: NoopFamilySharingProvider()
             )
         )
     }
