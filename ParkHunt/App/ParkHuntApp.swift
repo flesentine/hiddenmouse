@@ -14,6 +14,13 @@ struct ParkHuntApp: App {
     private let analyticsRecorder:
         UserDefaultsAnalyticsRecorder
 
+    private var familySharingService: any FamilySharingServicing {
+        FamilySharingService(
+            personalProgressStore: progressStore,
+            provider: NoopFamilySharingProvider()
+        )
+    }
+
     private var cloudSyncService: any CloudSyncServicing {
         CloudSyncService(
             localStore: progressStore,
@@ -55,7 +62,8 @@ struct ParkHuntApp: App {
                 analyticsPreferenceStore: analyticsPreferenceStore,
                 premiumEntitlementStore: premiumEntitlementStore,
                 advertisingProvider: advertisingProvider,
-                cloudSyncService: cloudSyncService
+                cloudSyncService: cloudSyncService,
+                familySharingService: familySharingService
             )
         }
     }
