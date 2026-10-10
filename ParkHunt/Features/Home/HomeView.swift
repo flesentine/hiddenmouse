@@ -11,6 +11,7 @@ struct HomeView: View {
     let premiumEntitlementStore: any PremiumEntitlementStoring
     let advertisingProvider: any AdvertisingProviding
     let cloudSyncService: any CloudSyncServicing
+    let familySharingService: any FamilySharingServicing
 
     @State private var presentation: HomePresentation?
     @State private var progressSummary: ProgressSummary?
@@ -68,7 +69,8 @@ struct HomeView: View {
                         analyticsRecorder: analyticsRecorder,
                         analyticsPreferenceStore: analyticsPreferenceStore,
                         premiumEntitlementStore: premiumEntitlementStore,
-                        cloudSyncService: cloudSyncService
+                        cloudSyncService: cloudSyncService,
+                        familySharingService: familySharingService
                     )
                 } label: {
                     Image(systemName: "gearshape")
@@ -531,6 +533,10 @@ struct HomeView: View {
                 localStore: MemoryUserProgressStore(),
                 accountProvider: NoopCloudAccountProvider(),
                 cloudStore: NoopCloudProgressStore()
+            ),
+            familySharingService: FamilySharingService(
+                personalProgressStore: MemoryUserProgressStore(),
+                provider: NoopFamilySharingProvider()
             )
         )
     }
