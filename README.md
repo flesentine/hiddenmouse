@@ -314,6 +314,21 @@ Park Hunt now has an optional family/group progress layer that stays separate fr
 - Production currently uses a no-op family provider until a real group backend is deliberately connected.
 - Unit tests cover privacy projection, personal-progress isolation, union behavior, no-group behavior, and offline/unavailable behavior.
 
+### #51 Community submissions
+
+Park Hunt now has a moderated community-candidate pipeline that is intentionally isolated from the trusted runtime catalog.
+
+- Users can save community hunt candidates as local drafts with park, land, description, clue suggestion, and optional category.
+- The app does not collect precise GPS coordinates for community drafts.
+- Drafts remain editable only while local and unsubmitted.
+- Submission requires a moderation provider; production currently uses a no-op provider, so candidates remain **Drafts Only** until a real moderation backend is connected.
+- Moderation status supports Draft, Submitted, Under Review, Approved for Editorial Review, and Not Accepted.
+- Users cannot directly assign moderation states through the draft API.
+- Provider refresh is the only path for moderation-state changes after submission.
+- Even an approved candidate is **not** a `Discovery` and cannot enter `ContentCatalog` automatically.
+- Approval means only that the candidate may proceed to the existing editorial verification/content-admin workflow.
+- Unit tests lock validation, unavailable-provider behavior, provider-only submission, non-editability after submission, moderation refresh, and catalog isolation.
+
 ## Verification
 
 CI now runs:
@@ -340,4 +355,4 @@ Self-test content validator
 
 ## Next effort
 
-**#51 Community submissions:** add a moderated submission boundary for user-contributed hunt candidates without allowing unverified content into the trusted catalog.
+**#52 Remote content:** add a signed/versioned remote content update boundary while keeping the bundled offline catalog as a safe fallback.
