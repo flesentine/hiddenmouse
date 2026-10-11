@@ -78,6 +78,7 @@ final class RemoteFallbackContentSource: ContentCatalogSource {
     private let fetcher: any RemoteContentFetching
     private let verifier: any RemoteContentVerifying
     private let minimumRevision: Int
+    private let revealImageExists: (String) -> Bool
 
     private(set) var selection: RemoteContentSelection = .bundled
 
@@ -85,12 +86,16 @@ final class RemoteFallbackContentSource: ContentCatalogSource {
         bundled: any ContentCatalogSource,
         fetcher: any RemoteContentFetching,
         verifier: any RemoteContentVerifying,
-        minimumRevision: Int = 1
+        minimumRevision: Int = 1,
+        revealImageExists: @escaping (String) -> Bool = {
+            BundledRevealImageStore().containsImage(named: $0)
+        }
     ) {
         self.bundled = bundled
         self.fetcher = fetcher
         self.verifier = verifier
         self.minimumRevision = minimumRevision
+        self.revealImageExists = revealImageExists
     }
 
     func loadCatalog() throws -> ContentCatalog {
@@ -103,6 +108,17 @@ final class RemoteFallbackContentSource: ContentCatalogSource {
                 package.catalogData
               ),
               ContentCatalogValidator.validate(catalog).isEmpty else {
+            selection = .bundled
+            return try bundled.loadCatalog()
+        }
+
+        let snapshot = ContentSnapshot(catalog: catalog)
+        let offlineIssues = OfflineReadinessValidator.validate(
+            snapshot: snapshot,
+            imageExists: revealImageExists
+        )
+
+        guard offlineIssues.isEmpty else {
             selection = .bundled
             return try bundled.loadCatalog()
         }
