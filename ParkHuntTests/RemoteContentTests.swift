@@ -96,6 +96,35 @@ final class RemoteContentTests: XCTestCase {
         XCTAssertEqual(source.selection, .bundled)
     }
 
+
+    func testRemoteWithMissingOfflineImageFallsBackToBundled() throws {
+        let remoteCatalog = makeCatalog(
+            id: "remote",
+            revealImageName: "missing-image"
+        )
+        let remote = try package(
+            revision: 5,
+            catalog: remoteCatalog
+        )
+        let source = RemoteFallbackContentSource(
+            bundled: StaticContentSource(
+                catalog: makeCatalog(id: "bundled")
+            ),
+            fetcher: MemoryRemoteContentFetcher(
+                package: remote
+            ),
+            verifier: MemoryRemoteContentVerifier(
+                trustedRevisions: [5]
+            ),
+            revealImageExists: { _ in false }
+        )
+
+        let catalog = try source.loadCatalog()
+
+        XCTAssertEqual(catalog.discoveries.first?.id, "bundled")
+        XCTAssertEqual(source.selection, .bundled)
+    }
+
     func testOlderThanMinimumRevisionFallsBack() throws {
         let remote = try package(
             revision: 1,
@@ -133,7 +162,10 @@ final class RemoteContentTests: XCTestCase {
         )
     }
 
-    private func makeCatalog(id: String) -> ContentCatalog {
+    private func makeCatalog(
+        id: String,
+        revealImageName: String? = nil
+    ) -> ContentCatalog {
         let land = Land(
             id: "land",
             parkID: "disneyland",
@@ -165,7 +197,7 @@ final class RemoteContentTests: XCTestCase {
                         )
                     ],
                     revealDescription: "Reveal.",
-                    revealImageName: nil,
+                    revealImageName: revealImageName,
                     verificationStatus: .verified,
                     lastVerifiedAt: Date(timeIntervalSince1970: 1_700_000_000),
                     isIndoor: false,
