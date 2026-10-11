@@ -12,6 +12,7 @@ struct SettingsView: View {
     let premiumEntitlementStore: any PremiumEntitlementStoring
     let cloudSyncService: any CloudSyncServicing
     let familySharingService: any FamilySharingServicing
+    let communitySubmissionService: any CommunitySubmissionServicing
 
     @StateObject private var locationPermission = LocationPermissionController()
     @Environment(\.openURL) private var openURL
@@ -38,6 +39,7 @@ struct SettingsView: View {
             premiumSection
             cloudSyncSection
             familySection
+            communitySection
 
             if AppEnvironment.current == .fieldTest {
                 fieldTestSection
@@ -306,6 +308,36 @@ struct SettingsView: View {
         }
     }
 
+    private var communitySection: some View {
+        Section {
+            NavigationLink {
+                CommunitySubmissionsView(
+                    contentLoader: contentLoader,
+                    service: communitySubmissionService
+                )
+            } label: {
+                HStack {
+                    Label("Community", systemImage: "lightbulb")
+
+                    Spacer()
+
+                    Text(
+                        communitySubmissionService.moderationAvailable
+                            ? "Connected"
+                            : "Drafts Only"
+                    )
+                    .foregroundStyle(.secondary)
+                }
+            }
+        } header: {
+            Text("Community")
+        } footer: {
+            Text(
+                "Community candidates stay separate from the trusted hunt catalog. Approval still requires a separate editorial verification and promotion step."
+            )
+        }
+    }
+
     private var fieldTestSection: some View {
         Section {
             NavigationLink {
@@ -547,6 +579,10 @@ struct SettingsView: View {
             familySharingService: FamilySharingService(
                 personalProgressStore: MemoryUserProgressStore(),
                 provider: NoopFamilySharingProvider()
+            ),
+            communitySubmissionService: CommunitySubmissionService(
+                store: MemoryCommunitySubmissionStore(),
+                provider: NoopCommunityModerationProvider()
             )
         )
     }
