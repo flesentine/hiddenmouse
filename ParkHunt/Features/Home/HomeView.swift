@@ -13,6 +13,7 @@ struct HomeView: View {
     let cloudSyncService: any CloudSyncServicing
     let familySharingService: any FamilySharingServicing
     let communitySubmissionService: any CommunitySubmissionServicing
+    let remoteContentService: any RemoteContentServicing
 
     @State private var presentation: HomePresentation?
     @State private var progressSummary: ProgressSummary?
@@ -72,7 +73,8 @@ struct HomeView: View {
                         premiumEntitlementStore: premiumEntitlementStore,
                         cloudSyncService: cloudSyncService,
                         familySharingService: familySharingService,
-                        communitySubmissionService: communitySubmissionService
+                        communitySubmissionService: communitySubmissionService,
+                        remoteContentService: remoteContentService
                     )
                 } label: {
                     Image(systemName: "gearshape")
@@ -543,7 +545,8 @@ struct HomeView: View {
             communitySubmissionService: CommunitySubmissionService(
                 store: MemoryCommunitySubmissionStore(),
                 provider: NoopCommunityModerationProvider()
-            )
+            ),
+            remoteContentService: RemoteContentFactory.makeProduction().service
         )
     }
 }
