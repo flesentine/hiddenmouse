@@ -14,6 +14,13 @@ struct ParkHuntApp: App {
     private let analyticsRecorder:
         UserDefaultsAnalyticsRecorder
 
+    private var communitySubmissionService: any CommunitySubmissionServicing {
+        CommunitySubmissionService(
+            store: UserDefaultsCommunitySubmissionStore(),
+            provider: NoopCommunityModerationProvider()
+        )
+    }
+
     private var familySharingService: any FamilySharingServicing {
         FamilySharingService(
             personalProgressStore: progressStore,
@@ -63,7 +70,8 @@ struct ParkHuntApp: App {
                 premiumEntitlementStore: premiumEntitlementStore,
                 advertisingProvider: advertisingProvider,
                 cloudSyncService: cloudSyncService,
-                familySharingService: familySharingService
+                familySharingService: familySharingService,
+                communitySubmissionService: communitySubmissionService
             )
         }
     }
