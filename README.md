@@ -329,6 +329,19 @@ Park Hunt now has a moderated community-candidate pipeline that is intentionally
 - Approval means only that the candidate may proceed to the existing editorial verification/content-admin workflow.
 - Unit tests lock validation, unavailable-provider behavior, provider-only submission, non-editability after submission, moderation refresh, and catalog isolation.
 
+### #52 Remote content
+
+Park Hunt now has a versioned remote-content boundary with a hard bundled-catalog fallback.
+
+- `ContentLoader` can sit behind a remote-first fallback source without making network content mandatory.
+- Remote packages carry an explicit revision, catalog payload, and trust/signature payload.
+- A remote package is selected only if the fetcher is available, the revision meets the minimum, the package is trusted, JSON decodes, catalog validation passes, and all required offline assets are already available.
+- Any failed trust, version, decode, validation, or offline-readiness check falls back to the bundled catalog automatically.
+- The bundled catalog remains the safe offline source and is never deleted or replaced by remote state.
+- Settings shows Content Source as Not Connected, Bundled, or the active remote revision and can manually check for an update when a remote provider exists.
+- Production currently uses a no-op remote fetcher and rejecting verifier until a real signed content service/key is deliberately connected.
+- Unit tests cover unavailable remote, untrusted remote, trusted valid remote, invalid schema, minimum revision, and missing offline image fallback.
+
 ## Verification
 
 CI now runs:
@@ -355,4 +368,4 @@ Self-test content validator
 
 ## Next effort
 
-**#52 Remote content:** add a signed/versioned remote content update boundary while keeping the bundled offline catalog as a safe fallback.
+**#53 App Clip:** add a lightweight App Clip entry path that can launch a single hunt without duplicating the full app architecture.
