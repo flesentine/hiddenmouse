@@ -135,7 +135,7 @@ private struct CommunitySubmissionEditorView: View {
                 }
             }
 
-            Section("Candidate") {
+            Section {
                 TextField(
                     "Short title",
                     text: $title
@@ -167,6 +167,8 @@ private struct CommunitySubmissionEditorView: View {
                             .tag(DiscoveryCategory?.some(category))
                     }
                 }
+            } header: {
+                Text("Candidate")
             } footer: {
                 Text(
                     "Do not include precise GPS coordinates or private information. Editors verify the physical location separately."
