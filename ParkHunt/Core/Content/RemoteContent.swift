@@ -100,8 +100,8 @@ final class RemoteFallbackContentSource: ContentCatalogSource {
 
     func loadCatalog() throws -> ContentCatalog {
         guard fetcher.isAvailable,
-              let package = try? fetcher.fetchLatest(),
-              let package,
+              let fetched = try? fetcher.fetchLatest(),
+              let package = fetched,
               package.revision >= minimumRevision,
               verifier.isTrusted(package),
               let catalog = try? ContentCatalogCodec.decode(
