@@ -10,6 +10,7 @@ struct TodayHuntView: View {
     @State private var selectedLength: TodayRouteLength = .short
     @State private var entitlement: PremiumEntitlement = .free
     @State private var loadFailed = false
+    @State private var hasLoaded = false
     @State private var selectedParkID: String?
 
     var body: some View {
@@ -22,10 +23,23 @@ struct TodayHuntView: View {
                         "Your offline discovery catalog couldn’t be opened."
                     )
                 )
+            } else if !hasLoaded {
+                ProgressView("Building route…")
+            } else if selectedParkID == nil {
+                ContentUnavailableView(
+                    "No Parks Available",
+                    systemImage: "map",
+                    description: Text(
+                        "There are no huntable parks in the current catalog."
+                    )
+                )
             } else if let route {
                 routeContent(route)
             } else {
-                ProgressView("Building route…")
+                ContentUnavailableView(
+                    "No Route Available",
+                    systemImage: "calendar.badge.exclamationmark"
+                )
             }
         }
         .navigationTitle("Today’s Hunt")
@@ -195,10 +209,12 @@ struct TodayHuntView: View {
             }
 
             loadFailed = false
+            hasLoaded = true
         } catch {
             snapshot = nil
             progress = UserProgress()
             loadFailed = true
+            hasLoaded = true
         }
     }
 }
