@@ -359,6 +359,20 @@ Park Hunt now defines a real lightweight App Clip target for launching one speci
 - Unit tests cover URL routing, malformed paths, and rejection of unknown discovery IDs.
 - A production App Clip invocation domain/experience is deliberately not hard-coded yet; that requires the eventual public domain and App Store Connect configuration.
 
+### #54 Multi-park expansion
+
+Park handling is now catalog-derived instead of Disneyland/DCA-specific.
+
+- `ParkCatalog` discovers park IDs from catalog lands/discoveries instead of maintaining a hard-coded park list.
+- Park display names are generated generically from park IDs, eliminating special-case Disneyland/DCA naming logic.
+- Park ordering comes from each park's lowest land `sortOrder`, so adding a park is content/config work rather than an app-code change.
+- `ParkCatalog.defaultParkID(in:)` provides one shared catalog-derived default for park-scoped features.
+- Map and Today’s Hunt no longer initialize to a hard-coded `disneyland` ID.
+- Manual park browsing now consumes the same shared `ParkCatalog` options instead of maintaining its own naming/sorting rules.
+- Collection, map, manual browse, and Today’s Hunt all work with a synthetic third park unknown to the application code.
+- Today’s Hunt now handles an empty park catalog explicitly instead of remaining in a loading state.
+- Regression coverage proves an unknown third park can be discovered, ordered, filtered, mapped, browsed, and routed without adding a new switch case.
+
 ## Verification
 
 CI now runs:
@@ -385,4 +399,4 @@ Self-test content validator
 
 ## Next effort
 
-**#54 Multi-park expansion:** generalize park packaging and routing so additional parks can be added without Disneyland/DCA-specific app logic.
+**#55 App Store launch:** complete launch readiness, production configuration, metadata, privacy disclosures, and release validation.
