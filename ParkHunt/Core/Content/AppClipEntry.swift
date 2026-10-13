@@ -6,6 +6,11 @@ enum AppClipEntry: Equatable, Sendable {
 
 enum AppClipEntryResolver {
     static func resolve(url: URL) -> AppClipEntry? {
+        guard let scheme = url.scheme?.lowercased(),
+              scheme == "https" || scheme == "http" else {
+            return nil
+        }
+
         let components = url.pathComponents.filter { $0 != "/" }
 
         guard components.count >= 2,
