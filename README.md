@@ -342,6 +342,23 @@ Park Hunt now has a versioned remote-content boundary with a hard bundled-catalo
 - Production currently uses a no-op remote fetcher and rejecting verifier until a real signed content service/key is deliberately connected.
 - Unit tests cover unavailable remote, untrusted remote, trusted valid remote, invalid schema, minimum revision, and missing offline image fallback.
 
+### #53 App Clip
+
+Park Hunt now defines a real lightweight App Clip target for launching one specific hunt from an invocation URL.
+
+- XcodeGen now creates an embedded `ParkHuntClip` target using the native `application.on-demand-install-capable` product type.
+- The clip compiles only the shared catalog/domain/offline/hunt-progression core plus a dedicated minimal SwiftUI shell; it does not include Home, Map, Nearby, ads, accounts, family, community, premium, or Settings features.
+- App Clip routing accepts a generic `/hunt/<discovery-id>` path so a production invocation domain can be connected later without changing hunt routing.
+- Invocation IDs are validated against the bundled catalog before a hunt opens.
+- Unknown, malformed, or unavailable discovery IDs fail closed to a simple Hunt Unavailable state.
+- The clip reuses the existing `ContentLoader`, `ContentSnapshot`, `HuntPresentation`, `HuntProgressionState`, and `UserProgress` models rather than maintaining a second hunt engine.
+- The clip supports progressive clues, full reveal text, and marking the single hunt found for the clip session.
+- It intentionally does not offer Find Another or route into the full app navigation stack.
+- The clip retains the bundled offline catalog as its content source, so invocation does not require a remote-content service to function.
+- A parent-application entitlement links the clip to `com.flesentine.parkhunt`.
+- Unit tests cover URL routing, malformed paths, and rejection of unknown discovery IDs.
+- A production App Clip invocation domain/experience is deliberately not hard-coded yet; that requires the eventual public domain and App Store Connect configuration.
+
 ## Verification
 
 CI now runs:
@@ -368,4 +385,4 @@ Self-test content validator
 
 ## Next effort
 
-**#53 App Clip:** add a lightweight App Clip entry path that can launch a single hunt without duplicating the full app architecture.
+**#54 Multi-park expansion:** generalize park packaging and routing so additional parks can be added without Disneyland/DCA-specific app logic.
