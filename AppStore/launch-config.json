@@ -33,6 +33,11 @@
     "appStoreConnectAppRecordCreated": false,
     "appleDeveloperBundleIDRegistered": false,
     "appClipExperienceConfigured": false,
-    "agreementsAccepted": false
+    "agreementsAccepted": false,
+    "screenshotsPrepared": false,
+    "ageRatingCompleted": false,
+    "exportComplianceCompleted": false,
+    "appReviewContactConfigured": false,
+    "pricingAndAvailabilityConfigured": false
   }
 }
