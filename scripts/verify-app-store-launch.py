@@ -127,6 +127,10 @@ build = re.search(
 )
 if not marketing:
     errors.append("Config/Version.xcconfig: MARKETING_VERSION missing")
+elif args.strict and marketing.group(1).startswith("0."):
+    blockers.append(
+        "marketing version is still pre-release; set the intended public version before submission"
+    )
 if not build:
     errors.append("Config/Version.xcconfig: CURRENT_PROJECT_VERSION missing")
 
