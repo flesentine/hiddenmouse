@@ -10,7 +10,7 @@ struct ParkMapView: View {
     @State private var cameraPosition: MapCameraPosition = .automatic
     @State private var selectedCluster: ParkMapCluster?
     @State private var snapshot: ContentSnapshot?
-    @State private var selectedParkID = "disneyland"
+    @State private var selectedParkID: String?
 
     var body: some View {
         Group {
@@ -204,8 +204,12 @@ struct ParkMapView: View {
         do {
             let loadedSnapshot = try contentLoader.load()
             snapshot = loadedSnapshot
-            if !ParkCatalog.options(in: loadedSnapshot).contains(where: { $0.id == selectedParkID }) {
-                selectedParkID = ParkCatalog.options(in: loadedSnapshot).first?.id ?? "disneyland"
+            let parks = ParkCatalog.options(in: loadedSnapshot)
+            if selectedParkID == nil
+                || !parks.contains(where: { $0.id == selectedParkID }) {
+                selectedParkID = ParkCatalog.defaultParkID(
+                    in: loadedSnapshot
+                )
             }
             rebuildPresentation()
             loadError = nil
