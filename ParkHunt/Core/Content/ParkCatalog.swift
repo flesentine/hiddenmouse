@@ -11,14 +11,7 @@ enum ParkCatalog {
         parkID
             .replacingOccurrences(of: "-", with: " ")
             .split(separator: " ")
-            .map { token in
-                let value = String(token)
-                if value.count <= 3,
-                   value == value.lowercased() {
-                    return value.uppercased()
-                }
-                return value.capitalized
-            }
+            .map { String($0).capitalized }
             .joined(separator: " ")
     }
 
