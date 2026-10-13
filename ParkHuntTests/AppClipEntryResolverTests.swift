@@ -13,19 +13,13 @@ final class AppClipEntryResolverTests: XCTestCase {
         )
     }
 
-    func testResolvesCustomSchemeHuntPath() {
+    func testRejectsCustomSchemeInvocation() {
         let url = URL(
-            string: "parkhunt://launch/hunt/main-street-window"
-        )!
-
-        XCTAssertNil(AppClipEntryResolver.resolve(url: url))
-
-        let supported = URL(
             string: "parkhunt:///hunt/main-street-window"
         )!
-        XCTAssertEqual(
-            AppClipEntryResolver.resolve(url: supported),
-            .hunt(discoveryID: "main-street-window")
+
+        XCTAssertNil(
+            AppClipEntryResolver.resolve(url: url)
         )
     }
 
