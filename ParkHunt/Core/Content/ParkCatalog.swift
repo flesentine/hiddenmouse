@@ -8,43 +8,51 @@ struct ParkOption: Equatable, Identifiable, Sendable {
 
 enum ParkCatalog {
     static func name(for parkID: String) -> String {
-        switch parkID {
-        case "disneyland":
-            "Disneyland Park"
-        case "disney-california-adventure":
-            "Disney California Adventure"
-        default:
-            parkID
-                .replacingOccurrences(of: "-", with: " ")
-                .capitalized
-        }
-    }
-
-    static func sortOrder(for parkID: String) -> Int {
-        switch parkID {
-        case "disneyland": 1
-        case "disney-california-adventure": 2
-        default: 100
-        }
+        parkID
+            .replacingOccurrences(of: "-", with: " ")
+            .split(separator: " ")
+            .map { token in
+                let value = String(token)
+                if value.count <= 3,
+                   value == value.lowercased() {
+                    return value.uppercased()
+                }
+                return value.capitalized
+            }
+            .joined(separator: " ")
     }
 
     static func options(in snapshot: ContentSnapshot) -> [ParkOption] {
         let ids = Set(snapshot.lands.map(\.parkID))
             .union(snapshot.discoveries.map(\.parkID))
 
-        return ids.map {
-            ParkOption(
-                id: $0,
-                name: name(for: $0),
-                sortOrder: sortOrder(for: $0)
+        return ids.map { parkID in
+            let landOrder = snapshot.lands(inPark: parkID)
+                .map(\.sortOrder)
+                .min() ?? Int.max
+
+            return ParkOption(
+                id: parkID,
+                name: name(for: parkID),
+                sortOrder: landOrder
             )
         }
         .sorted {
             if $0.sortOrder == $1.sortOrder {
-                return $0.name.localizedCaseInsensitiveCompare($1.name)
-                    == .orderedAscending
+                let nameComparison = $0.name
+                    .localizedCaseInsensitiveCompare($1.name)
+                if nameComparison != .orderedSame {
+                    return nameComparison == .orderedAscending
+                }
+                return $0.id < $1.id
             }
             return $0.sortOrder < $1.sortOrder
         }
+    }
+
+    static func defaultParkID(
+        in snapshot: ContentSnapshot
+    ) -> String? {
+        options(in: snapshot).first?.id
     }
 }
