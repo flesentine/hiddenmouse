@@ -5,6 +5,7 @@ import plistlib
 import re
 import sys
 from pathlib import Path
+from urllib.parse import urlparse
 
 parser = argparse.ArgumentParser()
 parser.add_argument(
@@ -23,6 +24,7 @@ launch_config = Path("AppStore/launch-config.json")
 version_file = Path("Config/Version.xcconfig")
 icon = Path("ParkHunt/Assets.xcassets/AppIcon.appiconset/AppIcon-1024.png")
 shipping_validator = Path("scripts/validate-content-admin.py")
+catalog_builder = Path("scripts/build-content-catalog.py")
 
 for path in [
     project,
@@ -31,6 +33,7 @@ for path in [
     version_file,
     icon,
     shipping_validator,
+    catalog_builder,
 ]:
     if not path.exists():
         errors.append(f"{path}: missing")
@@ -72,10 +75,21 @@ if privacy_manifest.exists():
                 "PrivacyInfo.xcprivacy: app-local UserDefaults usage must declare CA92.1"
             )
 
-if "path: ParkHunt" not in project_text:
-    errors.append(
-        "project.yml: ParkHunt source root must remain included so PrivacyInfo.xcprivacy is bundled"
-    )
+main_target_match = re.search(
+    r"(?ms)^  ParkHunt:\n(?P<body>.*?)(?=^  ParkHuntClip:\n)",
+    project_text,
+)
+if not main_target_match:
+    errors.append("project.yml: ParkHunt target definition is missing")
+else:
+    main_target_body = main_target_match.group("body")
+    if not re.search(
+        r"(?m)^      - path: ParkHunt\s*$",
+        main_target_body,
+    ):
+        errors.append(
+            "project.yml: ParkHunt target must include the ParkHunt source root so PrivacyInfo.xcprivacy is bundled"
+        )
 
 if launch_config.exists():
     try:
@@ -111,8 +125,58 @@ if launch_config.exists():
             "AppStore/launch-config.json: UserDefaults reason must match privacy manifest"
         )
 
-    for key, value in external.items():
-        if value in (None, False, ""):
+    required_url_keys = {
+        "supportURL",
+        "privacyPolicyURL",
+    }
+    required_boolean_keys = {
+        "appStoreConnectAppRecordCreated",
+        "appleDeveloperBundleIDRegistered",
+        "appClipExperienceConfigured",
+        "agreementsAccepted",
+        "screenshotsPrepared",
+        "ageRatingCompleted",
+        "exportComplianceCompleted",
+        "appReviewContactConfigured",
+        "pricingAndAvailabilityConfigured",
+    }
+    required_external_keys = required_url_keys | required_boolean_keys
+
+    missing_external_keys = required_external_keys - set(external)
+    for key in sorted(missing_external_keys):
+        errors.append(
+            f"AppStore/launch-config.json: missing external requirement '{key}'"
+        )
+
+    unexpected_external_keys = set(external) - required_external_keys
+    for key in sorted(unexpected_external_keys):
+        errors.append(
+            f"AppStore/launch-config.json: unknown external requirement '{key}'"
+        )
+
+    for key in sorted(required_url_keys & set(external)):
+        value = external[key]
+        if value is None or value == "":
+            blockers.append(f"external requirement unresolved: {key}")
+            continue
+        if not isinstance(value, str):
+            errors.append(
+                f"AppStore/launch-config.json: {key} must be a URL string or null"
+            )
+            continue
+        parsed = urlparse(value)
+        if parsed.scheme != "https" or not parsed.netloc:
+            errors.append(
+                f"AppStore/launch-config.json: {key} must be an absolute https URL"
+            )
+
+    for key in sorted(required_boolean_keys & set(external)):
+        value = external[key]
+        if not isinstance(value, bool):
+            errors.append(
+                f"AppStore/launch-config.json: {key} must be boolean"
+            )
+        elif value is False:
             blockers.append(f"external requirement unresolved: {key}")
 
 marketing = re.search(
@@ -150,6 +214,16 @@ if args.strict and shipping_validator.exists():
     if result.returncode != 0:
         blockers.append(
             "shipping content validation is not clean; field-test discoveries must be verified/removed before submission"
+        )
+
+    catalog_result = subprocess.run(
+        [sys.executable, str(catalog_builder), "--check"],
+        text=True,
+        capture_output=True,
+    )
+    if catalog_result.returncode != 0:
+        blockers.append(
+            "generated runtime catalog is stale; regenerate ParkHunt/Resources/content-catalog.json before submission"
         )
 
 if errors:
