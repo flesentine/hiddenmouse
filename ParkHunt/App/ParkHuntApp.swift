@@ -3,7 +3,8 @@ import SwiftUI
 @main
 struct ParkHuntApp: App {
     private let environment = AppEnvironment.current
-    private let contentLoader = ContentLoader()
+    private let contentLoader: ContentLoader
+    private let remoteContentService: any RemoteContentServicing
     private let progressStore = UserDefaultsUserProgressStore()
     private let spoilerPreferenceStore = UserDefaultsSpoilerPreferenceStore()
     private let hapticPreferenceStore = UserDefaultsHapticPreferenceStore()
@@ -48,6 +49,10 @@ struct ParkHuntApp: App {
     init() {
         UITestSupport.prepareLaunch()
 
+        let remoteContent = RemoteContentFactory.makeProduction()
+        contentLoader = remoteContent.loader
+        remoteContentService = remoteContent.service
+
         let preferenceStore =
             UserDefaultsAnalyticsPreferenceStore()
         analyticsPreferenceStore = preferenceStore
@@ -71,7 +76,8 @@ struct ParkHuntApp: App {
                 advertisingProvider: advertisingProvider,
                 cloudSyncService: cloudSyncService,
                 familySharingService: familySharingService,
-                communitySubmissionService: communitySubmissionService
+                communitySubmissionService: communitySubmissionService,
+                remoteContentService: remoteContentService
             )
         }
     }

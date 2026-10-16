@@ -329,6 +329,50 @@ Park Hunt now has a moderated community-candidate pipeline that is intentionally
 - Approval means only that the candidate may proceed to the existing editorial verification/content-admin workflow.
 - Unit tests lock validation, unavailable-provider behavior, provider-only submission, non-editability after submission, moderation refresh, and catalog isolation.
 
+### #52 Remote content
+
+Park Hunt now has a versioned remote-content boundary with a hard bundled-catalog fallback.
+
+- `ContentLoader` can sit behind a remote-first fallback source without making network content mandatory.
+- Remote packages carry an explicit revision, catalog payload, and trust/signature payload.
+- A remote package is selected only if the fetcher is available, the revision meets the minimum, the package is trusted, JSON decodes, catalog validation passes, and all required offline assets are already available.
+- Any failed trust, version, decode, validation, or offline-readiness check falls back to the bundled catalog automatically.
+- The bundled catalog remains the safe offline source and is never deleted or replaced by remote state.
+- Settings shows Content Source as Not Connected, Bundled, or the active remote revision and can manually check for an update when a remote provider exists.
+- Production currently uses a no-op remote fetcher and rejecting verifier until a real signed content service/key is deliberately connected.
+- Unit tests cover unavailable remote, untrusted remote, trusted valid remote, invalid schema, minimum revision, and missing offline image fallback.
+
+### #53 App Clip
+
+Park Hunt now defines a real lightweight App Clip target for launching one specific hunt from an invocation URL.
+
+- XcodeGen now creates an embedded `ParkHuntClip` target using the native `application.on-demand-install-capable` product type.
+- The clip compiles only the shared catalog/domain/offline/hunt-progression core plus a dedicated minimal SwiftUI shell; it does not include Home, Map, Nearby, ads, accounts, family, community, premium, or Settings features.
+- App Clip routing accepts a generic `/hunt/<discovery-id>` path so a production invocation domain can be connected later without changing hunt routing.
+- Invocation IDs are validated against the bundled catalog before a hunt opens.
+- Unknown, malformed, or unavailable discovery IDs fail closed to a simple Hunt Unavailable state.
+- The clip reuses the existing `ContentLoader`, `ContentSnapshot`, `HuntPresentation`, `HuntProgressionState`, and `UserProgress` models rather than maintaining a second hunt engine.
+- The clip supports progressive clues, full reveal text, and marking the single hunt found for the clip session.
+- It intentionally does not offer Find Another or route into the full app navigation stack.
+- The clip retains the bundled offline catalog as its content source, so invocation does not require a remote-content service to function.
+- A parent-application entitlement links the clip to `com.flesentine.parkhunt`.
+- Unit tests cover URL routing, malformed paths, and rejection of unknown discovery IDs.
+- A production App Clip invocation domain/experience is deliberately not hard-coded yet; that requires the eventual public domain and App Store Connect configuration.
+
+### #54 Multi-park expansion
+
+Park handling is now catalog-derived instead of Disneyland/DCA-specific.
+
+- `ParkCatalog` discovers park IDs from catalog lands/discoveries instead of maintaining a hard-coded park list.
+- Park display names are generated generically from park IDs, eliminating special-case Disneyland/DCA naming logic.
+- Park ordering comes from each park's lowest land `sortOrder`, so adding a park is content/config work rather than an app-code change.
+- `ParkCatalog.defaultParkID(in:)` provides one shared catalog-derived default for park-scoped features.
+- Map and Today’s Hunt no longer initialize to a hard-coded `disneyland` ID.
+- Manual park browsing now consumes the same shared `ParkCatalog` options instead of maintaining its own naming/sorting rules.
+- Collection, map, manual browse, and Today’s Hunt all work with a synthetic third park unknown to the application code.
+- Today’s Hunt now handles an empty park catalog explicitly instead of remaining in a loading state.
+- Regression coverage proves an unknown third park can be discovered, ordered, filtered, mapped, browsed, and routed without adding a new switch case.
+
 ## Verification
 
 CI now runs:
@@ -355,4 +399,4 @@ Self-test content validator
 
 ## Next effort
 
-**#52 Remote content:** add a signed/versioned remote content update boundary while keeping the bundled offline catalog as a safe fallback.
+**#55 App Store launch:** complete launch readiness, production configuration, metadata, privacy disclosures, and release validation.

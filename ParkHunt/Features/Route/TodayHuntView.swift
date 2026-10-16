@@ -10,7 +10,8 @@ struct TodayHuntView: View {
     @State private var selectedLength: TodayRouteLength = .short
     @State private var entitlement: PremiumEntitlement = .free
     @State private var loadFailed = false
-    @State private var selectedParkID = "disneyland"
+    @State private var hasLoaded = false
+    @State private var selectedParkID: String?
 
     var body: some View {
         Group {
@@ -22,10 +23,23 @@ struct TodayHuntView: View {
                         "Your offline discovery catalog couldn’t be opened."
                     )
                 )
+            } else if !hasLoaded {
+                ProgressView("Building route…")
+            } else if selectedParkID == nil {
+                ContentUnavailableView(
+                    "No Parks Available",
+                    systemImage: "map",
+                    description: Text(
+                        "There are no huntable parks in the current catalog."
+                    )
+                )
             } else if let route {
                 routeContent(route)
             } else {
-                ProgressView("Building route…")
+                ContentUnavailableView(
+                    "No Route Available",
+                    systemImage: "calendar.badge.exclamationmark"
+                )
             }
         }
         .navigationTitle("Today’s Hunt")
@@ -49,6 +63,10 @@ struct TodayHuntView: View {
     private var route: TodayRoute? {
         guard let snapshot else { return nil }
 
+        guard let selectedParkID else {
+            return nil
+        }
+
         return TodayRouteBuilder.build(
             snapshot: snapshot,
             progress: progress,
@@ -65,7 +83,7 @@ struct TodayHuntView: View {
                 if let snapshot {
                     Picker("Park", selection: $selectedParkID) {
                         ForEach(ParkCatalog.options(in: snapshot)) { park in
-                            Text(park.name).tag(park.id)
+                            Text(park.name).tag(Optional(park.id))
                         }
                     }
                 }
@@ -175,9 +193,14 @@ struct TodayHuntView: View {
         do {
             snapshot = try contentLoader.load()
             progress = progressStore.load()
-            if let snapshot,
-               !ParkCatalog.options(in: snapshot).contains(where: { $0.id == selectedParkID }) {
-                selectedParkID = ParkCatalog.options(in: snapshot).first?.id ?? "disneyland"
+            if let snapshot {
+                let parks = ParkCatalog.options(in: snapshot)
+                if selectedParkID == nil
+                    || !parks.contains(where: { $0.id == selectedParkID }) {
+                    selectedParkID = ParkCatalog.defaultParkID(
+                        in: snapshot
+                    )
+                }
             }
             entitlement = premiumEntitlementStore.load()
 
@@ -186,10 +209,12 @@ struct TodayHuntView: View {
             }
 
             loadFailed = false
+            hasLoaded = true
         } catch {
             snapshot = nil
             progress = UserProgress()
             loadFailed = true
+            hasLoaded = true
         }
     }
 }
