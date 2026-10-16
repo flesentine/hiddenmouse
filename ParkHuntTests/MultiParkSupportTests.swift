@@ -2,51 +2,91 @@ import XCTest
 @testable import ParkHunt
 
 final class MultiParkSupportTests: XCTestCase {
-    func testParkCatalogReturnsDisneylandThenDCA() {
+    func testParkCatalogDiscoversAndOrdersUnknownThirdPark() {
         let snapshot = makeSnapshot()
 
+        let parks = ParkCatalog.options(in: snapshot)
+
         XCTAssertEqual(
-            ParkCatalog.options(in: snapshot).map(\.id),
-            ["disneyland", "disney-california-adventure"]
+            parks.map(\.id),
+            [
+                "disneyland",
+                "disney-california-adventure",
+                "third-resort"
+            ]
+        )
+        XCTAssertEqual(
+            parks.map(\.name),
+            [
+                "Disneyland",
+                "Disney California Adventure",
+                "Third Resort"
+            ]
+        )
+        XCTAssertEqual(
+            ParkCatalog.defaultParkID(in: snapshot),
+            "disneyland"
         )
     }
 
-    func testCollectionCanFilterToDCA() {
+    func testCollectionCanFilterToCatalogOnlyThirdPark() {
         let snapshot = makeSnapshot()
         let collection = CollectionSnapshot.make(
             snapshot: snapshot,
             progress: UserProgress(),
             filters: CollectionFilters(
-                parkID: "disney-california-adventure"
+                parkID: "third-resort"
             )
         )
 
-        XCTAssertEqual(collection.items.map { $0.discovery.id }, ["dca-hunt"])
-        XCTAssertEqual(collection.lands.map(\.id), ["dca-land"])
+        XCTAssertEqual(
+            collection.items.map { $0.discovery.id },
+            ["third-hunt"]
+        )
+        XCTAssertEqual(
+            collection.lands.map(\.id),
+            ["third-land"]
+        )
     }
 
-    func testTodayRouteStaysInsideSelectedPark() {
+    func testTodayRouteStaysInsideCatalogOnlyThirdPark() {
         let snapshot = makeSnapshot()
         let route = TodayRouteBuilder.build(
             snapshot: snapshot,
             progress: UserProgress(),
             length: .short,
-            parkID: "disney-california-adventure"
+            parkID: "third-resort"
         )
 
-        XCTAssertEqual(route.items.map { $0.discovery.parkID }, ["disney-california-adventure"])
+        XCTAssertEqual(
+            route.items.map { $0.discovery.parkID },
+            ["third-resort"]
+        )
     }
 
-    func testMapPresentationScopesToSelectedPark() {
+    func testMapPresentationScopesToCatalogOnlyThirdPark() {
         let snapshot = makeSnapshot()
         let presentation = ParkMapPresentation.make(
             snapshot: snapshot,
             progress: UserProgress(),
-            parkID: "disney-california-adventure"
+            parkID: "third-resort"
         )
 
         XCTAssertEqual(presentation.mappedCount, 1)
-        XCTAssertEqual(presentation.points.map(\.discoveryID), ["dca-hunt"])
+        XCTAssertEqual(
+            presentation.points.map(\.discoveryID),
+            ["third-hunt"]
+        )
+    }
+
+    func testManualBrowseUsesSameParkCatalogOrdering() {
+        let snapshot = makeSnapshot()
+
+        XCTAssertEqual(
+            ManualAreaPresentation.parks(from: snapshot)
+                .map(\.id),
+            ParkCatalog.options(in: snapshot).map(\.id)
+        )
     }
 
     private func makeSnapshot() -> ContentSnapshot {
@@ -60,13 +100,19 @@ final class MultiParkSupportTests: XCTestCase {
             id: "dca-land",
             parkID: "disney-california-adventure",
             name: "DCA Land",
-            sortOrder: 1
+            sortOrder: 101
+        )
+        let third = Land(
+            id: "third-land",
+            parkID: "third-resort",
+            name: "Third Land",
+            sortOrder: 201
         )
 
         return ContentSnapshot(
             catalog: ContentCatalog(
                 schemaVersion: ContentCatalog.currentSchemaVersion,
-                lands: [disneyland, dca],
+                lands: [third, dca, disneyland],
                 areas: [],
                 discoveries: [
                     makeDiscovery(
@@ -80,6 +126,12 @@ final class MultiParkSupportTests: XCTestCase {
                         parkID: "disney-california-adventure",
                         landID: dca.id,
                         longitude: -117.91
+                    ),
+                    makeDiscovery(
+                        id: "third-hunt",
+                        parkID: "third-resort",
+                        landID: third.id,
+                        longitude: -117.90
                     )
                 ]
             )

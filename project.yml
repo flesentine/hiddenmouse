@@ -32,11 +32,47 @@ targets:
         INFOPLIST_KEY_NSLocationWhenInUseUsageDescription: Park Hunt uses your location only while you use Nearby to help show discoveries around you. Your location history is not stored.
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         CODE_SIGN_STYLE: Automatic
+    dependencies:
+      - target: ParkHuntClip
     scheme:
       gatherCoverageData: true
       testTargets:
         - ParkHuntTests
         - ParkHuntUITests
+  ParkHuntClip:
+    type: application.on-demand-install-capable
+    platform: iOS
+    sources:
+      - path: ParkHuntClip
+      - path: ParkHunt/Core/Content/AppClipEntry.swift
+      - path: ParkHunt/Core/Content/BundledContentStore.swift
+      - path: ParkHunt/Core/Content/BundledRevealImageStore.swift
+      - path: ParkHunt/Core/Content/ContentCatalog.swift
+      - path: ParkHunt/Core/Content/ContentCatalogSource.swift
+      - path: ParkHunt/Core/Content/ContentCatalogValidator.swift
+      - path: ParkHunt/Core/Content/ContentLoader.swift
+      - path: ParkHunt/Core/Content/ContentSnapshot.swift
+      - path: ParkHunt/Core/Domain/Discovery.swift
+      - path: ParkHunt/Core/Domain/DomainValidation.swift
+      - path: ParkHunt/Core/Domain/PlaceModels.swift
+      - path: ParkHunt/Core/Domain/UserProgress.swift
+      - path: ParkHunt/Core/Offline/OfflineReadiness.swift
+      - path: ParkHunt/Features/Hunt/HuntPresentation.swift
+      - path: ParkHunt/Features/Hunt/HuntProgression.swift
+      - path: ParkHunt/Resources/content-catalog.json
+      - path: ParkHunt/Resources/Images
+    entitlements:
+      path: ParkHuntClip/Clip.entitlements
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.flesentine.parkhunt.Clip
+        PRODUCT_NAME: ParkHuntClip
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_CFBundleDisplayName: Park Hunt
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        CODE_SIGN_STYLE: Automatic
+        APPLICATION_EXTENSION_API_ONLY: YES
+
   ParkHuntTests:
     type: bundle.unit-test
     platform: iOS
