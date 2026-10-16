@@ -28,6 +28,8 @@ jobs:
         run: python3 ./scripts/verify-battery-boundaries.py
       - name: Verify TestFlight readiness
         run: python3 ./scripts/verify-testflight-readiness.py
+      - name: Verify App Store launch repository readiness
+        run: python3 ./scripts/verify-app-store-launch.py
       - name: Verify Disneyland field-test build
         run: python3 ./scripts/verify-field-test-build.py
       - name: Install XcodeGen

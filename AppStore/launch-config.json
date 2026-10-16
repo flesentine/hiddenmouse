@@ -1,0 +1,43 @@
+{
+  "app": {
+    "name": "Park Hunt",
+    "bundleIdentifier": "com.flesentine.parkhunt",
+    "primaryCategory": "Travel",
+    "secondaryCategory": "Games",
+    "contentRights": "Original clues and descriptions; venue and trademark names belong to their respective owners.",
+    "independentAppDisclaimer": "Park Hunt is an independent companion app and is not affiliated with, sponsored by, or endorsed by Disney or other venue operators."
+  },
+  "listing": {
+    "subtitle": "Find the details others miss",
+    "keywords": [
+      "theme park",
+      "scavenger hunt",
+      "hidden details",
+      "Disneyland",
+      "DCA",
+      "family"
+    ],
+    "promotionalText": "Turn a park day into a hunt for hidden details, clues, and discoveries.",
+    "description": "Park Hunt is an independent theme-park scavenger hunt for spotting the details most guests walk past. Choose a hunt, reveal clues only when you need them, mark discoveries found, browse by park and land, and build a short route for your visit. Core hunting works offline with bundled content, and Nearby uses only a temporary foreground location fix when you explicitly open it. Park Hunt is not affiliated with, sponsored by, or endorsed by Disney or other venue operators."
+  },
+  "privacy": {
+    "tracking": false,
+    "dataSentOffDevice": false,
+    "preciseLocationPersisted": false,
+    "analyticsUpload": false,
+    "userDefaultsRequiredReason": "CA92.1"
+  },
+  "externalRequirements": {
+    "supportURL": null,
+    "privacyPolicyURL": null,
+    "appStoreConnectAppRecordCreated": false,
+    "appleDeveloperBundleIDRegistered": false,
+    "appClipExperienceConfigured": false,
+    "agreementsAccepted": false,
+    "screenshotsPrepared": false,
+    "ageRatingCompleted": false,
+    "exportComplianceCompleted": false,
+    "appReviewContactConfigured": false,
+    "pricingAndAvailabilityConfigured": false
+  }
+}

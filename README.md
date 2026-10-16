@@ -373,6 +373,22 @@ Park handling is now catalog-derived instead of Disneyland/DCA-specific.
 - Today’s Hunt now handles an empty park catalog explicitly instead of remaining in a loading state.
 - Regression coverage proves an unknown third park can be discovered, ordered, filtered, mapped, browsed, and routed without adding a new switch case.
 
+### #55 App Store launch
+
+Park Hunt now has a repository-enforced App Store launch boundary instead of relying on a manual checklist.
+
+- Added `ParkHunt/PrivacyInfo.xcprivacy` with tracking disabled, no off-device collected-data declarations, and the Apple required-reason declaration for app-local `UserDefaults` access (`NSPrivacyAccessedAPICategoryUserDefaults` / `CA92.1`).
+- Added `AppStore/launch-config.json` as the source of truth for proposed listing metadata, privacy assertions, and external submission dependencies.
+- Added `scripts/verify-app-store-launch.py` with two modes:
+  - normal CI mode verifies repository/package/privacy/listing structure,
+  - `--strict` additionally blocks submission until external App Store Connect requirements and shipping content are genuinely complete.
+- Strict launch mode requires the public marketing version to leave the current pre-release `0.x` line before submission.
+- Strict launch mode runs production `--shipping` content validation, so the current `needsRecheck` field-test catalog cannot accidentally be presented as App Store-ready.
+- CI now runs the repository launch verifier on every push and pull request.
+- Added `docs/APP_STORE_LAUNCH.md` with the signed-build/submission workflow and the exact external items that cannot be completed from GitHub alone.
+- External launch requirements are deliberately left unresolved until they are real: Support URL, Privacy Policy URL, Apple Developer bundle registration, App Store Connect record, agreements, screenshots, age rating, export compliance, App Review contact, pricing/availability, and the production App Clip experience.
+- The repository does not contain Apple credentials and does not claim an App Store submission occurred.
+
 ## Verification
 
 CI now runs:
@@ -399,4 +415,4 @@ Self-test content validator
 
 ## Next effort
 
-**#55 App Store launch:** complete launch readiness, production configuration, metadata, privacy disclosures, and release validation.
+**Roadmap complete through #55.** Remaining launch work is represented explicitly by the strict App Store submission gate and its external/content blockers.
