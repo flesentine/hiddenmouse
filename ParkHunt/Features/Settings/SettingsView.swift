@@ -12,6 +12,8 @@ struct SettingsView: View {
     let premiumEntitlementStore: any PremiumEntitlementStoring
     let cloudSyncService: any CloudSyncServicing
     let familySharingService: any FamilySharingServicing
+    let communitySubmissionService: any CommunitySubmissionServicing
+    let remoteContentService: any RemoteContentServicing
 
     @StateObject private var locationPermission = LocationPermissionController()
     @Environment(\.openURL) private var openURL
@@ -24,6 +26,7 @@ struct SettingsView: View {
     @State private var premiumEntitlement: PremiumEntitlement = .free
     @State private var cloudSyncAvailability: CloudSyncAvailability = .unavailable
     @State private var cloudSyncMessage: String?
+    @State private var remoteContentStatus: RemoteContentStatus = .unavailable
     @State private var showResetConfirmation = false
     @State private var showClearAnalyticsConfirmation = false
     @State private var didResetProgress = false
@@ -38,6 +41,8 @@ struct SettingsView: View {
             premiumSection
             cloudSyncSection
             familySection
+            communitySection
+            remoteContentSection
 
             if AppEnvironment.current == .fieldTest {
                 fieldTestSection
@@ -55,6 +60,7 @@ struct SettingsView: View {
             localAnalyticsEnabled = analyticsPreferenceStore.load()
             premiumEntitlement = premiumEntitlementStore.load()
             cloudSyncAvailability = cloudSyncService.availability()
+            remoteContentStatus = remoteContentService.status()
             refreshAnalyticsCount()
             refreshFieldFeedbackCount()
         }
@@ -306,6 +312,66 @@ struct SettingsView: View {
         }
     }
 
+    private var communitySection: some View {
+        Section {
+            NavigationLink {
+                CommunitySubmissionsView(
+                    contentLoader: contentLoader,
+                    service: communitySubmissionService
+                )
+            } label: {
+                HStack {
+                    Label("Community", systemImage: "lightbulb")
+
+                    Spacer()
+
+                    Text(
+                        communitySubmissionService.moderationAvailable
+                            ? "Connected"
+                            : "Drafts Only"
+                    )
+                    .foregroundStyle(.secondary)
+                }
+            }
+        } header: {
+            Text("Community")
+        } footer: {
+            Text(
+                "Community candidates stay separate from the trusted hunt catalog. Approval still requires a separate editorial verification and promotion step."
+            )
+        }
+    }
+
+    private var remoteContentSection: some View {
+        Section {
+            HStack {
+                Label("Content Source", systemImage: "arrow.down.circle")
+
+                Spacer()
+
+                Text(remoteContentStatusText)
+                    .foregroundStyle(.secondary)
+            }
+
+            if remoteContentStatus != .unavailable {
+                Button {
+                    remoteContentStatus = remoteContentService.refresh()
+                } label: {
+                    Label(
+                        "Check for Content Update",
+                        systemImage: "arrow.clockwise"
+                    )
+                }
+            }
+        } header: {
+            Text("Content Updates")
+        } footer: {
+            Text(
+                "Remote content is accepted only when it is trusted, version-compatible, and valid. If any check fails, Park Hunt automatically keeps using the bundled offline catalog."
+            )
+        }
+    }
+
     private var fieldTestSection: some View {
         Section {
             NavigationLink {
@@ -455,6 +521,17 @@ struct SettingsView: View {
         }
     }
 
+    private var remoteContentStatusText: String {
+        switch remoteContentStatus {
+        case .unavailable:
+            "Not Connected"
+        case .bundled:
+            "Bundled"
+        case let .remote(revision):
+            "Remote r\(revision)"
+        }
+    }
+
     private var familyStatusText: String {
         switch familySharingService.availability() {
         case .unavailable:
@@ -547,7 +624,12 @@ struct SettingsView: View {
             familySharingService: FamilySharingService(
                 personalProgressStore: MemoryUserProgressStore(),
                 provider: NoopFamilySharingProvider()
-            )
+            ),
+            communitySubmissionService: CommunitySubmissionService(
+                store: MemoryCommunitySubmissionStore(),
+                provider: NoopCommunityModerationProvider()
+            ),
+            remoteContentService: RemoteContentFactory.makeProduction().service
         )
     }
 }

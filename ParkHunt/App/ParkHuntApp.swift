@@ -3,7 +3,8 @@ import SwiftUI
 @main
 struct ParkHuntApp: App {
     private let environment = AppEnvironment.current
-    private let contentLoader = ContentLoader()
+    private let contentLoader: ContentLoader
+    private let remoteContentService: any RemoteContentServicing
     private let progressStore = UserDefaultsUserProgressStore()
     private let spoilerPreferenceStore = UserDefaultsSpoilerPreferenceStore()
     private let hapticPreferenceStore = UserDefaultsHapticPreferenceStore()
@@ -13,6 +14,13 @@ struct ParkHuntApp: App {
         UserDefaultsAnalyticsPreferenceStore
     private let analyticsRecorder:
         UserDefaultsAnalyticsRecorder
+
+    private var communitySubmissionService: any CommunitySubmissionServicing {
+        CommunitySubmissionService(
+            store: UserDefaultsCommunitySubmissionStore(),
+            provider: NoopCommunityModerationProvider()
+        )
+    }
 
     private var familySharingService: any FamilySharingServicing {
         FamilySharingService(
@@ -41,6 +49,10 @@ struct ParkHuntApp: App {
     init() {
         UITestSupport.prepareLaunch()
 
+        let remoteContent = RemoteContentFactory.makeProduction()
+        contentLoader = remoteContent.loader
+        remoteContentService = remoteContent.service
+
         let preferenceStore =
             UserDefaultsAnalyticsPreferenceStore()
         analyticsPreferenceStore = preferenceStore
@@ -63,7 +75,9 @@ struct ParkHuntApp: App {
                 premiumEntitlementStore: premiumEntitlementStore,
                 advertisingProvider: advertisingProvider,
                 cloudSyncService: cloudSyncService,
-                familySharingService: familySharingService
+                familySharingService: familySharingService,
+                communitySubmissionService: communitySubmissionService,
+                remoteContentService: remoteContentService
             )
         }
     }

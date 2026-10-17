@@ -13,6 +13,8 @@ struct RootView: View {
     let advertisingProvider: any AdvertisingProviding
     let cloudSyncService: any CloudSyncServicing
     let familySharingService: any FamilySharingServicing
+    let communitySubmissionService: any CommunitySubmissionServicing
+    let remoteContentService: any RemoteContentServicing
 
     @State private var restorationSession: ActiveHuntSession?
     @State private var isPresentingRestoredHunt = false
@@ -32,7 +34,9 @@ struct RootView: View {
                 premiumEntitlementStore: premiumEntitlementStore,
                 advertisingProvider: advertisingProvider,
                 cloudSyncService: cloudSyncService,
-                familySharingService: familySharingService
+                familySharingService: familySharingService,
+                communitySubmissionService: communitySubmissionService,
+                remoteContentService: remoteContentService
             )
             .navigationDestination(for: String.self) { discoveryID in
                 HuntView(
@@ -141,6 +145,11 @@ struct RootView: View {
         familySharingService: FamilySharingService(
             personalProgressStore: MemoryUserProgressStore(),
             provider: NoopFamilySharingProvider()
-        )
+        ),
+        communitySubmissionService: CommunitySubmissionService(
+            store: MemoryCommunitySubmissionStore(),
+            provider: NoopCommunityModerationProvider()
+        ),
+        remoteContentService: RemoteContentFactory.makeProduction().service
     )
 }
