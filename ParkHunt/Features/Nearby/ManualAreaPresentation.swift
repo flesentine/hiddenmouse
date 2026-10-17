@@ -15,22 +15,18 @@ struct ManualLandOption: Equatable, Identifiable, Sendable {
 
 enum ManualAreaPresentation {
     static func parks(from snapshot: ContentSnapshot) -> [ManualParkOption] {
-        let grouped = Dictionary(grouping: snapshot.lands, by: \.parkID)
-
-        return grouped.map { parkID, lands in
-            let discoveryCount = lands.reduce(into: 0) { total, land in
-                total += snapshot.discoveries(inLand: land.id).count
-            }
+        ParkCatalog.options(in: snapshot).map { park in
+            let lands = snapshot.lands(inPark: park.id)
+            let discoveryCount = snapshot.discoveries(
+                inPark: park.id
+            ).count
 
             return ManualParkOption(
-                id: parkID,
-                name: displayName(forParkID: parkID),
+                id: park.id,
+                name: park.name,
                 landCount: lands.count,
                 discoveryCount: discoveryCount
             )
-        }
-        .sorted {
-            $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending
         }
     }
 
@@ -47,19 +43,6 @@ enum ManualAreaPresentation {
                     discoveryCount: snapshot.discoveries(inLand: land.id).count
                 )
             }
-    }
-
-    static func displayName(forParkID parkID: String) -> String {
-        switch parkID {
-        case "disneyland":
-            return "Disneyland"
-        default:
-            return parkID
-                .replacingOccurrences(of: "-", with: " ")
-                .split(separator: " ")
-                .map { $0.capitalized }
-                .joined(separator: " ")
-        }
     }
 
     static func discoveryCountText(_ count: Int) -> String {
